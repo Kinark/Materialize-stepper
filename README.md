@@ -10,12 +10,13 @@ Ps.: for some reason, callback screen isn't working on codepen. I promise to mak
 
 ## Getting Started
 
-First of all, sorry for the bad english. Also, I don't know how to work with github yet. Yeah.
-It's simple (really simples), small, bugged and has lack of resources, but it is the first version so... Wait for more (???) and... HELP ME!!!
+First of all, sorry for the bad english. Also, I don't know how to work with github yet. Yeah.  
+
+The plugin is simple (really simple), small, bugged and has lack of resources, but it is the first version so... Wait for more (???) and... HELP ME!!!
 
 ### Prerequisities
 
-Since it is still a implementation to [Materializecss framework](http://materializecss.com/), you'll need it implemented. So as [jQuery Validation Plugin](https://jqueryvalidation.org/), the plugin use it to verify required inputs to proceed or not,
+Since it is still a implementation to [Materializecss framework](http://materializecss.com/), you'll need it. So as [jQuery Validation Plugin](https://jqueryvalidation.org/), the stepper use it to verify required inputs to proceed or not:
 
 ```
 - jQuery (obviously)
@@ -26,7 +27,7 @@ Since it is still a implementation to [Materializecss framework](http://material
 
 ### Installing
 
-You just need to import te .css and the .js files after you load the prerequisites above listed:
+You just need to import the .css and the .js files after you import the prerequisites listed above:
 
 ```html
 <!-- Compiled and minified CSS -->
@@ -47,7 +48,7 @@ You just need to import te .css and the .js files after you load the prerequisit
 
 ## Usage
 
-It doesn't have an horizontal version yet. The HTML base is like this:
+It doesn't have an horizontal version yet. The HTML base (a three steps example) is like this:
 
 ```html
 <ul class="stepper linear">
@@ -114,26 +115,26 @@ Each step runs inside a li tag with the class ".step":
 <li class="step">
 ```
 
-Insdie each step there is two divs. The step-tile, where you put the title of... guess what...
+Insdie each step there is two divs. The ".step-tile", where you put the title of... guess what...
 
 ```html
 <div class="step-title waves-effect waves-dark">First step</div>
 ```
 
-And the step-content, that holds the information:
+And the ".step-content", that holds the information:
 
 ```html
 <div class="step-content">
 ```
 
-There's the step-actions container inside step-content, which holds the buttons:
+There's the ".step-actions" container inside step-content, which holds the buttons:
 
 ```html
 <div class="step-actions">
 
 ```
 
-And finally there is the buttons, which proceed (.next-step class) or return (.previous-step class):
+And finally there's the buttons, which proceed (.next-step) or return (.previous-step):
 
 ```html
 <button class="waves-effect waves-dark btn next-step">CONTINUE</button>
@@ -144,13 +145,7 @@ And finally there is the buttons, which proceed (.next-step class) or return (.p
 
 ###Linear and non-linear
 
-All the strcture runs under a ul tag with a .stepper class.
-
-```html
-<ul class="stepper linear">
-```
-
-If you want the users to change between steps freely (without validations or use CONTINUE/BACK buttons), just remove .linear class from there:
+If you want the users to change between steps freely (without validations or the obligation to use CONTINUE/BACK buttons), just remove .linear class from the primary ul:
 
 ```html
 <ul class="stepper">
@@ -158,7 +153,7 @@ If you want the users to change between steps freely (without validations or use
 
 ###Form and inputs
 
-The JS spawns a form wrapping the ul for the validate.js to work with the inputs. Since the primary funcion of stepper is to split some kind a form, for now, the only way to make a step required is to add "required" attribute to an input inside the .step-content container:
+The JS spawns a form wrapping the ul for the validate.js to work with the inputs. Since the primary funcion of stepper is to split some kind of form, for now, the only way to make a step required is to add "required" attribute to an input inside the .step-content container:
 
 ```html
 <input id="email" name="email" type="email" class="validate" required>
@@ -166,19 +161,17 @@ The JS spawns a form wrapping the ul for the validate.js to work with the inputs
 
 If the input is not valid, the icon will turn red until user click proceed again (or press enter).
 
-In the last step, if a callback is not defined (we'll talk about it later), the form will be submited, and you can define the method and the action of it through two attributes in the principal ul:
+In the last step, if a callback is not defined (we'll talk about it later), the form will be submited just like a real form, and you can define the method and the action of it through two attributes in the principal ul:
 
 ```html
 <ul class="stepper linear" data-method="GET" data-action="page.php">
 ```
 
-Which works just as the method and action of the default form we all know.
-
 ###Navigate
 
 There is three ways to navigate through steps.
 
-One is by clicking, if you are not using the linear class. The second way is by the buttons:
+First is by clicking, if you are not using the ".linear" class. The second way is by the buttons:
 
 ```html
 <!-- If you want the button to proceed, give it a .next-step class -->
@@ -203,13 +196,13 @@ $('.steper').prevStep();
 
 And to jump to a specific step:
 ```html
-//Just pass the number of the step wanted as a parameter
+//Just pass the number of the wanted step as a parameter
 $('.steper').openStep(2);
 ```
 
 ###Callback/feedback
 
-There is a way to make the button run a function instead of proceeding, just add a data-feedback attribute with the function name to a ".next-step" classified button. Just like that:
+There is a way to make the buttons run a function instead of proceeding, just add a data-feedback attribute with the function name to a ".next-step" classified button. Just like that:
 
 ```html
 <button class="waves-effect waves-dark btn next-step" data-feedback="checkEmailDB">CONTINUE</button>
@@ -223,19 +216,32 @@ To dimiss the feedback loading screen you just need, as I said, to trigger nextS
 $('.steper').nextStep();
 ```
 
-If you want to dimss but doesn't proceed, you just call:
+Or trigger "openStep()" funtion, which will dimiss it too:
+
+```html
+$('.steper').openStep(/*some step*/);
+```
+
+If you want to dimss it but doesn't proceed, you just call:
 
 ```html
 $('.steper').destroyFeedback();
 ```
 
-And if for some reason you want to active the feedback screen, just call:
+And if for some reason you want to activate the feedback screen, just call:
 
 ```html
 $('.steper').activateFeedback();
 ```
 
 It's also useful if you don't want the form to submit in the end.
+
+### Final observations
+
+* Every command works like an accordion collapsible. If you trigger "openStep(step)" or "nextStep()", it'll close the active step, remove any feedback screen and execute their functions.
+
+* "previousStep()" won't close the feedback loading scree.
+
 
 ## Built With
 
