@@ -13,6 +13,11 @@ $.fn.activeFeedback  = function() {
    }
 };
 
+$.fn.destroyFeedback  = function() {
+   active = this.find('.step.active');
+   active.find('.step-content').find('.wait-feedback').remove();
+};
+
 $.fn.nextStep = function() {
    form = this.closest('form');
    active = this.find('.step.active');
