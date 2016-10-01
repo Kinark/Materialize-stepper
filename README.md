@@ -2,6 +2,9 @@
 ###v1.0
 A little plugin, inspired by [MDL-Stepper](https://getmdl.io), that implements a stepper to Materializecss framework.
 
+*Demo = http://codepen.io/Kinark/full/VKrjJp/  
+*Ps.: for some reason, callback screen isn't working on codepen. I promise to make a better demo soon!
+
 ## Getting Started
 
 First of all, sorry for the bad english. Also, I don't know how to work with github yet. Yeah.
