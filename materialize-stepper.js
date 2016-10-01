@@ -1,3 +1,7 @@
+// Materializecss Stepper - By Kinark 2016
+// https://github.com/Kinark/Materialize-stepper
+// JS v1.0
+
 $.fn.activeFeedback  = function() {
    form = this.closest('form');
    active = this.find('.step.active');
@@ -38,8 +42,8 @@ $.fn.openStep = function(step) {
 $.fn.activateStepper = function() {
    $(this).each(function(){
       var $stepper = $(this);
-      method = $stepper.attr('method');
-      action = $stepper.attr('action');
+      method = $stepper.data('method');
+      action = $stepper.data('action');
       method = (method ? method : "GET");
       action = (action ? action : "?");
       $stepper.wrap( '<form action="'+action+'" method="'+method+'"></div>' );

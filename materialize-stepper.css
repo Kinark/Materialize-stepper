@@ -1,3 +1,23 @@
+/*
+Materializecss Stepper - By Kinark 2016
+https://github.com/Kinark/Materialize-stepper
+CSS v1.0
+*/
+
+/*Validate.js FIX*/
+label.error {
+   font-weight: 500;
+   color: red !important;
+   top: 50px !important;
+}
+
+label.error.active {
+   font-size: inherit !important;
+   -webkit-transform: translateY(0%) !important;
+   transform: translateY(0%) !important;
+}
+/*Validate.js FIX*/
+
 ul.stepper {
    max-width: 800px;
 }
@@ -53,12 +73,12 @@ ul.stepper {
 }
 
 .step.active .number {
-   background-color: #9C27B0;
+   background-color: #2196f3;
 }
 
 .step.done .number {
-   background-color: #9C27B0;
-   color: #9C27B0;
+   background-color: #2196f3;
+   color: #2196f3;
 }
 
 .step.done .number::after {
