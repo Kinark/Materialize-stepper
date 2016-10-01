@@ -1,0 +1,126 @@
+ul.stepper {
+   max-width: 800px;
+}
+
+.wait-feedback {
+   background-color: rgba(255,255,255,0.9);
+   z-index: 2;
+   position: absolute;
+   width: 100%;
+   height: 100%;
+   text-align: center;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+}
+
+.step:not(:last-child) {
+   position: relative;
+   margin-bottom: 10px;
+}
+
+.step:not(:last-child).active {
+   margin-bottom: 36px;
+}
+
+.step-title {
+   margin: 0 -20px;
+   cursor: pointer;
+   padding: 12px 44px 24px 20px;
+   display: block;
+}
+
+.step-title:hover {
+   background-color: rgba(0, 0, 0, 0.06);;
+}
+
+.step.active .step-title {
+   font-weight: 500;
+}
+
+.step-title .number {
+   position: relative;
+   margin-right: 10px;
+   display: inline-block;
+   height: 28px;
+   width: 28px;
+   color: white;
+   background-color: rgba(0,0,0,0.3);
+   border-radius: 50%;
+   text-align: center;
+   line-height: 28px;
+   font-weight: 400;
+}
+
+.step.active .number {
+   background-color: #9C27B0;
+}
+
+.step.done .number {
+   background-color: #9C27B0;
+   color: #9C27B0;
+}
+
+.step.done .number::after {
+   color: #fff;
+   content: '\e5ca';
+   font-size: 16px;
+   position: absolute;
+   font-family: 'Material Icons';
+   right: 6px;
+   top: 0px;
+}
+
+.step.wrong .number {
+   background-color: red;
+   color: red;
+}
+
+.step.wrong .number::after {
+   color: #fff;
+   content: '\e001';
+   font-size: 24px;
+   position: absolute;
+   font-family: 'Material Icons';
+   right: 2px;
+   top: 0px;
+}
+
+.step-content {
+   position: relative;
+   display: none;
+   height: calc(100% - 132px);
+   width: inherit;
+   overflow: auto;
+   margin-left: 41px;
+   margin-right: 24px;
+}
+
+.stepper>.step:not(:last-child)::after {
+   content: '';
+   position: absolute;
+   top: 50px;
+   left: 13.5px;
+   width: 1px;
+   height: calc(100% - 38px);
+   background-color: rgba(0,0,0,0.1);
+}
+
+.stepper>.step.active:not(:last-child)::after {
+   height: calc(100% - 12px);
+}
+
+.step-actions {
+   display: none;
+   padding-top: 16px;
+   margin-right: 24px;
+}
+
+.step.active .step-actions {
+   display: block;
+}
+
+.step-content .row {
+   margin-right: 0;
+   margin-bottom: 0;
+}
