@@ -1,6 +1,6 @@
 # Materialize-stepper
 ###v1.0
-A little plugin, inspired by [MDL-Stepper](https://getmdl.io), that implements a stepper to Materializecss framework.
+A little plugin, inspired by [MDL-Stepper](https://getmdl.io), that implements a stepper to [Materializecss framework](http://materializecss.com/).
 
 Demo = http://codepen.io/Kinark/full/VKrjJp/  
 Ps.: for some reason, callback screen isn't working on codepen. I promise to make a better demo soon!
@@ -244,8 +244,9 @@ It's also useful if you don't want the form to submit in the end.
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE.md](LICENSE) file for details.
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 ## Acknowledgments
 
+* THANK YOU [Materializecss framework](http://materializecss.com/) FOR EVERYTHING!
 * THANK YOU [MDL-Stepper](https://getmdl.io) FOR IDEAS AND A LITTLE OF CSS!
