@@ -1,5 +1,8 @@
 # Materialize-stepper
 ###v1.0
+
+![Small demo](docs/small_demo.gif)
+
 A little plugin, inspired by [MDL-Stepper](https://getmdl.io), that implements a stepper to [Materializecss framework](http://materializecss.com/).
 
 Demo = http://codepen.io/Kinark/full/VKrjJp/  
