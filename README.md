@@ -20,7 +20,7 @@ Since it is still a implementation to [Materializecss framework](http://material
 ```
 - jQuery (obviously)
 - Materializecss framework
-- Google Material Icons (
+- Google Material Icons
 - jQuery Validation Plugin
 ```
 
