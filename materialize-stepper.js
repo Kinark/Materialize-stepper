@@ -2,7 +2,7 @@
 // https://github.com/Kinark/Materialize-stepper
 // JS v1.0
 
-$.fn.activeFeedback  = function() {
+$.fn.activateFeedback  = function() {
    form = this.closest('form');
    active = this.find('.step.active');
    if(form.valid()) {
