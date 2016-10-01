@@ -34,14 +34,14 @@ You just need to import te .css and the .js files after you load the prerequisit
 <!--Import Google Icon Font-->
 <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 <!--Import Materialize-Stepper CSS -->
-<link rel="stylesheet" href="css/materialize-stepper.css">
+<link rel="stylesheet" href="materialize-stepper.min.css">
 
 <!-- jQuery -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
 <!-- Compiled and minified JavaScript -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.7/js/materialize.min.js"></script>
 <!--Import Materialize-Stepper JavaScript -->
-<script src="js/materialize-stepper.js"></script>
+<script src="materialize-stepper.min.js"></script>
 
 ```
 
