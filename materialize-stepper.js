@@ -65,7 +65,7 @@ $.fn.activateStepper = function() {
          }
       }).on("click", '.next-step', function (e) {
          e.preventDefault();
-         if($stepper.data("feedback")) {
+         if($(this).data("feedback")) {
             $stepper.activeFeedback();
             return window[$stepper.data("feedback")].call();
          }
