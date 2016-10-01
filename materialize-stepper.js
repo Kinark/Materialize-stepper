@@ -1,6 +1,6 @@
 // Materializecss Stepper - By Kinark 2016
 // https://github.com/Kinark/Materialize-stepper
-// JS v1.0
+// JS v1.01
 
 $.fn.activateFeedback  = function() {
    form = this.closest('form');
@@ -40,6 +40,7 @@ $.fn.openStep = function(step) {
    step = this.find('.step:eq('+step+')');
    if(step.hasClass('active')) return;
    active = this.find('.step.active');
+   active.find('.step-content').find('.wait-feedback').remove();
    active.removeClass('active').find('.step-content').stop().slideUp('normal');
    step.addClass('active').find('.step-content').slideDown('normal');
 };
