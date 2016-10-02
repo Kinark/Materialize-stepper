@@ -236,7 +236,13 @@ $('.steper').activateFeedback();
 
 It's also useful if you don't want the form to submit in the end.
 
-### Final observations
+## Limitations
+
+As far as I remember, there's only one:
+
+* It doesn't support multiple steppers in one page yet.
+
+## Final observations
 
 * Every command works like an accordion collapsible. If you trigger "openStep(step)" or "nextStep()", it'll close the active step, remove any feedback screen and execute their functions.
 
