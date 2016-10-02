@@ -143,4 +143,13 @@ ul.stepper {
 .step-content .row {
    margin-right: 0;
    margin-bottom: 0;
+   margin-left: 0;
+}
+
+.step-content .row .col {
+   padding: 0 !important;
+}
+
+.step-content label {
+   left:0 !important;
 }
