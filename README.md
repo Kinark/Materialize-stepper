@@ -202,7 +202,7 @@ $('.steper').openStep(2);
 
 ###Callback/feedback
 
-There is a way to make the buttons run a function instead of proceeding, just add a data-feedback attribute with the function name to a ".next-step" classified button. Just like that:
+There's a way to make the buttons run a function instead of proceeding, just add a data-feedback attribute with the function name to a ".next-step" classified button. Just like that:
 
 ```html
 <button class="waves-effect waves-dark btn next-step" data-feedback="checkEmailDB">CONTINUE</button>
