@@ -1,7 +1,7 @@
 /*
 Materializecss Stepper - By Kinark 2016
 https://github.com/Kinark/Materialize-stepper
-CSS v1.01
+CSS v1.02
 */
 
 /*Validate.js FIX*/
@@ -111,7 +111,7 @@ ul.stepper {
    display: none;
    height: calc(100% - 132px);
    width: inherit;
-   overflow: auto;
+   overflow: visible;
    margin-left: 41px;
    margin-right: 24px;
 }
