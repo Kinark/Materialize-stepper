@@ -30,7 +30,7 @@ Since it is still a implementation to [Materializecss framework](http://material
 You just need to import the .css and the .js files after you import the prerequisites listed above:
 
 ```html
-<!-- Compiled and minified CSS -->
+<!-- Materializecss compiled and minified CSS -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.7/css/materialize.min.css">
 <!--Import Google Icon Font-->
 <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
@@ -39,7 +39,7 @@ You just need to import the .css and the .js files after you import the prerequi
 
 <!-- jQuery -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
-<!-- Compiled and minified JavaScript -->
+<!-- Materializecss compiled and minified JavaScript -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.7/js/materialize.min.js"></script>
 <!--Import Materialize-Stepper JavaScript -->
 <script src="materialize-stepper.min.js"></script>
