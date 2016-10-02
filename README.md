@@ -1,5 +1,5 @@
 # Materialize-stepper
-###v1.01
+###Cv1.02
 
 ![Small demo](docs/small_demo.gif)
 
@@ -248,6 +248,16 @@ As far as I remember, there's only one:
 
 * "previousStep()" won't close the feedback loading scree.
 
+## Changelog
+
+### v1.0.2
+* Fixed overflow issues, causing hidden select inputs (and maybe other troubles).
+
+### v1.0.1
+* Fixed inputs margin problems.
+
+### v1.0
+* Released!
 
 ## Built With
 
