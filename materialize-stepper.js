@@ -1,6 +1,6 @@
 // Materializecss Stepper - By Kinark 2016
 // https://github.com/Kinark/Materialize-stepper
-// JS v1.02
+// JS v1.0.2
 
 $.fn.activateFeedback  = function() {
    form = this.closest('form');
