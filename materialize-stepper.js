@@ -1,6 +1,20 @@
 // Materializecss Stepper - By Kinark 2016
 // https://github.com/Kinark/Materialize-stepper
-// JS v1.0.2
+// JS v1.0.3
+
+$.validator.setDefaults({
+   errorClass: 'invalid',
+   validClass: "valid",
+   errorPlacement: function (error, element) {
+      if(!element.is(':radio') && !element.is(':checkbox')) {
+         if($('.'+element.attr("id")).length) {
+            $($('.'+element.attr("id"))).html(error.text());
+         } else {
+            $(element).after('<label class="error '+element.attr("id")+'" for="'+element.attr("id")+'">'+error.text()+'</label>');
+         }
+      }
+   },
+});
 
 $.fn.activateFeedback  = function() {
    form = this.closest('form');
@@ -22,9 +36,8 @@ $.fn.nextStep = function() {
    form = this.closest('form');
    active = this.find('.step.active');
    if(form.valid()) {
-      active.find('.step-content').find('.wait-feedback').remove();
-      active.removeClass('active wrong').addClass('done').find('.step-content').stop().slideUp('normal');
-      active.next().addClass('active').find('.step-content').slideDown('normal');
+      active.removeClass('wrong').addClass('done');
+      this.openStep($('.step').index($(active))+1);
    } else {
       active.removeClass('done').addClass('wrong');
    }
@@ -32,8 +45,7 @@ $.fn.nextStep = function() {
 
 $.fn.prevStep = function() {
    active = this.find('.step.active');
-   active.removeClass('active').find('.step-content').stop().slideUp('normal');
-   active.prev().removeClass('done').addClass('active').find('.step-content').slideDown('normal');
+   this.openStep($('.step').index($(active))-1);
 };
 
 $.fn.openStep = function(step) {
@@ -42,7 +54,7 @@ $.fn.openStep = function(step) {
    active = this.find('.step.active');
    active.find('.step-content').find('.wait-feedback').remove();
    active.removeClass('active').find('.step-content').stop().slideUp('normal');
-   step.addClass('active').find('.step-content').slideDown('normal');
+   step.removeClass('done').addClass('active').find('.step-content').slideDown('normal');
 };
 
 $.fn.activateStepper = function() {
