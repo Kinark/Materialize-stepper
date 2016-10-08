@@ -11,13 +11,13 @@
 * Fixed (again) inputs margins/paddings;
 * Fixed radio/checkbox error labels (added messages);
 
-### v1.0.3
+### v1.0.3 (forgot the date)
 * Fixed radio/checkbox inputs jQuery Validation issues: there is no more error message for those.
 
-### v1.0.2
+### v1.0.2 (forgot the date)
 * Fixed overflow issues, causing hidden select inputs (and maybe other troubles).
 
-### v1.0.1
+### v1.0.1 (forgot the date)
 * Fixed inputs margin problems.
 
 ### v1.0
