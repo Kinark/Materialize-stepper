@@ -275,7 +275,7 @@ As far as I remember, there's only one:
 
 ## Changelog
 
-Just visit [CHANGELOD](CHANGELOG.md) file.
+Just visit [CHANGELOG](CHANGELOG.md) file.
 
 ## Built With
 
