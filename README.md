@@ -275,30 +275,7 @@ As far as I remember, there's only one:
 
 ## Changelog
 
-### v1.1 (08/10/16)
-
-* Fixed openStep() numbers (was counting from 0(like, 0=1));
-* Fixed index only visible steps;
-* Add updateSteps() function;
-* The .wrong class given to the step is more accurated (more like onkeyup);
-* Allow to trigger next and prev step when user clicks on the next/prev step itself on linear stepper;
-* Added custom events;
-* Decrease label error font size;
-* Fixed (again) labels;
-* Fixed (again) inputs margins/paddings;
-* Fixed radio/checkbox error labels (added messages);
-
-### v1.0.3
-* Fixed radio/checkbox inputs jQuery Validation issues: there is no more error message for those.
-
-### v1.0.2
-* Fixed overflow issues, causing hidden select inputs (and maybe other troubles).
-
-### v1.0.1
-* Fixed inputs margin problems.
-
-### v1.0
-* Released!
+Just visit [Changelog](Changelog) file.
 
 ## Built With
 
