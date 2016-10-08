@@ -1,5 +1,5 @@
 # Materialize-stepper
-###v1.02
+###v1.0.3
 
 ![Small demo](docs/small_demo.gif)
 
@@ -249,6 +249,9 @@ As far as I remember, there's only one:
 * "previousStep()" won't close the feedback loading scree.
 
 ## Changelog
+
+### v1.0.3
+* Fixed radio/checkbox inputs jQuery Validation issues: there is no more error message for those.
 
 ### v1.0.2
 * Fixed overflow issues, causing hidden select inputs (and maybe other troubles).
