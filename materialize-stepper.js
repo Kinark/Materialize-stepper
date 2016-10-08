@@ -53,6 +53,7 @@ $.fn.openStep = function(step) {
    active.find('.step-content').find('.wait-feedback').remove();
    active.removeClass('active').find('.step-content').stop().slideUp('normal');
    step.removeClass('done').addClass('active').find('.step-content').slideDown('normal');
+   this.trigger('stepchange');
 };
 
 $.fn.updateSteps = function() {
