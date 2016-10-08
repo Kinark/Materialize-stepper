@@ -1,5 +1,5 @@
 # Materialize-stepper
-###v1.0.3
+###v1.1
 
 ![Small demo](docs/small_demo.gif)
 
@@ -236,6 +236,31 @@ $('.steper').activateFeedback();
 
 It's also useful if you don't want the form to submit in the end.
 
+###Custom Events
+
+Materialize Stepper has custom events for you to bind actions to stepper events.
+
+Here they are:
+When there was a step changing: 'stepchange'
+When the next step was triggered: 'nextstep'
+When the prev step was triggered: 'prevstep'
+When some step was activated (like, step 3): 'step3' -- (just change the number)
+
+Just use them like this:
+```html
+$('.stepper').on('/*putherethecustomevent*/', function(){
+      /*Something happening!*/
+   });
+```
+
+###Dynamically adding steps
+
+If you want to add steps dinamically, you just need to call updateSteps() function:
+
+```html
+$('.steper').updateSteps();
+```
+
 ## Limitations
 
 As far as I remember, there's only one:
@@ -249,6 +274,19 @@ As far as I remember, there's only one:
 * "previousStep()" won't close the feedback loading scree.
 
 ## Changelog
+
+### v1.1 (08/10/16)
+
+* Fixed openStep() numbers (was counting from 0(like, 0=1));
+* Fixed index only visible steps;
+* Add updateSteps() function;
+* The .wrong class given to the step is more accurated (more like onkeyup);
+* Allow to trigger next and prev step when user clicks on the next/prev step itself on linear stepper;
+* Added custom events;
+* Decrease label error font size;
+* Fixed (again) labels;
+* Fixed (again) inputs margins/paddings;
+* Fixed radio/checkbox error labels (added messages);
 
 ### v1.0.3
 * Fixed radio/checkbox inputs jQuery Validation issues: there is no more error message for those.
