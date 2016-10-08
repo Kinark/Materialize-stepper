@@ -1,31 +1,24 @@
 // Materializecss Stepper - By Kinark 2016
 // https://github.com/Kinark/Materialize-stepper
-// JS v1.0.3
+// JS v1.1
 
 $.validator.setDefaults({
    errorClass: 'invalid',
    validClass: "valid",
    errorPlacement: function (error, element) {
-      if(!element.is(':radio') && !element.is(':checkbox')) {
-         if($('.'+element.attr("id")).length) {
-            $($('.'+element.attr("id"))).html(error.text());
-         } else {
-            $(element).after('<label class="error '+element.attr("id")+'" for="'+element.attr("id")+'">'+error.text()+'</label>');
-         }
+      if(element.is(':radio') || element.is(':checkbox')) {
+         error.insertBefore($(element).parent());
+      }
+      else {
+         error.insertAfter(element); // default error placement.
       }
    },
-});
-
-$.fn.activateFeedback  = function() {
-   form = this.closest('form');
-   active = this.find('.step.active');
-   if(form.valid()) {
-      active.removeClass('wrong');
-      active.find('.step-content').prepend('<div class="wait-feedback"><div class="preloader-wrapper active"><div class="spinner-layer spinner-blue-only"><div class="circle-clipper left"><div class="circle"></div></div><div class="gap-patch"><div class="circle"></div></div><div class="circle-clipper right"><div class="circle"></div></div></div></div></div>');
-   } else {
-      active.addClass('wrong');
+   success: function (element) {
+      if(!$(element).closest('li').find('label.invalid:not(:empty)').length){
+         $(element).closest('li').removeClass('wrong');
+      }
    }
-};
+});
 
 $.fn.destroyFeedback  = function() {
    active = this.find('.step.active');
@@ -35,26 +28,42 @@ $.fn.destroyFeedback  = function() {
 $.fn.nextStep = function() {
    form = this.closest('form');
    active = this.find('.step.active');
+   next = $('.step').index($(active))+2;
    if(form.valid()) {
       active.removeClass('wrong').addClass('done');
-      this.openStep($('.step').index($(active))+1);
+      this.openStep(next);
    } else {
       active.removeClass('done').addClass('wrong');
    }
+   this.trigger('nextstep').trigger('stepchange').trigger('step'+next);
 };
 
 $.fn.prevStep = function() {
    active = this.find('.step.active');
-   this.openStep($('.step').index($(active))-1);
+   prev = $('.step').index($(active));
+   this.openStep(prev);
+   this.trigger('prevstep').trigger('stepchange').trigger('step'+prev);
 };
 
 $.fn.openStep = function(step) {
+   step -= 1;
    step = this.find('.step:eq('+step+')');
    if(step.hasClass('active')) return;
    active = this.find('.step.active');
    active.find('.step-content').find('.wait-feedback').remove();
    active.removeClass('active').find('.step-content').stop().slideUp('normal');
    step.removeClass('done').addClass('active').find('.step-content').slideDown('normal');
+};
+
+$.fn.updateSteps = function() {
+   this.find('li.step .step-title:visible').each(function(index) {
+      var myIndex = index + 1;
+      if($(this).children(":first").hasClass('number')){
+         $(this).children(":first").html(myIndex);
+      } else {
+         $(this).prepend('<div class="number">'+myIndex+'</div>');
+      }
+   });
 };
 
 $.fn.activateStepper = function() {
@@ -66,15 +75,26 @@ $.fn.activateStepper = function() {
       action = (action ? action : "?");
       $stepper.wrap( '<form action="'+action+'" method="'+method+'"></div>' );
       $stepper.find('li.step.active .step-content').slideDown('normal');
-      $stepper.find('li.step .step-title').each(function(index) {
+      $stepper.find('li.step .step-title:visible').each(function(index) {
          var myIndex = index + 1;
-         $(this).prepend('<div class="number">'+myIndex+'</div>');
+         if($(this).children(":first").hasClass('number')){
+            $(this).children(":first").html(myIndex);
+         } else {
+            $(this).prepend('<div class="number">'+myIndex+'</div>');
+         }
       });
 
       $stepper.on("click", '.step:not(.active)', function () {
+         object = $('.step').index($(this));
          if(!$stepper.hasClass('linear')) {
-            object = $('.step').index($(this));
             $stepper.openStep(object);
+         } else {
+            active = $stepper.find('.step.active');
+            if($('.step').index($(active))+1 == object) {
+               $stepper.nextStep();
+            } else if ($('.step').index($(active))-1 == object) {
+               $stepper.prevStep();
+            }
          }
       }).on("click", '.next-step', function (e) {
          e.preventDefault();

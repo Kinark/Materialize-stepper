@@ -1,18 +1,18 @@
 /*
 Materializecss Stepper - By Kinark 2016
 https://github.com/Kinark/Materialize-stepper
-CSS v1.0.3
+CSS v1.1
 */
-
 /*Validate.js FIX*/
-label.error {
+label.invalid {
+   font-size: 0.8rem;
    font-weight: 500;
    color: red !important;
    top: 50px !important;
 }
 
-label.error.active {
-   font-size: inherit !important;
+label.invalid.active {
+   /*font-size: inherit !important;*/
    -webkit-transform: translateY(0%) !important;
    transform: translateY(0%) !important;
 }
@@ -34,13 +34,13 @@ ul.stepper {
    align-items: center;
 }
 
-.step:not(:last-child) {
+.stepper .step:not(:last-child) {
    position: relative;
-   margin-bottom: 10px;
+   margin-bottom: 10px !important;
 }
 
 .step:not(:last-child).active {
-   margin-bottom: 36px;
+   margin-bottom: 36px !important;
 }
 
 .step-title {
@@ -141,15 +141,15 @@ ul.stepper {
 }
 
 .step-content .row {
-   margin-right: 0;
+   /*margin-right: 0;*/
    margin-bottom: 0;
-   margin-left: 0;
+   /*margin-left: 0;*/
 }
 
 .step-content .row .col {
-   padding: 0 !important;
+   /*padding: 0 !important;*/
 }
 
 .step-content label {
-   left:0 !important;
+   /*left:0 !important;*/
 }
