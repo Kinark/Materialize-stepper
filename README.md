@@ -248,7 +248,7 @@ Here they are:
 
 Just use them like this:
 ```html
-$('.stepper').on('/*putherethecustomevent*/', function(){
+$('.stepper').on('putherethecustomevent', function(){
       /*Something happening!*/
    });
 ```
