@@ -240,11 +240,11 @@ It's also useful if you don't want the form to submit in the end.
 
 Materialize Stepper has custom events for you to bind actions to stepper events.
 
-Here they are:
-When there was a step changing: 'stepchange'
-When the next step was triggered: 'nextstep'
-When the prev step was triggered: 'prevstep'
-When some step was activated (like, step 3): 'step3' -- (just change the number)
+Here they are:  
+* When there was a step changing: '**stepchange**'
+* When the next step was triggered: '**nextstep**'
+* When the prev step was triggered: '**prevstep**'
+* When some step was activated (like, step 3): '**step3**' -- (just change the number)
 
 Just use them like this:
 ```html
