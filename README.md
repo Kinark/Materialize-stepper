@@ -56,7 +56,7 @@ It doesn't have an horizontal version yet. The HTML base (a three steps example)
       <div class="step-title waves-effect waves-dark">E-mail</div>
       <div class="step-content">
          <div class="row">
-            <div class="input-field col s6">
+            <div class="input-field col s12">
                <input id="email" name="email" type="email" class="validate" required>
                <label for="first_name">Your e-mail</label>
             </div>
@@ -70,7 +70,7 @@ It doesn't have an horizontal version yet. The HTML base (a three steps example)
       <div class="step-title waves-effect waves-dark">Passo 2</div>
       <div class="step-content">
          <div class="row">
-            <div class="input-field col s6">
+            <div class="input-field col s12">
                <input id="password" name="password" type="password" class="validate" required>
                <label for="password">Your password</label>
             </div>
