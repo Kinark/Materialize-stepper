@@ -1,3 +1,11 @@
+### v1.1.1 (09/10/16)
+
+* Fixed some issues with custom events and validation;
+* Fixed feedback functions (they disappeared!);
+* Fixed openStep working with dynamically added steps;
+* Fixed small jump in animation that was causing scroll jump;
+* Fixed simple css bugs.
+
 ### v1.1 (08/10/16)
 
 * Fixed openStep() numbers (was counting from 0(like, 0=1));
@@ -9,7 +17,7 @@
 * Decrease label error font size;
 * Fixed (again) labels;
 * Fixed (again) inputs margins/paddings;
-* Fixed radio/checkbox error labels (added messages);
+* Fixed radio/checkbox error labels (added messages).
 
 ### v1.0.3 (forgot the date)
 * Fixed radio/checkbox inputs jQuery Validation issues: there is no more error message for those.
