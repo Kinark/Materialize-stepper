@@ -1,6 +1,6 @@
 // Materializecss Stepper - By Kinark 2016
 // https://github.com/Kinark/Materialize-stepper
-// JS v1.1
+// JS v1.1.1
 
 $.validator.setDefaults({
    errorClass: 'invalid',
@@ -20,40 +20,52 @@ $.validator.setDefaults({
    }
 });
 
+$.fn.activateFeedback  = function() {
+   active = this.find('.step.active').find('.step-content');
+   return active.prepend('<div class="wait-feedback"> <div class="preloader-wrapper active"> <div class="spinner-layer spinner-blue"> <div class="circle-clipper left"> <div class="circle"></div></div><div class="gap-patch"> <div class="circle"></div></div><div class="circle-clipper right"> <div class="circle"></div></div></div><div class="spinner-layer spinner-red"> <div class="circle-clipper left"> <div class="circle"></div></div><div class="gap-patch"> <div class="circle"></div></div><div class="circle-clipper right"> <div class="circle"></div></div></div><div class="spinner-layer spinner-yellow"> <div class="circle-clipper left"> <div class="circle"></div></div><div class="gap-patch"> <div class="circle"></div></div><div class="circle-clipper right"> <div class="circle"></div></div></div><div class="spinner-layer spinner-green"> <div class="circle-clipper left"> <div class="circle"></div></div><div class="gap-patch"> <div class="circle"></div></div><div class="circle-clipper right"> <div class="circle"></div></div></div></div></div>');
+};
+
 $.fn.destroyFeedback  = function() {
    active = this.find('.step.active');
-   active.find('.step-content').find('.wait-feedback').remove();
+   return active.find('.step-content').find('.wait-feedback').remove();
 };
 
 $.fn.nextStep = function() {
+   stepper = this;
    form = this.closest('form');
    active = this.find('.step.active');
    next = $('.step').index($(active))+2;
+   feedback = $(active.find('.step-content').find('.step-actions').find('.next-step')).data("feedback");
    if(form.valid()) {
+      if(feedback) {
+         stepper.activateFeedback();
+         return window[feedback].call();
+      }
       active.removeClass('wrong').addClass('done');
       this.openStep(next);
+      return this.trigger('nextstep');
    } else {
-      active.removeClass('done').addClass('wrong');
+      return active.removeClass('done').addClass('wrong');
    }
-   this.trigger('nextstep').trigger('stepchange').trigger('step'+next);
 };
 
 $.fn.prevStep = function() {
    active = this.find('.step.active');
    prev = $('.step').index($(active));
    this.openStep(prev);
-   this.trigger('prevstep').trigger('stepchange').trigger('step'+prev);
+   return this.trigger('prevstep');
 };
 
 $.fn.openStep = function(step) {
+   this.trigger('stepchange').trigger('step'+step);
    step -= 1;
-   step = this.find('.step:eq('+step+')');
+   step = this.find('.step:visible:eq('+step+')');
    if(step.hasClass('active')) return;
    active = this.find('.step.active');
    active.find('.step-content').find('.wait-feedback').remove();
-   active.removeClass('active').find('.step-content').stop().slideUp('normal');
-   step.removeClass('done').addClass('active').find('.step-content').slideDown('normal');
-   this.trigger('stepchange');
+   active.removeClass('active').find('.step-content').stop().slideUp();
+   step.removeClass('done').addClass('active').find('.step-content').slideDown();
+   return false;
 };
 
 $.fn.updateSteps = function() {
@@ -99,10 +111,6 @@ $.fn.activateStepper = function() {
          }
       }).on("click", '.next-step', function (e) {
          e.preventDefault();
-         if($(this).data("feedback")) {
-            $stepper.activateFeedback();
-            return window[$(this).data("feedback")].call();
-         }
          $stepper.nextStep();
       }).on("click", '.previous-step', function (e) {
          e.preventDefault();

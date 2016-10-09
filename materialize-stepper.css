@@ -1,7 +1,7 @@
 /*
 Materializecss Stepper - By Kinark 2016
 https://github.com/Kinark/Materialize-stepper
-CSS v1.1
+CSS v1.1.1
 */
 /*Validate.js FIX*/
 label.invalid {
@@ -12,7 +12,6 @@ label.invalid {
 }
 
 label.invalid.active {
-   /*font-size: inherit !important;*/
    -webkit-transform: translateY(0%) !important;
    transform: translateY(0%) !important;
 }
@@ -27,7 +26,7 @@ ul.stepper {
    z-index: 2;
    position: absolute;
    width: 100%;
-   height: 100%;
+   height: 104%;
    text-align: center;
    display: flex;
    justify-content: center;
@@ -36,11 +35,16 @@ ul.stepper {
 
 .stepper .step:not(:last-child) {
    position: relative;
-   margin-bottom: 10px !important;
+   margin-bottom: 10px;
+   -webkit-transition:margin-bottom 0.4s;
+   -moz-transition:margin-bottom 0.4s;
+   -ms-transition:margin-bottom 0.4s;
+   -o-transition:margin-bottom 0.4s;
+   transition:margin-bottom 0.4s;
 }
 
 .step:not(:last-child).active {
-   margin-bottom: 36px !important;
+   margin-bottom: 36px;
 }
 
 .step-title {
@@ -124,6 +128,11 @@ ul.stepper {
    width: 1px;
    height: calc(100% - 38px);
    background-color: rgba(0,0,0,0.1);
+   -webkit-transition:height 0.4s;
+   -moz-transition:height 0.4s;
+   -ms-transition:height 0.4s;
+   -o-transition:height 0.4s;
+   transition:height 0.4s;
 }
 
 .stepper>.step.active:not(:last-child)::after {
@@ -131,25 +140,10 @@ ul.stepper {
 }
 
 .step-actions {
-   display: none;
    padding-top: 16px;
    margin-right: 24px;
 }
 
-.step.active .step-actions {
-   display: block;
-}
-
 .step-content .row {
-   /*margin-right: 0;*/
    margin-bottom: 0;
-   /*margin-left: 0;*/
-}
-
-.step-content .row .col {
-   /*padding: 0 !important;*/
-}
-
-.step-content label {
-   /*left:0 !important;*/
 }
