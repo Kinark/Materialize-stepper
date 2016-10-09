@@ -1,5 +1,5 @@
 # Materialize-stepper
-###v1.0.3
+###v1.1
 
 ![Small demo](docs/small_demo.gif)
 
@@ -56,7 +56,7 @@ It doesn't have an horizontal version yet. The HTML base (a three steps example)
       <div class="step-title waves-effect waves-dark">E-mail</div>
       <div class="step-content">
          <div class="row">
-            <div class="input-field col s6">
+            <div class="input-field col s12">
                <input id="email" name="email" type="email" class="validate" required>
                <label for="first_name">Your e-mail</label>
             </div>
@@ -70,7 +70,7 @@ It doesn't have an horizontal version yet. The HTML base (a three steps example)
       <div class="step-title waves-effect waves-dark">Passo 2</div>
       <div class="step-content">
          <div class="row">
-            <div class="input-field col s6">
+            <div class="input-field col s12">
                <input id="password" name="password" type="password" class="validate" required>
                <label for="password">Your password</label>
             </div>
@@ -115,7 +115,7 @@ Each step runs inside a li tag with the class ".step":
 <li class="step">
 ```
 
-Insdie each step there is two divs. The ".step-tile", where you put the title of... guess what...
+Insdie each step there is two divs. The ".step-title", where you put the title of... guess what...
 
 ```html
 <div class="step-title waves-effect waves-dark">First step</div>
@@ -124,14 +124,13 @@ Insdie each step there is two divs. The ".step-tile", where you put the title of
 And the ".step-content", that holds the information:
 
 ```html
-<div class="step-content">
+<div class="step-content"></div>
 ```
 
 There's the ".step-actions" container inside step-content, which holds the buttons:
 
 ```html
-<div class="step-actions">
-
+<div class="step-actions"></div>
 ```
 
 And finally there's the buttons, which proceed (.next-step) or return (.previous-step):
@@ -145,7 +144,7 @@ And finally there's the buttons, which proceed (.next-step) or return (.previous
 
 ###Linear and non-linear
 
-If you want the users to change between steps freely (without validations or the obligation to use CONTINUE/BACK buttons), just remove .linear class from the primary ul:
+If you want users to change between steps freely (without validations or the obligation to advance a step at a time), just remove .linear class from the primary ul:
 
 ```html
 <ul class="stepper">
@@ -156,10 +155,10 @@ If you want the users to change between steps freely (without validations or the
 The JS spawns a form wrapping the ul for the validate.js to work with the inputs. Since the primary funcion of stepper is to split some kind of form, for now, the only way to make a step required is to add "required" attribute to an input inside the .step-content container:
 
 ```html
-<input id="email" name="email" type="email" class="validate" required>
+<input id="email" name="email" type="email" class="validate" required />
 ```
 
-If the input is not valid, the icon will turn red until user click proceed again (or press enter).
+If the input is not valid, the icon will turn red until all required inputs become valid.
 
 In the last step, if a callback is not defined (we'll talk about it later), the form will be submited just like a real form, and you can define the method and the action of it through two attributes in the principal ul:
 
@@ -182,7 +181,7 @@ First is by clicking, if you are not using the ".linear" class. The second way i
 <button class="waves-effect waves-dark btn" type="submit">SUBMIT</button>
 ```
 
-The third way is by navigating programatically and, for that, there is three JS functions:
+The third way is by navigating programatically and, for that, there is three jQuery functions:
 
 To proceed one step:
 ```html
@@ -208,7 +207,7 @@ There's a way to make the buttons run a function instead of proceeding, just add
 <button class="waves-effect waves-dark btn next-step" data-feedback="checkEmailDB">CONTINUE</button>
 ```
 
-When the user press the button, a loading screen will overlay everything, making the user unable to proceed until you trigger the nextStep function manually. It's useful when you need to check if a e-mail exists in database through AJAX, for example.
+When the user press the button, a loading screen will overlay everything, making the user unable to proceed until you trigger the nextStep function manually. It's useful when you need to check if an e-mail exists in database through AJAX, for example.
 
 To dimiss the feedback loading screen you just need, as I said, to trigger nextStep function:
 
@@ -228,13 +227,38 @@ If you want to dimss it but doesn't proceed, you just call:
 $('.steper').destroyFeedback();
 ```
 
-And if for some reason you want to activate the feedback screen, just call:
+And if for some reason you want to activate the feedback screen on the active step, just call:
 
 ```html
 $('.steper').activateFeedback();
 ```
 
-It's also useful if you don't want the form to submit in the end.
+It's also useful if you don't want to submit the form in the end.
+
+###Custom Events
+
+Materialize Stepper has custom events for you to bind actions to stepper events.
+
+Here they are:  
+* When there was a step changing: '**stepchange**'
+* When the next step was triggered: '**nextstep**'
+* When the prev step was triggered: '**prevstep**'
+* When some step was activated (like, step 3): '**step3**' -- (just change the number)
+
+Just use them like this:
+```html
+$('.stepper').on('putherethecustomevent', function(){
+      /*Something happening!*/
+   });
+```
+
+###Dynamically adding steps
+
+If you want to add steps dinamically, you just need to call updateSteps() function:
+
+```html
+$('.steper').updateSteps();
+```
 
 ## Limitations
 
@@ -246,21 +270,11 @@ As far as I remember, there's only one:
 
 * Every command works like an accordion collapsible. If you trigger "openStep(step)" or "nextStep()", it'll close the active step, remove any feedback screen and execute their functions.
 
-* "previousStep()" won't close the feedback loading scree.
+* "previousStep()" won't close the feedback loading screen.
 
 ## Changelog
 
-### v1.0.3
-* Fixed radio/checkbox inputs jQuery Validation issues: there is no more error message for those.
-
-### v1.0.2
-* Fixed overflow issues, causing hidden select inputs (and maybe other troubles).
-
-### v1.0.1
-* Fixed inputs margin problems.
-
-### v1.0
-* Released!
+Just visit [CHANGELOG](CHANGELOG.md) file.
 
 ## Built With
 
