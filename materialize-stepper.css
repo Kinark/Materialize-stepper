@@ -1,7 +1,7 @@
 /*
 Materializecss Stepper - By Kinark 2016
 https://github.com/Kinark/Materialize-stepper
-CSS v1.1.1
+CSS v1.2
 */
 /*Validate.js FIX*/
 label.invalid {
@@ -18,6 +18,7 @@ label.invalid.active {
 /*Validate.js FIX*/
 
 ul.stepper {
+   counter-reset: section;
    max-width: 800px;
 }
 
@@ -33,8 +34,11 @@ ul.stepper {
    align-items: center;
 }
 
-.stepper .step:not(:last-child) {
+.stepper .step {
    position: relative;
+}
+
+.stepper .step:not(:last-child) {
    margin-bottom: 10px;
    -webkit-transition:margin-bottom 0.4s;
    -moz-transition:margin-bottom 0.4s;
@@ -43,29 +47,15 @@ ul.stepper {
    transition:margin-bottom 0.4s;
 }
 
-.step:not(:last-child).active {
+.stepper .step:not(:last-child).active {
    margin-bottom: 36px;
 }
 
-.step-title {
-   margin: 0 -20px;
-   cursor: pointer;
-   padding: 12px 44px 24px 20px;
-   display: block;
-}
-
-.step-title:hover {
-   background-color: rgba(0, 0, 0, 0.06);;
-}
-
-.step.active .step-title {
-   font-weight: 500;
-}
-
-.step-title .number {
-   position: relative;
-   margin-right: 10px;
-   display: inline-block;
+.stepper .step::before {
+   position: absolute;;
+   top: 12px;
+   counter-increment: section;
+   content: counter(section);
    height: 28px;
    width: 28px;
    color: white;
@@ -76,38 +66,36 @@ ul.stepper {
    font-weight: 400;
 }
 
-.step.active .number {
+.stepper .step.active::before {
    background-color: #2196f3;
 }
 
-.step.done .number {
-   background-color: #2196f3;
-   color: #2196f3;
-}
-
-.step.done .number::after {
-   color: #fff;
+.stepper .step.done::before {
    content: '\e5ca';
    font-size: 16px;
-   position: absolute;
    font-family: 'Material Icons';
-   right: 6px;
-   top: 0px;
 }
 
-.step.wrong .number {
-   background-color: red;
-   color: red;
-}
-
-.step.wrong .number::after {
-   color: #fff;
+.stepper .step.wrong::before {
    content: '\e001';
    font-size: 24px;
-   position: absolute;
    font-family: 'Material Icons';
-   right: 2px;
-   top: 0px;
+   background-color: red;
+}
+
+.step-title {
+   margin: 0 -20px;
+   cursor: pointer;
+   padding: 15.5px 44px 24px 60px;
+   display: block;
+}
+
+.step-title:hover {
+   background-color: rgba(0, 0, 0, 0.06);;
+}
+
+.step.active .step-title {
+   font-weight: 500;
 }
 
 .step-content {
