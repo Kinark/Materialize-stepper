@@ -1,5 +1,5 @@
 # Materialize-stepper
-###v1.1.1
+###v1.2
 
 ![Small demo](docs/small_demo.gif)
 
@@ -235,6 +235,14 @@ $('.steper').activateFeedback();
 
 It's also useful if you don't want to submit the form in the end.
 
+If you want to trigger an error with a message in one of the steps, just use this function:
+
+```html
+$('selector').showError('error message');
+```
+
+That is a shorthand with additions to showErrors function of jQueryValidation plugin.
+
 ###Custom Events
 
 Materialize Stepper has custom events for you to bind actions to stepper events.
@@ -254,10 +262,23 @@ $('.stepper').on('putherethecustomevent', function(){
 
 ###Dynamically adding steps
 
-If you want to add steps dinamically, you just need to call updateSteps() function:
+If you want to activate steps dinamically, you just need to add a step without the class .step and with display:none css property:
 
 ```html
-$('.steper').updateSteps();
+<li class="activate-after" style="display:none;">...</li>
+<li class="activate-after" style="display:none;">...</li>
+```
+
+And to activate it, you just need to run activateStep() function on the elements you want to add:
+
+```html
+$('.activate-after').activateStep();
+```
+
+To deactivate them, guess what?
+
+```html
+$('.activate-after').deactivateStep();
 ```
 
 ## Limitations
