@@ -1,12 +1,12 @@
 ### v1.2 (10/10/16)
 
-* Now the step numbers are shown with the counter css property
-* Fixed custom events order
-* Fixed nextStep and feedback issue
-* PrevStep function removes wrong class from previous active step
-* New function showError
-* New function activateStep and deactivateStep
-* You won't to use updateSteps anymore!
+* Now the step numbers are shown with the css property counter;
+* Fixed custom events order;
+* Fixed nextStep always triggering feedback function;
+* PrevStep function removes wrong class from previous active step;
+* New function showError;
+* New functions activateStep and deactivateStep;
+* You won't need to use updateSteps anymore!
 
 ### v1.1.1 (09/10/16)
 
