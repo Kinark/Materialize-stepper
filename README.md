@@ -41,6 +41,8 @@ You just need to import the .css and the .js files after you import the prerequi
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
 <!-- Materializecss compiled and minified JavaScript -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.7/js/materialize.min.js"></script>
+<!-- jQueryValidation Plugin -->
+<script src="https://ajax.aspnetcdn.com/ajax/jquery.validate/1.15.0/jquery.validate.min.js"></script>
 <!--Import Materialize-Stepper JavaScript -->
 <script src="materialize-stepper.min.js"></script>
 
