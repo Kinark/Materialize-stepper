@@ -1,3 +1,7 @@
+### v1.2.1 (11/10/16)
+
+* Multiple steps in one page!!!!!
+
 ### v1.2 (10/10/16)
 
 * Now the step numbers are shown with the css property counter;
