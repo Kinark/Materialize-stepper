@@ -1,6 +1,6 @@
 // Materializecss Stepper - By Kinark 2016
 // https://github.com/Kinark/Materialize-stepper
-// JS v1.2
+// JS v1.2.1
 
 $.validator.setDefaults({
    errorClass: 'invalid',
@@ -51,7 +51,7 @@ $.fn.nextStep = function(ignorefb) {
    stepper = this;
    form = this.closest('form');
    active = this.find('.step.active');
-   next = $('.step').index($(active))+2;
+   next = $(this.children()).index($(active))+2;
    feedback = $(active.find('.step-content').find('.step-actions').find('.next-step')).data("feedback");
    if(form.valid()) {
       if(feedback && ignorefb) {
@@ -68,7 +68,7 @@ $.fn.nextStep = function(ignorefb) {
 
 $.fn.prevStep = function() {
    active = this.find('.step.active');
-   prev = $('.step').index($(active));
+   prev = $(this.children()).index($(active));
    active.removeClass('wrong');
    this.openStep(prev);
    return this.trigger('prevstep');
