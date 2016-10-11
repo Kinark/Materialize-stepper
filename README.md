@@ -117,7 +117,7 @@ Each step runs inside a li tag with the class ".step":
 <li class="step">
 ```
 
-Insdie each step there is two divs. The ".step-title", where you put the title of... guess what...
+Inside each step there is two divs. The ".step-title", where you put the title of... guess what...
 
 ```html
 <div class="step-title waves-effect waves-dark">First step</div>
@@ -285,9 +285,7 @@ $('.activate-after').deactivateStep();
 
 ## Limitations
 
-As far as I remember, there's only one:
-
-* It doesn't support multiple steppers in one page yet.
+None! I guess...
 
 ## Final observations
 
