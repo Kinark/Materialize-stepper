@@ -99,7 +99,6 @@ $.fn.activateStepper = function() {
       $stepper.on("click", '.step:not(.active)', function () {
          object = $($stepper.children('.step:visible')).index($(this));
          if(!$stepper.hasClass('linear')) {
-            alert(object+1);
             $stepper.openStep(object+1);
          } else {
             active = $stepper.find('.step.active');
