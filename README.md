@@ -1,5 +1,5 @@
 # Materialize-stepper
-###v1.2.2
+###v1.2.3
 
 ![Small demo](docs/small_demo.gif)
 
