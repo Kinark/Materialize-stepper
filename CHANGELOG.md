@@ -1,3 +1,8 @@
+### v1.2.3 (12/10/16) - yeah, two updates, I'm noob...
+
+* Fixed functions not working with hidden steps (dynamically added ones);
+* Done steps has blue background-color.
+
 ### v1.2.2 (12/10/16)
 
 * Fixed non-linear steps on multiple steppers pages;
