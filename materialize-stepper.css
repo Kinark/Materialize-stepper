@@ -1,7 +1,7 @@
 /*
 Materializecss Stepper - By Kinark 2016
 https://github.com/Kinark/Materialize-stepper
-CSS v1.2.2
+CSS v1.2.3
 */
 /*Validate.js FIX*/
 label.invalid {
@@ -71,6 +71,7 @@ ul.stepper {
 }
 
 .stepper .step.done::before {
+   background-color: #2196f3;
    content: '\e5ca';
    font-size: 16px;
    font-family: 'Material Icons';

@@ -1,6 +1,7 @@
-// Materializecss Stepper - By Kinark 2016
+/* Materializecss Stepper - By Kinark 2016
 // https://github.com/Kinark/Materialize-stepper
-// JS v1.2.2
+// JS v1.2.3
+*/
 
 $.validator.setDefaults({
    errorClass: 'invalid',
@@ -51,7 +52,7 @@ $.fn.nextStep = function(ignorefb) {
    stepper = this;
    form = this.closest('form');
    active = this.find('.step.active');
-   next = $(this.children()).index($(active))+2;
+   next = $(this.children('.step:visible')).index($(active))+2;
    feedback = $(active.find('.step-content').find('.step-actions').find('.next-step')).data("feedback");
    if(form.valid()) {
       if(feedback && ignorefb) {
@@ -68,7 +69,7 @@ $.fn.nextStep = function(ignorefb) {
 
 $.fn.prevStep = function() {
    active = this.find('.step.active');
-   prev = $(this.children()).index($(active));
+   prev = $(this.children('.step:visible')).index($(active));
    active.removeClass('wrong');
    this.openStep(prev);
    return this.trigger('prevstep');
@@ -96,14 +97,15 @@ $.fn.activateStepper = function() {
       $stepper.find('li.step.active .step-content').slideDown('normal');
 
       $stepper.on("click", '.step:not(.active)', function () {
-         object = $($stepper.children()).index($(this));
+         object = $($stepper.children('.step:visible')).index($(this));
          if(!$stepper.hasClass('linear')) {
-            $stepper.openStep(object);
+            alert(object+1);
+            $stepper.openStep(object+1);
          } else {
             active = $stepper.find('.step.active');
-            if($($stepper.children()).index($(active))+1 == object) {
+            if($($stepper.children('.step:visible')).index($(active))+1 == object) {
                $stepper.nextStep(true);
-            } else if ($($stepper.children()).index($(active))-1 == object) {
+            } else if ($($stepper.children('.step:visible')).index($(active))-1 == object) {
                $stepper.prevStep();
             }
          }
