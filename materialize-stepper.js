@@ -1,6 +1,6 @@
 // Materializecss Stepper - By Kinark 2016
 // https://github.com/Kinark/Materialize-stepper
-// JS v1.2.1
+// JS v1.2.2
 
 $.validator.setDefaults({
    errorClass: 'invalid',
@@ -96,14 +96,14 @@ $.fn.activateStepper = function() {
       $stepper.find('li.step.active .step-content').slideDown('normal');
 
       $stepper.on("click", '.step:not(.active)', function () {
-         object = $('.step').index($(this));
+         object = $($stepper.children()).index($(this));
          if(!$stepper.hasClass('linear')) {
             $stepper.openStep(object);
          } else {
             active = $stepper.find('.step.active');
-            if($('.step').index($(active))+1 == object) {
+            if($($stepper.children()).index($(active))+1 == object) {
                $stepper.nextStep(true);
-            } else if ($('.step').index($(active))-1 == object) {
+            } else if ($($stepper.children()).index($(active))-1 == object) {
                $stepper.prevStep();
             }
          }
