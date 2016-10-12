@@ -1,3 +1,8 @@
+### v1.2.2 (12/10/16)
+
+* Fixed non-linear steps on multiple steppers pages;
+* Small maargin on rows added.
+
 ### v1.2.1 (11/10/16)
 
 * Multiple steps in one page!!!!!
