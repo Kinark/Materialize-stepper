@@ -5,7 +5,7 @@
 
 A little plugin, inspired by [MDL-Stepper](https://ahlechandre.github.io/mdl-stepper/), that implements a stepper to [Materializecss framework](http://materializecss.com/).
 
-Demo: https://kinark.github.io/Materialize-stepper/
+Demo: https://kinark.github.io/Materialize-stepper/  
 Codepen Playground: http://codepen.io/Kinark/pen/VKrjJp
 
 ## Getting Started
