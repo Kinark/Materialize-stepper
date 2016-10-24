@@ -99,7 +99,9 @@ After that you'll need to initialize it through:
 
 ```html
 <script>
-$('.stepper').activateStepper();
+$(function(){
+   $('.stepper').activateStepper();
+});
 </script>
 ```
 
