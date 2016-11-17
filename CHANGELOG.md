@@ -1,3 +1,19 @@
+### v2.0 (17/11/16)
+
+* Custom custom events added!;
+* Fixed validation for the last step submit button;
+* Fixed custom events order... again...;
+* resetStepper() function added;
+* getActiveStep() function added;
+* Fixed the possibility of double feedback-screens appear;
+* Easing added on animations;
+* Step labels added;
+* Fixed wrapping buttons on button-actions;
+* Removed stepper max-width;
+* New feedbacking class on feedbacking steps;
+* Browsers prefixes added;
+* ADDED HORIZONTAL STEPPERS!
+
 ### v1.2.3 (12/10/16) - yeah, two updates, I'm noob...
 
 * Fixed functions not working with hidden steps (dynamically added ones);
