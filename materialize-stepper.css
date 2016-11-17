@@ -1,7 +1,7 @@
 /*
 Materializecss Stepper - By Kinark 2016
 https://github.com/Kinark/Materialize-stepper
-CSS v1.2.3
+CSS v2.0
 */
 /*Validate.js FIX*/
 label.invalid {
@@ -19,40 +19,105 @@ label.invalid.active {
 
 ul.stepper {
    counter-reset: section;
-   max-width: 800px;
+   /*max-width: 800px;*/
 }
 
-.wait-feedback {
-   background-color: rgba(255,255,255,0.9);
+ul.stepper.horizontal {
+   position: relative;
+   display: -webkit-box;
+   display: -ms-flexbox;
+   display: flex;
+   -webkit-box-pack: justify;
+   -ms-flex-pack: justify;
+   justify-content: space-between;
+   min-height: 458px;
+}
+
+.card-content ul.stepper.horizontal {
+   margin-left: -20px;
+   margin-right: -20px;
+   padding-left: 20px;
+   padding-right: 20px;
+   overflow: hidden;
+}
+
+.card-content ul.stepper.horizontal:first-child {
+   margin-top: -20px;
+}
+
+ul.stepper.horizontal::before {
+   content: '';
+   background-color: transparent;
+   width: 100%;
+   min-height: 84px;
+   box-shadow: 0px 2px 1px -1px rgba(0,0,0,0.2),0px 1px 1px 0px rgba(0,0,0,0.14),0px 1px 3px 0px rgba(0,0,0,0.12);
+   position: absolute;
+   left: 0;
+}
+
+ul.stepper .wait-feedback {
+   left: 0;
+   right: 0;
+   top: 0;
    z-index: 2;
    position: absolute;
    width: 100%;
-   height: 104%;
+   height: 100%;
    text-align: center;
+   display: -webkit-box;
+   display: -ms-flexbox;
    display: flex;
+   -webkit-box-pack: center;
+   -ms-flex-pack: center;
    justify-content: center;
+   -webkit-box-align: center;
+   -ms-flex-align: center;
    align-items: center;
 }
 
-.stepper .step {
+ul.stepper:not(.horizontal) .step {
    position: relative;
 }
 
-.stepper .step:not(:last-child) {
+ul.stepper .step.feedbacking .step-content>*:not(.wait-feedback) {
+   opacity: 0.1;
+}
+
+ul.stepper.horizontal .step {
+   width: 100%;
+   display: -webkit-box;
+   display: -ms-flexbox;
+   display: flex;
+   -webkit-box-align: center;
+   -ms-flex-align: center;
+   align-items: center;
+   height: 84px;
+}
+
+ul.stepper.horizontal .step:last-child {
+   width: auto;
+}
+
+ul.stepper.horizontal .step:not(:last-child)::after {
+   content: '';
+   display: inline-block;
+   width: 100%;
+   height: 1px;
+   background-color: rgba(0,0,0,0.1);
+}
+
+ul.stepper:not(.horizontal) .step:not(:last-child) {
    margin-bottom: 10px;
    -webkit-transition:margin-bottom 0.4s;
-   -moz-transition:margin-bottom 0.4s;
-   -ms-transition:margin-bottom 0.4s;
-   -o-transition:margin-bottom 0.4s;
    transition:margin-bottom 0.4s;
 }
 
-.stepper .step:not(:last-child).active {
+ul.stepper:not(.horizontal) .step:not(:last-child).active {
    margin-bottom: 36px;
 }
 
-.stepper .step::before {
-   position: absolute;;
+ul.stepper:not(.horizontal) .step::before {
+   position: absolute;
    top: 12px;
    counter-increment: section;
    content: counter(section);
@@ -66,40 +131,82 @@ ul.stepper {
    font-weight: 400;
 }
 
-.stepper .step.active::before {
+ul.stepper:not(.horizontal) .step.active::before, ul.stepper:not(.horizontal) .step.done::before, ul.stepper.horizontal .step.active .step-title::before, ul.stepper.horizontal .step.done .step-title::before {
    background-color: #2196f3;
 }
 
-.stepper .step.done::before {
-   background-color: #2196f3;
+ul.stepper:not(.horizontal) .step.done::before, ul.stepper.horizontal .step.done .step-title::before {
    content: '\e5ca';
    font-size: 16px;
    font-family: 'Material Icons';
 }
 
-.stepper .step.wrong::before {
+ul.stepper:not(.horizontal) .step.wrong::before, ul.stepper.horizontal .step.wrong .step-title::before {
    content: '\e001';
    font-size: 24px;
    font-family: 'Material Icons';
-   background-color: red;
+   background-color: red !important;
 }
 
-.step-title {
+ul.stepper:not(.horizontal) .step-title {
    margin: 0 -20px;
    cursor: pointer;
    padding: 15.5px 44px 24px 60px;
    display: block;
 }
 
-.step-title:hover {
-   background-color: rgba(0, 0, 0, 0.06);;
+ul.stepper.horizontal .step-title {
+   line-height: 84px;
+   height: 84px;
+   padding-left: 65px;
+   padding-right: 25px;
+   display: inline-block;
+   max-width: 220px;
+   white-space: nowrap;
+   overflow: hidden;
+   text-overflow: ellipsis;
+   -ms-flex-negative: 0;
+   flex-shrink: 0;
 }
 
-.step.active .step-title {
+ul.stepper.horizontal .step .step-title::before {
+   position: absolute;
+   top: 28.5px;
+   left: 19px;
+   counter-increment: section;
+   content: counter(section);
+   height: 28px;
+   width: 28px;
+   color: white;
+   background-color: rgba(0,0,0,0.3);
+   border-radius: 50%;
+   text-align: center;
+   line-height: 28px;
+   font-weight: 400;
+}
+
+ul.stepper .step-title::after {
+   content: attr(data-step-label);
+   display: block;
+   position: absolute;
+   font-size: 0.8rem;
+   color: #424242;
+   font-weight: 400;
+}
+
+ul.stepper.horizontal .step-title::after {
+   top:15px;
+}
+
+ul.stepper .step-title:hover {
+   background-color: rgba(0, 0, 0, 0.06);
+}
+
+ul.stepper .step.active .step-title {
    font-weight: 500;
 }
 
-.step-content {
+ul.stepper .step-content {
    position: relative;
    display: none;
    height: calc(100% - 132px);
@@ -109,7 +216,24 @@ ul.stepper {
    margin-right: 24px;
 }
 
-.stepper>.step:not(:last-child)::after {
+ul.stepper.horizontal .step-content {
+   position: absolute;
+   height: calc(100% - 84px);
+   top: 84px;
+   left: 0;
+   width: 100%;
+   overflow-y: auto;
+   overflow-x: hidden;
+   margin: 0;
+   padding: 20px 20px 76px 20px;
+}
+
+.card-content ul.stepper.horizontal .step-content {
+   padding-left: 40px;
+   padding-right: 40px;
+}
+
+ul.stepper:not(.horizontal)>.step:not(:last-child)::after {
    content: '';
    position: absolute;
    top: 50px;
@@ -118,21 +242,51 @@ ul.stepper {
    height: calc(100% - 38px);
    background-color: rgba(0,0,0,0.1);
    -webkit-transition:height 0.4s;
-   -moz-transition:height 0.4s;
-   -ms-transition:height 0.4s;
-   -o-transition:height 0.4s;
    transition:height 0.4s;
 }
 
-.stepper>.step.active:not(:last-child)::after {
+ul.stepper:not(.horizontal)>.step.active:not(:last-child)::after {
    height: calc(100% - 12px);
 }
 
-.step-actions {
+ul.stepper .step-actions {
    padding-top: 16px;
-   margin-right: 24px;
+   -webkit-display: flex;
+   -moz-display: flex;
+   -ms-display: flex;
+   display: -webkit-box;
+   display: flex;
+   -webkit-box-pack: start;
+   -ms-flex-pack: start;
+   justify-content: flex-start;
 }
 
-.step-content .row {
+ul.stepper:not(.horizontal) .step-actions .btn:not(:last-child), ul.stepper:not(.horizontal) .step-actions .btn-flat:not(:last-child), ul.stepper:not(.horizontal) .step-actions .btn-large:not(:last-child) {
+   margin-right:5px;
+}
+
+ul.stepper.horizontal .step-actions .btn:not(:last-child), ul.stepper.horizontal .step-actions .btn-flat:not(:last-child), ul.stepper.horizontal .step-actions .btn-large:not(:last-child) {
+   margin-left:5px;
+}
+
+ul.stepper.horizontal .step-actions {
+   position: absolute;
+   bottom: 0;
+   left: 0;
+   width: 100%;
+   padding: 20px;
+   background-color: #fff;
+   -webkit-box-orient: horizontal;
+   -webkit-box-direction: reverse;
+   -ms-flex-direction: row-reverse;
+   flex-direction: row-reverse;
+}
+
+.card-content ul.stepper.horizontal .step-actions {
+   padding-left: 40px;
+   padding-right: 40px;
+}
+
+ul.stepper .step-content .row {
    margin-bottom: 7px;
 }
