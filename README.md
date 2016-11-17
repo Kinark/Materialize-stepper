@@ -1,5 +1,5 @@
 # Materialize-stepper
-###v1.2.3
+###v2.0
 
 ![Small demo](docs/small_demo.gif)
 
@@ -55,7 +55,7 @@ It doesn't have an horizontal version yet. The HTML base (a three steps example)
 ```html
 <ul class="stepper linear">
    <li class="step active">
-      <div class="step-title waves-effect waves-dark">E-mail</div>
+      <div class="step-title waves-effect">E-mail</div>
       <div class="step-content">
          <div class="row">
             <div class="input-field col s12">
@@ -69,7 +69,7 @@ It doesn't have an horizontal version yet. The HTML base (a three steps example)
       </div>
    </li>
    <li class="step">
-      <div class="step-title waves-effect waves-dark">Passo 2</div>
+      <div class="step-title waves-effect">Passo 2</div>
       <div class="step-content">
          <div class="row">
             <div class="input-field col s12">
@@ -84,7 +84,7 @@ It doesn't have an horizontal version yet. The HTML base (a three steps example)
       </div>
    </li>
    <li class="step">
-      <div class="step-title waves-effect waves-dark">Fim!</div>
+      <div class="step-title waves-effect">Fim!</div>
       <div class="step-content">
          Finish!
          <div class="step-actions">
@@ -146,17 +146,24 @@ And finally there's the buttons, which proceed (.next-step) or return (.previous
 
 ## Options
 
+###Horizontal and non-horizontal
+
+You can make your stepper horizontal just adding a ".horizontal" class to your primary 'ul' tag:
+```html
+<ul class="stepper horizontal">...</ul>
+```
+
 ###Linear and non-linear
 
 If you want users to change between steps freely (without validations or the obligation to advance a step at a time), just remove .linear class from the primary ul:
 
 ```html
-<ul class="stepper">
+<ul class="stepper">...</ul>
 ```
 
 ###Form and inputs
 
-The JS spawns a form wrapping the ul for the validate.js to work with the inputs. Since the primary funcion of stepper is to split some kind of form, for now, the only way to make a step required is to add "required" attribute to an input inside the .step-content container:
+The JS spawns a "form" wrapping the ul for the validate.js to work with the inputs. Since the primary funcion of stepper is to split some kind of form, for now, the only way to make a step required is to add "required" attribute to an input inside the .step-content container:
 
 ```html
 <input id="email" name="email" type="email" class="validate" required />
@@ -168,6 +175,13 @@ In the last step, if a callback is not defined (we'll talk about it later), the 
 
 ```html
 <ul class="stepper linear" data-method="GET" data-action="page.php">
+```
+
+###Step labels
+
+You can add you own step labels by adding a "data-step-label" to your "step-titles" tags. Just like that:
+```html
+<div data-step-label="OMG, they're so small and cute!" class="step-title waves-effect">Step title</div>
 ```
 
 ###Navigate
@@ -199,7 +213,7 @@ $('.steper').prevStep();
 
 And to jump to a specific step:
 ```html
-//Just pass the number of the wanted step as a parameter
+//Just pass the number (int) of the wanted step as a parameter
 $('.steper').openStep(2);
 ```
 
@@ -264,6 +278,11 @@ $('.stepper').on('putherethecustomevent', function(){
    });
 ```
 
+You can also add your custom custom events. For that to happen, you just need to add a "data-event" to any step:
+```html
+<li data-event="yourcustomcustomevent" class="step active">...</li>
+```
+
 ###Dynamically adding steps
 
 If you want to activate steps dinamically, you just need to add a step without the class .step and with display:none css property:
@@ -283,6 +302,26 @@ To deactivate them, guess what?
 
 ```html
 $('.activate-after').deactivateStep();
+```
+
+## Extra
+
+To end it, there is two extra functions for you to use:
+
+### Reset stepper
+
+If you want to reset your stepper (all inputs and thing), you can call "resetStepper" function:
+```html
+// In the step parameter, you can pass a step (int) for the stepper to open after the reset. Otherwise it'll open the first one.
+$('.stepper').resetStepper(step);
+```
+
+### Get active step number
+
+If you need to get the active step number for some reason, you can use "getActiveStep()" function, that will return a int with the index of the step:
+```html
+// The function sums 1 to the index, so it starts on one instead of zero.
+if($('.stepper').getActiveStep() == 4) {/*do something...*/};
 ```
 
 ## Limitations
