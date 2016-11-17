@@ -148,10 +148,23 @@ And finally there's the buttons, which proceed (.next-step) or return (.previous
 
 ###Horizontal and non-horizontal
 
-You can make your stepper horizontal just adding a ".horizontal" class to your primary 'ul' tag:
+You can make your stepper horizontal just adding a ".horizontal" class to your primary "ul" tag:
 ```html
 <ul class="stepper horizontal">...</ul>
 ```
+
+For now, horizontal stepper contents doesn't have an automatic height. You can change the default size (458px) of your primary "ul" class with CSS:
+```html
+ul.stepper.horizontal {
+   min-height: 458px;
+}
+```
+or inline:
+```html
+<ul class="stepper horizontal" style="min-height:458px">...</ul>
+```
+
+**IMPORTANT: THE HEIGHT OF THE ".stepper-content" TAG IS SUBTRACTED BY 84PX. SO, FOR EXAMPLE, IF YOU WANT YOUR CONTENT TO HAVE 400PX HEIGHT, YOU'LL NEED TO SET THE "min-height" OF YOUR PRIMARY "ul" TAG TO 484PX!**
 
 ###Linear and non-linear
 
@@ -306,7 +319,7 @@ $('.activate-after').deactivateStep();
 
 ## Extra
 
-To end it, there is two extra functions for you to use:
+To end it, there is some extra features for you to use:
 
 ### Reset stepper
 
@@ -322,6 +335,14 @@ If you need to get the active step number for some reason, you can use "getActiv
 ```html
 // The function sums 1 to the index, so it starts on one instead of zero.
 if($('.stepper').getActiveStep() == 4) {/*do something...*/};
+```
+
+### Change step-number background color:
+Just use this long line of CSS with your own color:
+```html
+ul.stepper:not(.horizontal) .step.active::before, ul.stepper:not(.horizontal) .step.done::before, ul.stepper.horizontal .step.active .step-title::before, ul.stepper.horizontal .step.done .step-title::before {
+   background-color: #2196f3 !important;
+}
 ```
 
 ## Limitations
