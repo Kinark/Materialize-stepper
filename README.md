@@ -2,7 +2,7 @@
 ###v2.0
 
 ![Small demo](docs/small_demo.gif)  
-(GIF outdated. Visit demo page for a better... demo...)
+**(GIF outdated. Visit demo page for a better... demo...)**
 
 A little plugin, inspired by [MDL-Stepper](https://ahlechandre.github.io/mdl-stepper/), that implements a stepper to [Materializecss framework](http://materializecss.com/).
 
