@@ -7,6 +7,16 @@
    font-family: 'Roboto Condensed', sans-serif;
 }
 
+.brand-logo .small {
+   top: 16px;
+   left: 0px;
+   position: absolute;
+}
+
+blockquote {
+    border-left: 5px solid #2196F3;
+}
+
 body {
    background-color: #fafafa;
 }

@@ -51,10 +51,12 @@
       <div class="navbar-fixed">
          <nav>
             <div class="nav-wrapper blue">
-               <a href="#!" class="brand-logo">Materialize Stepper</a>
-               <ul class="right hide-on-med-and-down">
-                  <li><a href="https://github.com/Kinark/Materialize-stepper">GITHUB</a></li>
-               </ul>
+               <div class="container">
+                  <a href="#!" class="brand-logo left">Materialize Stepper<br /><span class="small">by Igor Marcossi</span></a>
+                  <ul class="right">
+                     <li><a href="https://github.com/Kinark/Materialize-stepper">GITHUB</a></li>
+                  </ul>
+               </div>
             </div>
          </nav>
       </div>
@@ -64,7 +66,7 @@
       <div class="container grey-text text-darken-2">
 
          <div class="introduction">
-            <img src="images/x512.png">
+            <img src="images/x512.png" alt="Materialize Stepper Logo" />
             <h4 class="light">Materialize Stepper</h4>
             <h6>A small plugin that implements a stepper to Materializecss framework</h6>
             <p class="blue-text"><b>v2.0</b></p>
@@ -116,21 +118,21 @@
                   <div class="card">
                      <div class="card-content code">
                         <pre class="language-markup"><code class=" language-markup">
-&lt;!-- Materializecss compiled and minified CSS --&gt;
-&lt;link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.7/css/materialize.min.css"&gt;
-&lt;!--Import Google Icon Font--&gt;
-&lt;link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"&gt;
-&lt;!--Import Materialize-Stepper CSS --&gt;
-&lt;link rel="stylesheet" href="materialize-stepper.min.css"&gt;
+ &lt;!-- Materializecss compiled and minified CSS --&gt;
+ &lt;link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.7/css/materialize.min.css"&gt;
+ &lt;!--Import Google Icon Font--&gt;
+ &lt;link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"&gt;
+ &lt;!--Import Materialize-Stepper CSS --&gt;
+ &lt;link rel="stylesheet" href="materialize-stepper.min.css"&gt;
 
-&lt;!-- jQuery --&gt;
-&lt;script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"&gt;&lt;/script&gt;
-&lt;!-- Materializecss compiled and minified JavaScript --&gt;
-&lt;script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.7/js/materialize.min.js"&gt;&lt;/script&gt;
-&lt;!-- jQueryValidation Plugin --&gt;
-&lt;script src="https://ajax.aspnetcdn.com/ajax/jquery.validate/1.15.0/jquery.validate.min.js"&gt;&lt;/script&gt;
-&lt;!--Import Materialize-Stepper JavaScript --&gt;
-&lt;script src="materialize-stepper.min.js"&gt;&lt;/script&gt;
+ &lt;!-- jQuery --&gt;
+ &lt;script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"&gt;&lt;/script&gt;
+ &lt;!-- Materializecss compiled and minified JavaScript --&gt;
+ &lt;script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.7/js/materialize.min.js"&gt;&lt;/script&gt;
+ &lt;!-- jQueryValidation Plugin --&gt;
+ &lt;script src="https://ajax.aspnetcdn.com/ajax/jquery.validate/1.15.0/jquery.validate.min.js"&gt;&lt;/script&gt;
+ &lt;!--Import Materialize-Stepper JavaScript --&gt;
+ &lt;script src="materialize-stepper.min.js"&gt;&lt;/script&gt;
                         </code></pre>
                      </div>
                   </div>
@@ -144,7 +146,7 @@
                            <div class="card-content">
                               <ul class="stepper linear">
                                  <li class="step active">
-                                    <div class="step-title waves-effect waves-dark">Step 1</div>
+                                    <div data-step-label="There's labels too!" class="step-title waves-effect waves-dark">Step 1</div>
                                     <div class="step-content">
                                        <div class="row">
                                           <div class="input-field col s12">
@@ -191,7 +193,7 @@
                         </p>
                         <p><b>Example:</b></p>
                         <pre class="language-markup"><code class=" language-markup">
-   &lt;ul class="stepper linear"&gt;...&lt;/ul&gt;
+&lt;ul class="stepper linear"&gt;...&lt;/ul&gt;
                         </code></pre>
                      </div>
                   </div>
@@ -205,7 +207,7 @@
                            <div class="card-content">
                               <ul class="stepper">
                                  <li class="step active">
-                                    <div class="step-title waves-effect waves-dark">Step 1</div>
+                                    <div data-step-label="Just add a data-step-label!" class="step-title waves-effect waves-dark">Step 1</div>
                                     <div class="step-content">
                                        <div class="row">
                                           <div class="input-field col s12">
@@ -252,8 +254,74 @@
                         </p>
                         <p><b>Example:</b></p>
                         <pre class="language-markup"><code class=" language-markup">
-   &lt;ul class="stepper"&gt;...&lt;/ul&gt;
+&lt;ul class="stepper"&gt;...&lt;/ul&gt;
                         </code></pre>
+                     </div>
+                  </div>
+               </div>
+
+               <div class="section scrollspy" id="horizontal-stepper">
+                  <div class="row">
+                     <div class="col s12"><h5>Horizontal Stepper</h5></div>
+                     <div class="col s12">
+                        <p>
+                           There is a horizontal version now. All the options above listed is working with it. The only limitation is that it's static and doesn't turn into vertical with the browser width yet.
+                        </p>
+                        <p>
+                           To use it, you just need to add a "<b>.horizontal</b>" class to your primary "<b>ul</b>" tag:
+                        </p>
+                        <p><b>Example:</b></p>
+                        <pre class="language-markup"><code class=" language-markup">
+&lt;script&gt;
+&lt;ul class="stepper horizontal linear"&gt;...&lt;/ul&gt;
+&lt;/script&gt;
+                        </code></pre>
+                     </div>
+                     <div class="col s12">
+                        <div class="card">
+                           <div class="card-content">
+                              <ul class="stepper horizontal" id="horizontal">
+                                 <li class="step active">
+                                    <div data-step-label="To step-title!" class="step-title waves-effect waves-dark">Step 1</div>
+                                    <div class="step-content">
+                                       <div class="row">
+                                          <div class="input-field col s12">
+                                             <input name="email" type="email" class="validate" required>
+                                             <label for="first_name">Your e-mail</label>
+                                          </div>
+                                       </div>
+                                       <div class="step-actions">
+                                          <button class="waves-effect waves-dark btn blue next-step">CONTINUE</button>
+                                       </div>
+                                    </div>
+                                 </li>
+                                 <li class="step">
+                                    <div class="step-title waves-effect waves-dark">Step 2</div>
+                                    <div class="step-content">
+                                       <div class="row">
+                                          <div class="input-field col s12">
+                                             <input id name="password" type="password" class="validate" required>
+                                             <label for="password">Your password</label>
+                                          </div>
+                                       </div>
+                                       <div class="step-actions">
+                                          <button class="waves-effect waves-dark btn blue next-step" data-feedback="someFunction">CONTINUE</button>
+                                          <button class="waves-effect waves-dark btn-flat previous-step">BACK</button>
+                                       </div>
+                                    </div>
+                                 </li>
+                                 <li class="step">
+                                    <div class="step-title waves-effect waves-dark">Step 3</div>
+                                    <div class="step-content">
+                                       Finish!
+                                       <div class="step-actions">
+                                          <button class="waves-effect waves-dark btn blue" type="submit">SUBMIT</button>
+                                       </div>
+                                    </div>
+                                 </li>
+                              </ul>
+                           </div>
+                        </div>
                      </div>
                   </div>
                </div>
@@ -266,7 +334,7 @@
                            <div class="card-content">
                               <ul class="stepper" id="feedbacker">
                                  <li class="step active">
-                                    <div class="step-title waves-effect waves-dark">Step 1</div>
+                                    <div data-step-label="It's just a second..." class="step-title waves-effect waves-dark">Step 1</div>
                                     <div class="step-content">
                                        <div class="row">
                                           <div class="input-field col s12">
@@ -316,10 +384,45 @@
                         </p>
                         <p><b>Example:</b></p>
                         <pre class="language-markup"><code class=" language-markup">
-   &lt;script&gt;
-      $(selector).nextStep();
-   &lt;/script&gt;
+&lt;script&gt;
+$(selector).nextStep();
+&lt;/script&gt;
                         </code></pre>
+                     </div>
+                  </div>
+               </div>
+
+               <div class="section scrollspy" id="changelog">
+                  <div class="row">
+                     <div class="col s12"><h5>Changelog</h5></div>
+                     <div class="col s12">
+                        <p>
+                           Here you can check the changes of the last version. To get the full change log, visit <a href="https://github.com/Kinark/Materialize-stepper/blob/master/CHANGELOG.md">CHANGELOG.md</a> page.
+                        </p>
+                     </div>
+                     <div class="col s12">
+                        <div class="card">
+                           <div class="card-content">
+                              <span class="card-title">Version 2.0</span>
+                              <blockquote>
+                                 <ul>
+                                    <li>- Custom custom events added!;</li>
+                                    <li>- Fixed validation for the last step submit button;</li>
+                                    <li>- Fixed custom events order... again...;</li>
+                                    <li>- resetStepper() function added;</li>
+                                    <li>- getActiveStep() function added;</li>
+                                    <li>- Fixed the possibility of double feedback-screens appear;</li>
+                                    <li>- Easing added on animations;</li>
+                                    <li>- Step labels added;</li>
+                                    <li>- Fixed wrapping buttons on button-actions;</li>
+                                    <li>- Removed stepper max-width;</li>
+                                    <li>- New feedbacking class on feedbacking steps;</li>
+                                    <li>- Browsers prefixes added;</li>
+                                    <li>- ADDED HORIZONTAL STEPPERS!</li>
+                                 </ul>
+                              </blockquote>
+                           </div>
+                        </div>
                      </div>
                   </div>
                </div>
@@ -327,12 +430,12 @@
                <div class="section scrollspy" id="credits">
                   <h5>Credits</h5>
                   <p>
-                     Stepper is a plugin created by me (Igor Marcossi), inspired in <a href="https://ahlechandre.github.io/mdl-stepper/">MDL Stepper</a>, a more powerful one that implements the same thing on Material Design Lite.
+                     Stepper is a plugin created by me, <b>Igor Marcossi</b>, inspired in <a href="https://ahlechandre.github.io/mdl-stepper/">MDL Stepper</a>, a more powerful one that implements the same thing on <a href="https://getmdl.io/">Material Design Lite framework</a>.
                   </p>
                </div>
 
-
             </div>
+
             <div class="col hide-on-small-only m3 l2">
 
                <div class="toc-wrapper" style="top: 0px;">
@@ -343,7 +446,9 @@
                         <li><a href="#installing">Installing</a></li>
                         <li><a href="#linear">Linear Stepper</a></li>
                         <li><a href="#non-linear">Non-Linear Stepper</a></li>
+                        <li><a href="#horizontal-stepper">Horizontal Stepper</a></li>
                         <li><a href="#feedback-step">Feedback Stepper</a></li>
+                        <li><a href="#changelog">Changelog</a></li>
                         <li><a href="#credits">Credits</a></li>
                      </ul>
                      <a href="https://github.com/Kinark/Materialize-stepper/archive/master.zip" class="waves-effect waves-dark btn blue">DOWNLOAD</a><br />
@@ -362,15 +467,15 @@
          <div class="row">
             <div class="col l6 s12">
                <h5 class="white-text">Materialize Stepper</h5>
-               <p class="grey-text text-lighten-4">Thank you for using it.</p>
+               <p class="grey-text text-lighten-4">Thank you for reading (or scrolled) until here.</p>
                <p class="grey-text text-lighten-4">It's free to use, so... Use it!</p>
             </div>
             <div class="col l4 offset-l2 s12">
                <h5 class="white-text">Links</h5>
                <ul>
-                   <li><a class="grey-text text-lighten-3" href="https://github.com/Kinark/Materialize-stepper">GitHub</a></li>
-                   <li><a class="grey-text text-lighten-3" href="https://www.facebook.com/igormarccossi">My Facebook</a></li>
-                   <li><a class="grey-text text-lighten-3" href="http://materializecss.com/">Materializecss</a></li>
+                  <li><a class="grey-text text-lighten-3" href="https://github.com/Kinark/Materialize-stepper">GitHub</a></li>
+                  <li><a class="grey-text text-lighten-3" href="https://www.facebook.com/igormarccossi">My Facebook</a></li>
+                  <li><a class="grey-text text-lighten-3" href="http://materializecss.com/">Materializecss</a></li>
                </ul>
             </div>
          </div>
