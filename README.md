@@ -12,7 +12,7 @@ Codepen Playground: http://codepen.io/Kinark/pen/VKrjJp
 
 First of all, sorry for the bad english. Also, I don't know how to work with github yet. Yeah.  
 
-The plugin is simple (really simple), small, bugged and has lack of resources, but it is the first version so... Wait for more (???) and... HELP ME!!!
+The plugin is simple (really simple), small, bugged and has lack of resources, so... Wait for more (???) and... HELP ME!!!
 
 ### Prerequisities
 
@@ -50,7 +50,7 @@ You just need to import the .css and the .js files after you import the prerequi
 
 ## Usage
 
-It doesn't have an horizontal version yet. The HTML base (a three steps example) is like this:
+It does have an horizontal version already (you can check it in the first topic of usage section). The HTML base (a three steps example) is like this:
 
 ```html
 <ul class="stepper linear">
@@ -347,7 +347,7 @@ ul.stepper:not(.horizontal) .step.active::before, ul.stepper:not(.horizontal) .s
 
 ## Limitations
 
-None! I guess...
+* Horizontal version is static and doesn't turn into vertical with the browser width yet.
 
 ## Final observations
 
