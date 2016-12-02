@@ -1,5 +1,5 @@
 # Materialize-stepper
-###v2.0
+###v2.0.1
 
 ![Small demo](docs/small_demo.gif)  
 
@@ -16,13 +16,13 @@ The plugin is simple (really simple), small, bugged and has lack of resources, s
 
 ### Prerequisities
 
-Since it's still a implementation to [Materializecss framework](http://materializecss.com/), you'll need it. So as [jQuery Validation Plugin](https://jqueryvalidation.org/), the stepper use it to verify required inputs to proceed or not:
+Since it's still a implementation to [Materializecss framework](http://materializecss.com/), you'll need it. If you want the stepper to verify required inputs, you'll need [jQuery Validation Plugin](https://jqueryvalidation.org/), but it's optional since 2.0.1:
 
 ```
 - jQuery (obviously)
 - Materializecss framework
 - Google Material Icons
-- jQuery Validation Plugin
+- jQuery Validation Plugin (optional)
 ```
 
 ### Installing
