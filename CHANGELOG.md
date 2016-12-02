@@ -1,3 +1,6 @@
+### v2.0.1 (02/12/16)
+* jQuery Validation Plugin is now optional.
+
 ### v2.0 (17/11/16)
 
 * Custom custom events added!;
