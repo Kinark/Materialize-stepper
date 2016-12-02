@@ -1,7 +1,7 @@
 /*
 Materializecss Stepper - By Kinark 2016
 https://github.com/Kinark/Materialize-stepper
-CSS v2.0
+CSS v2.0.1
 */
 /*Validate.js FIX*/
 label.invalid {
@@ -184,6 +184,24 @@ ul.stepper.horizontal .step .step-title::before {
    line-height: 28px;
    font-weight: 400;
 }
+
+/*.card-content ul.stepper.horizontal .step .step-title:first-child {
+   margin-left: -20px;
+   padding-left: 85px;
+}
+
+.card-content ul.stepper.horizontal .step .step-title:first-child::before {
+   left: 39px;
+}
+
+.card-content ul.stepper.horizontal .step .step-title:last-child {
+   margin-right: -20px;
+   padding-right: 45px;
+}
+
+.card-content ul.stepper.horizontal .step .step-title:last-child::before {
+   left: 39px;
+}*/
 
 ul.stepper .step-title::after {
    content: attr(data-step-label);

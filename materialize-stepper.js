@@ -1,25 +1,39 @@
 /* Materializecss Stepper - By Kinark 2016
 // https://github.com/Kinark/Materialize-stepper
-// JS v2.0
+// JS v2.0.1
+* No need for jQuery validation plugin.
 */
 
-$.validator.setDefaults({
-   errorClass: 'invalid',
-   validClass: "valid",
-   errorPlacement: function (error, element) {
-      if(element.is(':radio') || element.is(':checkbox')) {
-         error.insertBefore($(element).parent());
-      }
-      else {
-         error.insertAfter(element); // default error placement.
-      }
-   },
-   success: function (element) {
-      if(!$(element).closest('li').find('label.invalid:not(:empty)').length){
-         $(element).closest('li').removeClass('wrong');
-      }
+var validation = $.isFunction($.fn.valid) ? 1: 0;
+
+$.fn.isValid  = function() {
+   if(validation){
+      return this.valid();
+   } else {
+      return true;
    }
-});
+};
+
+if (validation) {
+   $.validator.setDefaults({
+      errorClass: 'invalid',
+      validClass: "valid",
+      errorPlacement: function (error, element) {
+         if(element.is(':radio') || element.is(':checkbox')) {
+            error.insertBefore($(element).parent());
+         } else {
+            error.insertAfter(element); // default error placement.
+            // element.closest('label').data('error', error);
+            // element.next().attr('data-error', error);
+         }
+      },
+      success: function (element) {
+         if(!$(element).closest('li').find('label.invalid:not(:empty)').length){
+            $(element).closest('li').removeClass('wrong');
+         }
+      }
+   });
+}
 
 $.fn.getActiveStep  = function() {
    active = this.find('.step.active');
@@ -35,12 +49,17 @@ $.fn.deactivateStep  = function() {
 };
 
 $.fn.showError  = function(error) {
-   name = this.attr('name');
-   form = this.closest('form');
-   var obj = {};
-   obj[name] = error;
-   form.validate().showErrors(obj);
-   this.closest('li').addClass('wrong');
+   if(validation) {
+      name = this.attr('name');
+      form = this.closest('form');
+      var obj = {};
+      obj[name] = error;
+      form.validate().showErrors(obj);
+      this.closest('li').addClass('wrong');
+   } else {
+      this.removeClass('valid').addClass('invalid');
+      this.next().attr('data-error', error);
+   }
 };
 
 $.fn.activateFeedback  = function() {
@@ -71,7 +90,7 @@ $.fn.nextStep = function(ignorefb) {
    active = this.find('.step.active');
    next = $(this.children('.step:visible')).index($(active))+2;
    feedback = $(active.find('.step-content').find('.step-actions').find('.next-step')).data("feedback");
-   if(form.valid()) {
+   if(form.isValid()) {
       if(feedback && ignorefb) {
          stepper.activateFeedback();
          return window[feedback].call();
@@ -165,7 +184,7 @@ $.fn.activateStepper = function() {
       }).on("click", "button:submit:not(.next-step, .previous-step)", function (e) {
          e.preventDefault();
          form = $stepper.closest('form');
-         if(form.valid()) {
+         if(form.isValid()) {
             form.submit();
          }
       });
