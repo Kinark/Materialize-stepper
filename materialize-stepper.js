@@ -1,7 +1,6 @@
 /* Materializecss Stepper - By Kinark 2016
 // https://github.com/Kinark/Materialize-stepper
-// JS v2.0.1
-* No need for jQuery validation plugin.
+// JS v2.0.2
 */
 
 var validation = $.isFunction($.fn.valid) ? 1: 0;
@@ -84,6 +83,13 @@ $.fn.resetStepper  = function(step) {
    return $(this).openStep(step);
 };
 
+$.fn.submitStepper  = function(step) {
+   form = this.closest('form');
+   if(form.isValid()) {
+      form.submit();
+   }
+};
+
 $.fn.nextStep = function(ignorefb) {
    stepper = this;
    form = this.closest('form');
@@ -111,7 +117,7 @@ $.fn.prevStep = function() {
    return this.trigger('prevstep');
 };
 
-$.fn.openStep = function(step) {
+$.fn.openStep = function(step, callback) {
    $this = this;
    step_num = step - 1;
    step = this.find('.step:visible:eq('+step_num+')');
@@ -124,6 +130,7 @@ $.fn.openStep = function(step) {
    step.openAction(order, function(){
       $this.trigger('stepchange').trigger('step'+(step_num+1));
       if(step.data('event')) $this.trigger(step.data('event'));
+      callback();
    });
 };
 
@@ -156,11 +163,13 @@ $.fn.openAction = function(order, callback) {
 $.fn.activateStepper = function() {
    $(this).each(function(){
       var $stepper = $(this);
-      method = $stepper.data('method');
-      action = $stepper.data('action');
-      method = (method ? method : "GET");
-      action = (action ? action : "?");
-      $stepper.wrap( '<form action="'+action+'" method="'+method+'"></div>' );
+      if(!$stepper.parents("form").length) {
+         method = $stepper.data('method');
+         action = $stepper.data('action');
+         method = (method ? method : "GET");
+         action = (action ? action : "?");
+         $stepper.wrap( '<form action="'+action+'" method="'+method+'"></div>' );
+      }
       $stepper.find('li.step.active').openAction(1);
 
       $stepper.on("click", '.step:not(.active)', function () {
