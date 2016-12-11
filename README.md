@@ -1,5 +1,5 @@
 # Materialize-stepper
-###v2.0.1
+###v2.0.2
 
 ![Small demo](docs/small_demo.gif)  
 
@@ -176,7 +176,7 @@ If you want users to change between steps freely (without validations or the obl
 
 ###Form and inputs
 
-The JS spawns a "form" wrapping the ul for the validate.js to work with the inputs. Since the primary funcion of stepper is to split some kind of form, for now, the only way to make a step required is to add "required" attribute to an input inside the .step-content container:
+If there is no "form" tag wrapping the ul, JS spawns it for the validate.js to work with the inputs. Since the primary funcion of stepper is to split some kind of form, for now, the only way to make a step required is to add "required" attribute to an input inside the .step-content container:
 
 ```html
 <input id="email" name="email" type="email" class="validate" required />
@@ -184,10 +184,24 @@ The JS spawns a "form" wrapping the ul for the validate.js to work with the inpu
 
 If the input is not valid, the icon will turn red until all required inputs become valid.
 
-In the last step, if a callback is not defined (we'll talk about it later), the form will be submited just like a real form, and you can define the method and the action of it through two attributes in the principal ul:
+If you want to define your own attributes, just wrap the "ul" with a default "form", using any attributes you need:
 
 ```html
-<ul class="stepper linear" data-method="GET" data-action="page.php">
+<form action="youraction" method="yourmethod">
+   <ul class="stepper linear">...</ul>
+</form>
+```
+
+If you want to submit your stepper, just create a submit button with "submit" type and no feedback or "next/previous-step" class:
+
+```html
+<button class="waves-effect waves-dark btn" type="submit">SUBMIT</button>
+```
+
+Ooooor, if you want to do it programatically, just call "submitStepper()" function:
+
+```html
+$('.steper').submitStepper();
 ```
 
 ###Step labels
@@ -227,7 +241,7 @@ $('.steper').prevStep();
 And to jump to a specific step:
 ```html
 //Just pass the number (int) of the wanted step as a parameter
-$('.steper').openStep(2);
+$('.steper').openStep(2, callback);
 ```
 
 ###Callback/feedback
