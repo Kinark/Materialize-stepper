@@ -1,3 +1,8 @@
+### v2.0.2 (11/12/16)
+* Callback for openStep() function;
+* New form spawn system;
+* New submitStepper() function.
+
 ### v2.0.1 (02/12/16)
 * jQuery Validation Plugin is now optional.
 
