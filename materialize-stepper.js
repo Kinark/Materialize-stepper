@@ -1,6 +1,6 @@
 /* Materializecss Stepper - By Kinark 2016
 // https://github.com/Kinark/Materialize-stepper
-// JS v2.0.2
+// JS v2.0.3
 */
 
 var validation = $.isFunction($.fn.valid) ? 1: 0;
@@ -130,7 +130,7 @@ $.fn.openStep = function(step, callback) {
    step.openAction(order, function(){
       $this.trigger('stepchange').trigger('step'+(step_num+1));
       if(step.data('event')) $this.trigger(step.data('event'));
-      callback();
+      if(callback)callback();
    });
 };
 
