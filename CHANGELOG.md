@@ -1,3 +1,6 @@
+### v2.0.3 (09/01/17)
+* Fixed callback error on openStep() function;
+
 ### v2.0.2 (11/12/16)
 * Callback for openStep() function;
 * New form spawn system;
