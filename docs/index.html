@@ -129,7 +129,7 @@
  &lt;script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"&gt;&lt;/script&gt;
  &lt;!-- Materializecss compiled and minified JavaScript --&gt;
  &lt;script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.7/js/materialize.min.js"&gt;&lt;/script&gt;
- &lt;!-- jQueryValidation Plugin --&gt;
+ &lt;!-- jQueryValidation Plugin (optional) --&gt;
  &lt;script src="https://ajax.aspnetcdn.com/ajax/jquery.validate/1.15.0/jquery.validate.min.js"&gt;&lt;/script&gt;
  &lt;!--Import Materialize-Stepper JavaScript --&gt;
  &lt;script src="materialize-stepper.min.js"&gt;&lt;/script&gt;
@@ -189,7 +189,7 @@
                      </div>
                      <div class="col l6 m12 s12">
                         <p>
-                           Linear Stepper is the most common one. In it, you can't navigate freely between steps. It's step by step, obeying the validation ruled by the required inputs.
+                           Linear Stepper is the most common one. In it, you can't navigate freely between steps. It's step by step, obeying the validation ruled by the required inputs (if you're using jQuery Validation Plugin).
                         </p>
                         <p><b>Example:</b></p>
                         <pre class="language-markup"><code class=" language-markup">
@@ -250,7 +250,7 @@
                      </div>
                      <div class="col l6 m12 s12">
                         <p>
-                           In the Non-Linear Stepper you can navigate freely between steps. You can also use the buttons for validation, but if the user wants to move arbitrarily around the steps, it's allowed.
+                           In the Non-Linear Stepper you can navigate freely between steps. You can also use the buttons for validation (if you're using jQuery Validation Plugin), but if the user wants to move arbitrarily around the steps, it's allowed by clicking on the steps instead of the buttons.
                         </p>
                         <p><b>Example:</b></p>
                         <pre class="language-markup"><code class=" language-markup">
@@ -265,7 +265,7 @@
                      <div class="col s12"><h5>Horizontal Stepper</h5></div>
                      <div class="col s12">
                         <p>
-                           There is a horizontal version now. All the options above listed is working with it. The only limitation is that it's static and doesn't turn into vertical with the browser width yet.
+                           There is a horizontal version now (since 2.0). All the options above listed is working with it. The only limitation is that it's static and doesn't turn into vertical with the browser width yet.
                         </p>
                         <p>
                            To use it, you just need to add a "<b>.horizontal</b>" class to your primary "<b>ul</b>" tag:
@@ -404,7 +404,7 @@ $(selector).nextStep();
                      <div class="col s12">
                         <div class="card">
                            <div class="card-content">
-                              <span class="card-title">Version 2.0.3 (09/01/17)</span>
+                              <span class="card-title">Version 2.0.3 (09/01/17):</span>
                               <blockquote>
                                  <ul>
                                     <li>- Fixed callback error on openStep() function.</li>
