@@ -1,3 +1,5 @@
+Date format: d/m/y
+
 ### v2.0.3 (09/01/17)
 * Fixed callback error on openStep() function;
 
