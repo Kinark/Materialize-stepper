@@ -34,7 +34,7 @@ You just need to import the .css and the .js files **after** you import the prer
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.7/css/materialize.min.css">
 <!--Import Google Icon Font-->
 <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-<!--Import Materialize-Stepper CSS -->
+<!--Import Materialize-Stepper CSS (after importing materialize.css) -->
 <link rel="stylesheet" href="materialize-stepper.min.css">
 
 <!-- jQuery -->
@@ -43,7 +43,7 @@ You just need to import the .css and the .js files **after** you import the prer
 <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.7/js/materialize.min.js"></script>
 <!-- jQueryValidation Plugin -->
 <script src="https://ajax.aspnetcdn.com/ajax/jquery.validate/1.15.0/jquery.validate.min.js"></script>
-<!--Import Materialize-Stepper JavaScript (after the jquery.validate) -->
+<!--Import Materialize-Stepper JavaScript (after the jquery.validate.js and materialize.js) -->
 <script src="materialize-stepper.min.js"></script>
 
 ```
