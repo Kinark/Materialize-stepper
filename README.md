@@ -27,7 +27,7 @@ Since it's still a implementation to [Materializecss framework](http://materiali
 
 ### Installing
 
-You just need to import the .css and the .js files after you import the prerequisites listed above:
+You just need to import the .css and the .js files **after** you import the prerequisites listed above:
 
 ```html
 <!-- Materializecss compiled and minified CSS -->
@@ -43,7 +43,7 @@ You just need to import the .css and the .js files after you import the prerequi
 <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.7/js/materialize.min.js"></script>
 <!-- jQueryValidation Plugin -->
 <script src="https://ajax.aspnetcdn.com/ajax/jquery.validate/1.15.0/jquery.validate.min.js"></script>
-<!--Import Materialize-Stepper JavaScript -->
+<!--Import Materialize-Stepper JavaScript (after the jquery.validate) -->
 <script src="materialize-stepper.min.js"></script>
 
 ```
