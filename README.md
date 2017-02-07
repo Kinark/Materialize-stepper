@@ -201,7 +201,7 @@ If you want to submit your stepper, just create a submit button with "submit" ty
 Ooooor, if you want to do it programatically, just call "submitStepper()" function:
 
 ```html
-$('.steper').submitStepper();
+$('.stepper').submitStepper();
 ```
 
 ###Step labels
@@ -230,18 +230,18 @@ The third way is by navigating programatically and, for that, there is three jQu
 
 To proceed one step:
 ```html
-$('.steper').nextStep();
+$('.stepper').nextStep();
 ```
 
 To return one step:
 ```html
-$('.steper').prevStep();
+$('.stepper').prevStep();
 ```
 
 And to jump to a specific step:
 ```html
 //Just pass the number (int) of the wanted step as a parameter
-$('.steper').openStep(2, callback);
+$('.stepper').openStep(2, callback);
 ```
 
 ###Callback/feedback
@@ -257,25 +257,25 @@ When the user press the button, a loading screen will overlay everything, making
 To dimiss the feedback loading screen you just need, as I said, to trigger nextStep function:
 
 ```html
-$('.steper').nextStep();
+$('.stepper').nextStep();
 ```
 
 Or trigger "openStep()" funtion, which will dimiss it too:
 
 ```html
-$('.steper').openStep(/*some step*/);
+$('.stepper').openStep(/*some step*/);
 ```
 
 If you want to dimss it but doesn't proceed, you just call:
 
 ```html
-$('.steper').destroyFeedback();
+$('.stepper').destroyFeedback();
 ```
 
 And if for some reason you want to activate the feedback screen on the active step, just call:
 
 ```html
-$('.steper').activateFeedback();
+$('.stepper').activateFeedback();
 ```
 
 It's also useful if you don't want to submit the form in the end.
