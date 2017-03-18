@@ -146,7 +146,7 @@ And finally there's the buttons, which proceed (.next-step) or return (.previous
 
 ## Options
 
-###JS initialization setting(s)
+### JS initialization setting(s)
 Since version 2.1 you can disable the steps navigation
 If you are using linear stepper, clicking on the next and the previous step will work just like the buttons. Since 2.1 you can disable this function using this:
 
@@ -160,7 +160,7 @@ $(function(){
 </script>
 ```
 
-###Horizontal and non-horizontal
+### Horizontal and non-horizontal
 
 You can make your stepper horizontal just adding a ".horizontal" class to your primary "ul" tag. Since version 2.1 horizontal steppers are responsive and turns to vertical from **992px** (width) down:
 ```html
@@ -180,7 +180,7 @@ or inline:
 
 **IMPORTANT: THE HEIGHT OF THE ".stepper-content" TAG IS SUBTRACTED BY 84PX. SO, FOR EXAMPLE, IF YOU WANT YOUR CONTENT TO HAVE 400PX HEIGHT, YOU'LL NEED TO SET THE "min-height" OF YOUR PRIMARY "ul" TAG TO 484PX!**
 
-###Linear and non-linear
+### Linear and non-linear
 
 If you want users to change between steps freely (without validations or the obligation to advance a step at a time), just remove .linear class from the primary ul:
 
@@ -188,7 +188,7 @@ If you want users to change between steps freely (without validations or the obl
 <ul class="stepper">...</ul>
 ```
 
-###Form and inputs
+### Form and inputs
 
 If there is no "form" tag wrapping the ul, JS spawns it for the validate.js to work with the inputs. Since the primary funcion of stepper is to split some kind of form, for now, the only way to make a step required is to add "required" attribute to an input inside the .step-content container:
 
@@ -218,14 +218,14 @@ Ooooor, if you want to do it programatically, just call "submitStepper()" functi
 $('.stepper').submitStepper();
 ```
 
-###Step labels
+### Step labels
 
 You can add you own step labels by adding a "data-step-label" to your "step-titles" tags. Just like that:
 ```html
 <div data-step-label="OMG, they're so small and cute!" class="step-title waves-effect">Step title</div>
 ```
 
-###Navigate
+### Navigate
 
 There is three ways to navigate through steps.
 
@@ -261,7 +261,7 @@ $('.stepper').openStep(2, callback);
 ```
 
 
-###Callback/feedback
+### Callback/feedback
 
 There's a way to make the buttons run a function instead of proceeding, just add a data-feedback attribute with the function name to a ".next-step" classified button. Just like that:
 
@@ -305,7 +305,7 @@ $('selector').showError('error message');
 
 That is a shorthand with additions to showErrors function of jQueryValidation plugin.
 
-###Custom Events
+### Custom Events
 
 Materialize Stepper has custom events for you to bind actions to stepper events.
 
@@ -327,7 +327,7 @@ You can also add your custom custom events. For that to happen, you just need to
 <li data-event="yourcustomcustomevent" class="step active">...</li>
 ```
 
-###Dynamically adding steps
+### Dynamically adding steps
 
 If you want to activate steps dinamically, you just need to add a step without the class .step and with display:none css property:
 
