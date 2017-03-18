@@ -16,7 +16,7 @@ The plugin is simple (really simple), small, bugged and has lack of resources, s
 
 ### Prerequisities
 
-Since it's a implementation to [Materializecss framework](http://materializecss.com/), you'll need it. If you want the stepper to verify required inputs, you'll need [jQuery Validation Plugin](https://jqueryvalidation.org/), but it's optional since 2.0.1:
+Since it's an implementation to [Materializecss framework](http://materializecss.com/), you'll need it. If you want the stepper to verify required inputs, you'll need [jQuery Validation Plugin](https://jqueryvalidation.org/), but it's optional since 2.0.1:
 
 ```
 - jQuery (obviously)
