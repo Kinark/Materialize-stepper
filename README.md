@@ -147,7 +147,7 @@ And finally there's the buttons, which proceed (.next-step) or return (.previous
 ## Options
 
 ###JS initialization setting(s)
-Since 2.1 you can disable the steps navigation
+Since version 2.1 you can disable the steps navigation
 If you are using linear stepper, clicking on the next and the previous step will work just like the buttons. Since 2.1 you can disable this function using this:
 
 ```html
