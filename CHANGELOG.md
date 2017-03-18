@@ -1,5 +1,15 @@
 Date format: d/m/y
 
+### v2.1 (18/03/17)
+* Fixed horizontal stepper paddings and margins for materialize 0.98 cards;
+* Responsive horizontal stepper on width 993px!;
+* Callback to activateStep(), deactivateStep(), prevStep() and nextStep() functions;
+* Small code improvements;
+* Now you're able to have multiple nextstep buttons with multiple feedbacks;
+* Now "Submit" button also activate feedback functions (and you can submit your stepper/form with submitStepper() funcion afterwards);
+* prevStep() won't work if the active step is feedbacking;
+* stepsNavigation option for linear steppers.
+
 ### v2.0.3 (09/01/17)
 * Fixed callback error on openStep() function;
 
