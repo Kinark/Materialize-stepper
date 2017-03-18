@@ -6,7 +6,7 @@ Date format: d/m/y
 * Callback to activateStep(), deactivateStep(), prevStep() and nextStep() functions;
 * Small code improvements;
 * Now you're able to have multiple nextstep buttons with multiple feedbacks;
-* Now "Submit" button also activate feedback functions (and you can submit your stepper/form with submitStepper() funcion afterwards);
+* Now "Submit" button also activate feedback functions (and you can submit your stepper/form with submitStepper() function afterwards);
 * prevStep() won't work if the active step is feedbacking;
 * stepsNavigation option for linear steppers.
 
