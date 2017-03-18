@@ -1,5 +1,5 @@
 # Materialize-stepper
-###v2.0.3
+###v2.1
 
 ![Small demo](docs/small_demo.gif)  
 
@@ -16,7 +16,7 @@ The plugin is simple (really simple), small, bugged and has lack of resources, s
 
 ### Prerequisities
 
-Since it's still a implementation to [Materializecss framework](http://materializecss.com/), you'll need it. If you want the stepper to verify required inputs, you'll need [jQuery Validation Plugin](https://jqueryvalidation.org/), but it's optional since 2.0.1:
+Since it's a implementation to [Materializecss framework](http://materializecss.com/), you'll need it. If you want the stepper to verify required inputs, you'll need [jQuery Validation Plugin](https://jqueryvalidation.org/), but it's optional since 2.0.1:
 
 ```
 - jQuery (obviously)
@@ -146,9 +146,23 @@ And finally there's the buttons, which proceed (.next-step) or return (.previous
 
 ## Options
 
+###JS initialization setting(s)
+Since 2.1 you can disable the steps navigation
+If you are using linear stepper, clicking on the next and the previous step will work just like the buttons. Since 2.1 you can disable this function using this:
+
+```html
+<script>
+$(function(){
+   $('.stepper').activateStepper({
+      linearStepsNavigation: false; //default: true
+   });
+});
+</script>
+```
+
 ###Horizontal and non-horizontal
 
-You can make your stepper horizontal just adding a ".horizontal" class to your primary "ul" tag:
+You can make your stepper horizontal just adding a ".horizontal" class to your primary "ul" tag. Since version 2.1 horizontal steppers are responsive and turns to vertical from **992px** (width) down:
 ```html
 <ul class="stepper horizontal">...</ul>
 ```
@@ -215,7 +229,9 @@ You can add you own step labels by adding a "data-step-label" to your "step-titl
 
 There is three ways to navigate through steps.
 
-First is by clicking, if you are not using the ".linear" class. The second way is by the buttons:
+1. By clicking on them, if you are not using the ".linear" class. If you are, clicking on the next and the previous step will work just like the buttons (what you can disable with the JS initialization setting(s) listed above).
+
+2. By the buttons inside the steps:
 
 ```html
 <!-- If you want the button to proceed, give it a .next-step class -->
@@ -226,16 +242,16 @@ First is by clicking, if you are not using the ".linear" class. The second way i
 <button class="waves-effect waves-dark btn" type="submit">SUBMIT</button>
 ```
 
-The third way is by navigating programatically and, for that, there is three jQuery functions:
+3. By navigating programatically and, for that, there is three jQuery functions:
 
 To proceed one step:
 ```html
-$('.stepper').nextStep();
+$('.stepper').nextStep(callback);
 ```
 
 To return one step:
 ```html
-$('.stepper').prevStep();
+$('.stepper').prevStep(callback);
 ```
 
 And to jump to a specific step:
@@ -243,6 +259,7 @@ And to jump to a specific step:
 //Just pass the number (int) of the wanted step as a parameter
 $('.stepper').openStep(2, callback);
 ```
+
 
 ###Callback/feedback
 
@@ -257,7 +274,7 @@ When the user press the button, a loading screen will overlay everything, making
 To dimiss the feedback loading screen you just need, as I said, to trigger nextStep function:
 
 ```html
-$('.stepper').nextStep();
+$('.stepper').nextStep(callback);
 ```
 
 Or trigger "openStep()" funtion, which will dimiss it too:
@@ -301,8 +318,8 @@ Here they are:
 Just use them like this:
 ```html
 $('.stepper').on('putherethecustomevent', function(){
-      /*Something happening!*/
-   });
+   /*Something happening!*/
+});
 ```
 
 You can also add your custom custom events. For that to happen, you just need to add a "data-event" to any step:
@@ -322,13 +339,13 @@ If you want to activate steps dinamically, you just need to add a step without t
 And to activate it, you just need to run activateStep() function on the elements you want to add:
 
 ```html
-$('.activate-after').activateStep();
+$('.activate-after').activateStep(callback);
 ```
 
 To deactivate them, guess what?
 
 ```html
-$('.activate-after').deactivateStep();
+$('.activate-after').deactivateStep(callback);
 ```
 
 ## Extra
@@ -361,7 +378,7 @@ ul.stepper:not(.horizontal) .step.active::before, ul.stepper:not(.horizontal) .s
 
 ## Limitations
 
-* Horizontal version is static and doesn't turn into vertical with the browser width yet.
+None, I think :)
 
 ## Final observations
 
