@@ -32,7 +32,7 @@
    <!--Import Google Icon Font-->
    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
    <!--Import materialize.css-->
-   <link type="text/css" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.7/css/materialize.min.css"  media="screen,projection"/>
+   <link type="text/css" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.0/css/materialize.min.css"  media="screen,projection"/>
    <!-- <link type="text/css" rel="stylesheet" href="./materialize-stepper.min.css"  media="screen,projection"/> -->
    <link type="text/css" rel="stylesheet" href="style.css"  media="screen,projection"/>
    <link type="text/css" rel="stylesheet" href="prism.css"  media="screen,projection"/>
@@ -45,7 +45,7 @@
 <body>
    <!--Import jQuery before materialize.js-->
    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
-   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.7/js/materialize.min.js"></script>
+   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.0/js/materialize.min.js"></script>
 
    <header>
       <div class="navbar-fixed">
@@ -69,7 +69,7 @@
             <img src="images/x512.png" alt="Materialize Stepper Logo" />
             <h4 class="light">Materialize Stepper</h4>
             <h6>A small plugin that implements a stepper to Materializecss framework</h6>
-            <p class="blue-text"><b>v2.0.3</b></p>
+            <p class="blue-text"><b>v2.1</b></p>
          </div>
 
          <div class="row">
@@ -265,7 +265,7 @@
                      <div class="col s12"><h5>Horizontal Stepper</h5></div>
                      <div class="col s12">
                         <p>
-                           There is a horizontal version now (since 2.0). All the options above listed is working with it. The only limitation is that it's static and doesn't turn into vertical with the browser width yet.
+                           There is a horizontal version now (since 2.0). All the options above listed is working with it. And since version 2.1 horizontal steppers are responsive and turns to vertical from <b>992px</b> (width) down:
                         </p>
                         <p>
                            To use it, you just need to add a "<b>.horizontal</b>" class to your primary "<b>ul</b>" tag:
@@ -404,10 +404,17 @@ $(selector).nextStep();
                      <div class="col s12">
                         <div class="card">
                            <div class="card-content">
-                              <span class="card-title">Version 2.0.3 (09/01/17):</span>
+                              <span class="card-title">Version 2.1 (18/03/17):</span>
                               <blockquote>
                                  <ul>
-                                    <li>- Fixed callback error on openStep() function.</li>
+                                    <li>- Fixed horizontal stepper paddings and margins for materialize 0.98 cards;</li>
+                                    <li>- Responsive horizontal stepper on width 993px!;</li>
+                                    <li>- Callback to activateStep(), deactivateStep(), prevStep() and nextStep() functions;</li>
+                                    <li>- Small code improvements;</li>
+                                    <li>- Now you're able to have multiple nextstep buttons with multiple feedbacks;</li>
+                                    <li>- Now "Submit" button also activate feedback functions (and you can submit your stepper/form with submitStepper() funcion afterwards);</li>
+                                    <li>- prevStep() won't work if the active step is feedbacking;</li>
+                                    <li>- stepsNavigation option for linear steppers.</li>
                                  </ul>
                               </blockquote>
                            </div>
@@ -441,7 +448,7 @@ $(selector).nextStep();
                         <li><a href="#credits">Credits</a></li>
                      </ul>
                      <a href="https://github.com/Kinark/Materialize-stepper/archive/master.zip" class="waves-effect waves-dark btn blue">DOWNLOAD</a><br />
-                     <div class="center-align"><span class="small grey-text">v2.0.3 | by Igor Marcossi</span></div>
+                     <div class="center-align"><span class="small grey-text">v2.1 | by Igor Marcossi</span></div>
                   </div>
 
                </div>

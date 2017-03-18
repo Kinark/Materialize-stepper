@@ -1,9 +1,9 @@
 /* Materializecss Stepper - By Kinark 2016
 // https://github.com/Kinark/Materialize-stepper
-// JS v2.0.3
+// JS v2.1
 */
 
-var validation = $.isFunction($.fn.valid) ? 1: 0;
+var validation = $.isFunction($.fn.valid) ? 1 : 0;
 
 $.fn.isValid  = function() {
    if(validation){
@@ -39,12 +39,12 @@ $.fn.getActiveStep  = function() {
    return $(this.children('.step:visible')).index($(active))+1;
 };
 
-$.fn.activateStep  = function() {
-   $(this).addClass("step").stop().slideDown(function(){$(this).css({'height':'auto', 'margin-bottom': ''});});
+$.fn.activateStep  = function(callback) {
+   $(this).addClass("step").stop().slideDown(function(){$(this).css({'height':'auto', 'margin-bottom': ''});if(callback)callback();});
 };
 
-$.fn.deactivateStep  = function() {
-   $(this).removeClass("step").stop().slideUp(function(){$(this).css({'height':'auto', 'margin-bottom': '10px'});});
+$.fn.deactivateStep  = function(callback) {
+   $(this).removeClass("step").stop().slideUp(function(){$(this).css({'height':'auto', 'margin-bottom': '10px'});if(callback)callback();});
 };
 
 $.fn.showError  = function(error) {
@@ -70,7 +70,7 @@ $.fn.destroyFeedback  = function() {
    active = this.find('.step.active.feedbacking');
    if(active) {
       active.removeClass('feedbacking');
-      active.find('.step-content').find('.wait-feedback').remove();
+      active.find('.wait-feedback').remove();
    }
    return true;
 };
@@ -90,30 +90,31 @@ $.fn.submitStepper  = function(step) {
    }
 };
 
-$.fn.nextStep = function(ignorefb) {
+$.fn.nextStep = function(callback, activefb, e) {
    stepper = this;
    form = this.closest('form');
    active = this.find('.step.active');
    next = $(this.children('.step:visible')).index($(active))+2;
-   feedback = $(active.find('.step-content').find('.step-actions').find('.next-step')).data("feedback");
+   feedback = active.find('.next-step').length > 1 ? (e ? $(e.target).data("feedback") : undefined) : active.find('.next-step').data("feedback");
    if(form.isValid()) {
-      if(feedback && ignorefb) {
+      if(feedback && activefb) {
          stepper.activateFeedback();
          return window[feedback].call();
       }
       active.removeClass('wrong').addClass('done');
-      this.openStep(next);
+      this.openStep(next, callback);
       return this.trigger('nextstep');
    } else {
       return active.removeClass('done').addClass('wrong');
    }
 };
 
-$.fn.prevStep = function() {
+$.fn.prevStep = function(callback) {
    active = this.find('.step.active');
+   if(active.hasClass('feedbacking')) return;
    prev = $(this.children('.step:visible')).index($(active));
    active.removeClass('wrong');
-   this.openStep(prev);
+   this.openStep(prev, callback);
    return this.trigger('prevstep');
 };
 
@@ -136,7 +137,7 @@ $.fn.openStep = function(step, callback) {
 
 $.fn.closeAction = function(order, callback) {
    closable = this.removeClass('active').find('.step-content');
-   if(!this.closest('ul').hasClass('horizontal')) {
+   if(window.innerWidth < 993 || !this.closest('ul').hasClass('horizontal')) {
       closable.stop().slideUp(300,"easeOutQuad", callback);
    } else {
       if(order==1) {
@@ -149,7 +150,7 @@ $.fn.closeAction = function(order, callback) {
 
 $.fn.openAction = function(order, callback) {
    openable = this.removeClass('done').addClass('active').find('.step-content');
-   if(!this.closest('ul').hasClass('horizontal')) {
+   if(window.innerWidth < 993 || !this.closest('ul').hasClass('horizontal')) {
       openable.slideDown(300,"easeOutQuad", callback);
    } else {
       if(order==1) {
@@ -160,7 +161,18 @@ $.fn.openAction = function(order, callback) {
    }
 };
 
-$.fn.activateStepper = function() {
+$.fn.activateStepper = function(options) {
+   var settings = $.extend({
+      linearStepsNavigation: true
+   }, options);
+   // if(validation) console.log("No validate.js");
+   // if(!validation) console.log("Yes validate.js");
+   $(document).on('click', function(e){
+      if(!$(e.target).parents(".stepper").length){
+         $('.stepper.focused').removeClass('focused');
+      }
+   });
+
    $(this).each(function(){
       var $stepper = $(this);
       if(!$stepper.parents("form").length) {
@@ -176,26 +188,34 @@ $.fn.activateStepper = function() {
          object = $($stepper.children('.step:visible')).index($(this));
          if(!$stepper.hasClass('linear')) {
             $stepper.openStep(object+1);
-         } else {
+         } else if(settings.linearStepsNavigation) {
             active = $stepper.find('.step.active');
             if($($stepper.children('.step:visible')).index($(active))+1 == object) {
-               $stepper.nextStep(true);
+               $stepper.nextStep(undefined, true);
             } else if ($($stepper.children('.step:visible')).index($(active))-1 == object) {
                $stepper.prevStep();
             }
          }
-      }).on("click", '.next-step', function (e) {
+      }).on("click", '.next-step', function(e) {
          e.preventDefault();
-         $stepper.nextStep(true);
-      }).on("click", '.previous-step', function (e) {
+         $stepper.nextStep(undefined, true, e);
+      }).on("click", '.previous-step', function(e) {
          e.preventDefault();
          $stepper.prevStep();
       }).on("click", "button:submit:not(.next-step, .previous-step)", function (e) {
          e.preventDefault();
+         feedback = e ? $(e.target).data("feedback") : undefined;
          form = $stepper.closest('form');
          if(form.isValid()) {
+            if(feedback) {
+               stepper.activateFeedback();
+               return window[feedback].call();
+            }
             form.submit();
          }
+      }).on("click", function () {
+         $('.stepper.focused').removeClass('focused');
+         $(this).addClass('focused');
       });
    });
 };
