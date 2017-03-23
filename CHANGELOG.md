@@ -1,6 +1,6 @@
 Date format: d/m/y
 
-###2.1.1 (23/03/17)
+### 2.1.1 (23/03/17)
 * Fixed last steps dinamically added issue;
 * Fixed dinamically added steps on horizontal stepper (a little buggy animation on last step dinamically added on horizontal steppers);
 * Added autoFocusInput, autoFormCreation and showFeedbackLoader options.
