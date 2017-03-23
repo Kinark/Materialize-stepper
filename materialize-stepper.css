@@ -1,10 +1,11 @@
 /* Materializecss Stepper - By Kinark 2016
 // https://github.com/Kinark/Materialize-stepper
-// CSS v2.1
+// CSS v2.1.1
 */
 
 /*Validate.js FIX*/
 label.invalid {
+   font-size: 12.8px;
    font-size: 12.8px;
    font-size: 0.8rem;
    font-weight: 500;
@@ -98,14 +99,14 @@ ul.stepper .step.feedbacking .step-content>*:not(.wait-feedback) {
       -webkit-box-align: center;
       -ms-flex-align: center;
       align-items: center;
-      height: 84px;
+      height: 84px !important;
    }
 
-   ul.stepper.horizontal .step:last-child {
-      width: auto;
+   ul.stepper.horizontal>.step:last-of-type, ul.stepper.horizontal>.step[data-last="true"] {
+      width: auto !important;
    }
 
-   ul.stepper.horizontal .step:not(:last-child):after, ul.stepper.horizontal>.step.active:not(:last-child):after{
+   ul.stepper.horizontal .step:not(:last-of-type):after, ul.stepper.horizontal>.step.active:not(:last-of-type):after{
       content: '';
       position: static;
       display: inline-block;
@@ -114,13 +115,11 @@ ul.stepper .step.feedbacking .step-content>*:not(.wait-feedback) {
    }
 }
 
-ul.stepper .step:not(:last-child) {
+ul.stepper>li:not(:last-of-type) {
    margin-bottom: 10px;
-   -webkit-transition:margin-bottom 0.4s;
-   transition:margin-bottom 0.4s;
 }
 
-ul.stepper .step:not(:last-child).active {
+ul.stepper .step:not(:last-of-type).active {
    margin-bottom: 36px;
 }
 
@@ -239,6 +238,7 @@ ul.stepper .step-title:after {
    display: block;
    position: absolute;
    font-size: 12.8px;
+   font-size: 12.8px;
    font-size: 0.8rem;
    color: #424242;
    font-weight: 400;
@@ -287,7 +287,7 @@ ul.stepper .step-content {
    }
 }
 
-ul.stepper>.step:not(:last-child):after {
+ul.stepper>.step:not(:last-of-type):after {
    content: '';
    position: absolute;
    top: 50px;
@@ -301,6 +301,12 @@ ul.stepper>.step:not(:last-child):after {
 
 ul.stepper>.step.active:not(:last-child):after {
    height: calc(100% - 12px);
+}
+
+ul.stepper>.step[data-last="true"]:after {
+   content: none;
+   width: 0;
+   margin-bottom: 0;
 }
 
 ul.stepper .step-actions {

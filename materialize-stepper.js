@@ -1,6 +1,6 @@
 /* Materializecss Stepper - By Kinark 2016
 // https://github.com/Kinark/Materialize-stepper
-// JS v2.1
+// JS v2.1.1
 */
 
 var validation = $.isFunction($.fn.valid) ? 1 : 0;
@@ -40,11 +40,40 @@ $.fn.getActiveStep  = function() {
 };
 
 $.fn.activateStep  = function(callback) {
-   $(this).addClass("step").stop().slideDown(function(){$(this).css({'height':'auto', 'margin-bottom': ''});if(callback)callback();});
+   if($(this).hasClass('step')) return;
+   stepper = $(this).closest('ul.stepper');
+   if(window.innerWidth < 993 || !stepper.hasClass('horizontal')) {
+      $(this).addClass("step").stop().slideDown(function(){
+         $(this).css({'height':'auto', 'margin-bottom': '','display': 'inherit'});if(callback)callback();
+         stepper.find('>li').removeAttr("data-last");
+         stepper.find('>li.step').last('.step').attr('data-last', 'true');
+      });
+   } else {
+      $(this).addClass("step").stop().css({'width':'0%','display': 'inherit'}).animate({width:'100%'}, 400, function(){
+         $(this).css({'height':'auto', 'margin-bottom': '','display': 'inherit'});if(callback)callback();
+         stepper.find('>li').removeAttr("data-last");
+         stepper.find('>li.step').last('.step').attr('data-last', 'true');
+      });
+   }
 };
 
 $.fn.deactivateStep  = function(callback) {
-   $(this).removeClass("step").stop().slideUp(function(){$(this).css({'height':'auto', 'margin-bottom': '10px'});if(callback)callback();});
+   if(!$(this).hasClass('step')) return;
+   stepper = $(this).closest('ul.stepper');
+   if(window.innerWidth < 993 || !stepper.hasClass('horizontal')) {
+      $(this).stop().slideUp(2000, function(){
+         $(this).removeClass("step").css({'height':'auto', 'margin-bottom': ''});if(callback)callback();
+         stepper.find('>li').removeAttr("data-last");
+         stepper.find('>li.step').last('.step').attr('data-last', 'true');
+      });
+   } else {
+      $(this).stop().animate({width:'0%'}, 400, function(){
+         $(this).removeClass("step");
+         $(this).hide().css({'height':'auto', 'margin-bottom': '','display': 'none', 'width': ''});if(callback)callback();
+         stepper.find('>li').removeAttr("data-last");
+         stepper.find('>li.step').last('.step').attr('data-last', 'true');
+      });
+   }
 };
 
 $.fn.showError  = function(error) {
@@ -92,13 +121,14 @@ $.fn.submitStepper  = function(step) {
 
 $.fn.nextStep = function(callback, activefb, e) {
    stepper = this;
+   settings = $(stepper).data('settings');
    form = this.closest('form');
    active = this.find('.step.active');
    next = $(this.children('.step:visible')).index($(active))+2;
    feedback = active.find('.next-step').length > 1 ? (e ? $(e.target).data("feedback") : undefined) : active.find('.next-step').data("feedback");
    if(form.isValid()) {
       if(feedback && activefb) {
-         stepper.activateFeedback();
+         if(settings.showFeedbackLoader) stepper.activateFeedback();
          return window[feedback].call();
       }
       active.removeClass('wrong').addClass('done');
@@ -119,6 +149,7 @@ $.fn.prevStep = function(callback) {
 };
 
 $.fn.openStep = function(step, callback) {
+   settings = $(this).closest('ul.stepper').data('settings');
    $this = this;
    step_num = step - 1;
    step = this.find('.step:visible:eq('+step_num+')');
@@ -129,6 +160,7 @@ $.fn.openStep = function(step, callback) {
    if(active.hasClass('feedbacking')) $this.destroyFeedback();
    active.closeAction(order);
    step.openAction(order, function(){
+      if(settings.autoFocusInput) step.find('input:enabled:visible:first').focus();
       $this.trigger('stepchange').trigger('step'+(step_num+1));
       if(step.data('event')) $this.trigger(step.data('event'));
       if(callback)callback();
@@ -163,10 +195,11 @@ $.fn.openAction = function(order, callback) {
 
 $.fn.activateStepper = function(options) {
    var settings = $.extend({
-      linearStepsNavigation: true
+      linearStepsNavigation: true,
+      autoFocusInput: true,
+      showFeedbackLoader: true,
+      autoFormCreation: true
    }, options);
-   // if(validation) console.log("No validate.js");
-   // if(!validation) console.log("Yes validate.js");
    $(document).on('click', function(e){
       if(!$(e.target).parents(".stepper").length){
          $('.stepper.focused').removeClass('focused');
@@ -175,14 +208,18 @@ $.fn.activateStepper = function(options) {
 
    $(this).each(function(){
       var $stepper = $(this);
-      if(!$stepper.parents("form").length) {
+      if(!$stepper.parents("form").length && settings.autoFormCreation) {
          method = $stepper.data('method');
          action = $stepper.data('action');
          method = (method ? method : "GET");
          action = (action ? action : "?");
          $stepper.wrap( '<form action="'+action+'" method="'+method+'"></div>' );
       }
+
+      $stepper.data('settings', {linearStepsNavigation: settings.linearStepsNavigation,autoFocusInput: settings.autoFocusInput,showFeedbackLoader:settings.showFeedbackLoader});
       $stepper.find('li.step.active').openAction(1);
+      $stepper.find('>li').removeAttr("data-last");
+      $stepper.find('>li.step').last('.step').attr('data-last', 'true');
 
       $stepper.on("click", '.step:not(.active)', function () {
          object = $($stepper.children('.step:visible')).index($(this));
@@ -191,9 +228,9 @@ $.fn.activateStepper = function(options) {
          } else if(settings.linearStepsNavigation) {
             active = $stepper.find('.step.active');
             if($($stepper.children('.step:visible')).index($(active))+1 == object) {
-               $stepper.nextStep(undefined, true);
+               $stepper.nextStep(undefined, true, undefined);
             } else if ($($stepper.children('.step:visible')).index($(active))-1 == object) {
-               $stepper.prevStep();
+               $stepper.prevStep(undefined);
             }
          }
       }).on("click", '.next-step', function(e) {
@@ -201,7 +238,7 @@ $.fn.activateStepper = function(options) {
          $stepper.nextStep(undefined, true, e);
       }).on("click", '.previous-step', function(e) {
          e.preventDefault();
-         $stepper.prevStep();
+         $stepper.prevStep(undefined);
       }).on("click", "button:submit:not(.next-step, .previous-step)", function (e) {
          e.preventDefault();
          feedback = e ? $(e.target).data("feedback") : undefined;
