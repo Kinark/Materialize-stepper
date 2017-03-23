@@ -1,5 +1,5 @@
 # Materialize-stepper
-### v2.1
+### v2.1.1
 
 ![Small demo](docs/small_demo.gif)  
 
@@ -147,13 +147,17 @@ And finally there's the buttons, which proceed (.next-step) or return (.previous
 ## Options
 
 ### JS initialization setting(s)
-If you are using linear stepper, clicking on the next and the previous step will work just like the buttons. Since 2.1 you can disable this function using this:
+If you are using linear stepper, clicking on the next and the previous step will work just like the buttons. 
+Since 2.1 you can adjust some options. Here they are, with their respective defaults:
 
 ```html
 <script>
 $(function(){
    $('.stepper').activateStepper({
-      linearStepsNavigation: false; //default: true
+      linearStepsNavigation: true, //allow navigation by clicking on the next and previous steps on linear steppers
+      autoFocusInput: true, //since 2.1.1, stepper can auto focus on first input of each step
+      autoFormCreation: true, //control the auto generation of a form around the stepper (in case you want to disable it)
+      showFeedbackLoader: true //set if a loading screen will appear while feedbacks functions are running
    });
 });
 </script>
@@ -189,7 +193,7 @@ If you want users to change between steps freely (without validations or the obl
 
 ### Form and inputs
 
-If there is no "form" tag wrapping the ul, JS spawns it for the validate.js to work with the inputs. Since the primary funcion of stepper is to split some kind of form, for now, the only way to make a step required is to add "required" attribute to an input inside the .step-content container:
+If there is no "form" tag wrapping the ul, JS spawns it for the validate.js to work with the inputs (can be disabled). Since the primary funcion of stepper is to split some kind of form, for now, the only way to make a step required is to add "required" attribute to an input inside the .step-content container:
 
 ```html
 <input id="email" name="email" type="email" class="validate" required />
@@ -268,9 +272,9 @@ There's a way to make the buttons run a function instead of proceeding, just add
 <button class="waves-effect waves-dark btn next-step" data-feedback="checkEmailDB">CONTINUE</button>
 ```
 
-When the user press the button, a loading screen will overlay everything, making the user unable to proceed until you trigger the nextStep function manually. It's useful when you need to check if an e-mail exists in database through AJAX, for example.
+When the user press the button, a loading screen will overlay everything (can be disabled), making the user unable to proceed until you trigger the nextStep function manually. It's useful when you need to check if an e-mail exists in database through AJAX, for example.
 
-To dimiss the feedback loading screen you just need, as I said, to trigger nextStep function:
+To dimiss the feedback loading screen and proceed, you just need, as I said, to trigger nextStep function:
 
 ```html
 $('.stepper').nextStep(callback);
@@ -346,6 +350,8 @@ To deactivate them, guess what?
 ```html
 $('.activate-after').deactivateStep(callback);
 ```
+
+Ps.: unfortunately there is a bug with the animation if you add dinamically a last step on the horizontal stepper. I'm working to fix it :)
 
 ## Extra
 
