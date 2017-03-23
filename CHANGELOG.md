@@ -1,5 +1,10 @@
 Date format: d/m/y
 
+###2.1.1 (23/03/17)
+* Fixed last steps dinamically added issue;
+* Fixed dinamically added steps on horizontal stepper (a little buggy animation on last step dinamically added on horizontal steppers);
+* Added autoFocusInput, autoFormCreation and showFeedbackLoader options.
+
 ### v2.1 (18/03/17)
 * Fixed horizontal stepper paddings and margins for materialize 0.98 cards;
 * Responsive horizontal stepper on width 993px!;
