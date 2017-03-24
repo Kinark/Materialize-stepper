@@ -1,6 +1,6 @@
 /* Materializecss Stepper - By Kinark 2016
 // https://github.com/Kinark/Materialize-stepper
-// JS v2.1.1
+// JS v2.1.2
 */
 
 var validation = $.isFunction($.fn.valid) ? 1 : 0;
@@ -42,17 +42,16 @@ $.fn.getActiveStep  = function() {
 $.fn.activateStep  = function(callback) {
    if($(this).hasClass('step')) return;
    stepper = $(this).closest('ul.stepper');
+   stepper.find('>li').removeAttr("data-last");
    if(window.innerWidth < 993 || !stepper.hasClass('horizontal')) {
-      $(this).addClass("step").stop().slideDown(function(){
+      $(this).addClass("step").stop().slideDown(400, function(){
          $(this).css({'height':'auto', 'margin-bottom': '','display': 'inherit'});if(callback)callback();
-         stepper.find('>li').removeAttr("data-last");
-         stepper.find('>li.step').last('.step').attr('data-last', 'true');
+         stepper.find('>li.step').last().attr('data-last', 'true');
       });
    } else {
       $(this).addClass("step").stop().css({'width':'0%','display': 'inherit'}).animate({width:'100%'}, 400, function(){
          $(this).css({'height':'auto', 'margin-bottom': '','display': 'inherit'});if(callback)callback();
-         stepper.find('>li').removeAttr("data-last");
-         stepper.find('>li.step').last('.step').attr('data-last', 'true');
+         stepper.find('>li.step').last().attr('data-last', 'true');
       });
    }
 };
@@ -60,18 +59,19 @@ $.fn.activateStep  = function(callback) {
 $.fn.deactivateStep  = function(callback) {
    if(!$(this).hasClass('step')) return;
    stepper = $(this).closest('ul.stepper');
+   stepper.find('>li').removeAttr("data-last");
    if(window.innerWidth < 993 || !stepper.hasClass('horizontal')) {
-      $(this).stop().slideUp(2000, function(){
-         $(this).removeClass("step").css({'height':'auto', 'margin-bottom': ''});if(callback)callback();
+      $(this).stop().css({'transition':'none', '-webkit-transition':'margin-bottom none'}).slideUp(400, function(){
+         $(this).removeClass("step").css({'height':'auto','margin-bottom':'','transition':'margin-bottom .4s','-webkit-transition':'margin-bottom .4s'});
+         if(callback)callback();
          stepper.find('>li').removeAttr("data-last");
-         stepper.find('>li.step').last('.step').attr('data-last', 'true');
+         stepper.find('>li.step').last().attr('data-last', 'true');
       });
    } else {
       $(this).stop().animate({width:'0%'}, 400, function(){
-         $(this).removeClass("step");
-         $(this).hide().css({'height':'auto', 'margin-bottom': '','display': 'none', 'width': ''});if(callback)callback();
-         stepper.find('>li').removeAttr("data-last");
-         stepper.find('>li.step').last('.step').attr('data-last', 'true');
+         $(this).removeClass("step").hide().css({'height':'auto', 'margin-bottom': '','display': 'none', 'width': ''});
+         if(callback)callback();
+         stepper.find('>li.step').last().attr('data-last', 'true');
       });
    }
 };
@@ -219,7 +219,7 @@ $.fn.activateStepper = function(options) {
       $stepper.data('settings', {linearStepsNavigation: settings.linearStepsNavigation,autoFocusInput: settings.autoFocusInput,showFeedbackLoader:settings.showFeedbackLoader});
       $stepper.find('li.step.active').openAction(1);
       $stepper.find('>li').removeAttr("data-last");
-      $stepper.find('>li.step').last('.step').attr('data-last', 'true');
+      $stepper.find('>li.step').last().attr('data-last', 'true');
 
       $stepper.on("click", '.step:not(.active)', function () {
          object = $($stepper.children('.step:visible')).index($(this));

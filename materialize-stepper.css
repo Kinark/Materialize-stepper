@@ -1,11 +1,10 @@
 /* Materializecss Stepper - By Kinark 2016
 // https://github.com/Kinark/Materialize-stepper
-// CSS v2.1.1
+// CSS v2.1.2
 */
 
 /*Validate.js FIX*/
 label.invalid {
-   font-size: 12.8px;
    font-size: 12.8px;
    font-size: 0.8rem;
    font-weight: 500;
@@ -21,17 +20,19 @@ label.invalid.active {
 
 ul.stepper {
    counter-reset: section;
+   overflow-y: auto;
+   overflow-x: hidden;
    /*max-width: 800px;*/
 }
 
 @media only screen and (min-width: 993px){
    ul.stepper.horizontal {
       position: relative;
-      display: -webkit-box;
       display: -ms-flexbox;
+      display: -webkit-box;
       display: flex;
-      -webkit-box-pack: justify;
       -ms-flex-pack: justify;
+      -webkit-box-pack: justify;
       justify-content: space-between;
       min-height: 458px;
    }
@@ -68,14 +69,14 @@ ul.stepper .wait-feedback {
    width: 100%;
    height: 100%;
    text-align: center;
-   display: -webkit-box;
    display: -ms-flexbox;
+   display: -webkit-box;
    display: flex;
-   -webkit-box-pack: center;
    -ms-flex-pack: center;
+   -webkit-box-pack: center;
    justify-content: center;
-   -webkit-box-align: center;
    -ms-flex-align: center;
+   -webkit-box-align: center;
    align-items: center;
 }
 
@@ -93,11 +94,11 @@ ul.stepper .step.feedbacking .step-content>*:not(.wait-feedback) {
       position: static;
       margin: 0;
       width: 100%;
-      display: -webkit-box;
       display: -ms-flexbox;
+      display: -webkit-box;
       display: flex;
-      -webkit-box-align: center;
       -ms-flex-align: center;
+      -webkit-box-align: center;
       align-items: center;
       height: 84px !important;
    }
@@ -117,6 +118,8 @@ ul.stepper .step.feedbacking .step-content>*:not(.wait-feedback) {
 
 ul.stepper>li:not(:last-of-type) {
    margin-bottom: 10px;
+   -webkit-transition: margin-bottom 0.4s;
+   transition: margin-bottom 0.4s;
 }
 
 ul.stepper .step:not(:last-of-type).active {
@@ -238,7 +241,6 @@ ul.stepper .step-title:after {
    display: block;
    position: absolute;
    font-size: 12.8px;
-   font-size: 12.8px;
    font-size: 0.8rem;
    color: #424242;
    font-weight: 400;
@@ -295,8 +297,10 @@ ul.stepper>.step:not(:last-of-type):after {
    width: 1px;
    height: calc(100% - 38px);
    background-color: rgba(0,0,0,0.1);
-   -webkit-transition:height 0.4s;
-   transition:height 0.4s;
+   /*-webkit-transition:height 0.4s;*/
+   /*transition:height 0.4s;*/
+   -webkit-transition: all 0.4s;
+   transition: all 0.4s;
 }
 
 ul.stepper>.step.active:not(:last-child):after {
@@ -304,8 +308,12 @@ ul.stepper>.step.active:not(:last-child):after {
 }
 
 ul.stepper>.step[data-last="true"]:after {
-   content: none;
+   /*content: none;*/
+   height: 0;
    width: 0;
+}
+
+ul.stepper>.step[data-last="true"] {
    margin-bottom: 0;
 }
 
@@ -316,8 +324,8 @@ ul.stepper .step-actions {
    -ms-display: flex;
    display: -webkit-box;
    display: flex;
-   -webkit-box-pack: start;
    -ms-flex-pack: start;
+   -webkit-box-pack: start;
    justify-content: flex-start;
 }
 
@@ -338,9 +346,9 @@ ul.stepper .step-actions .btn:not(:last-child), ul.stepper .step-actions .btn-fl
       width: 100%;
       padding: 20px;
       background-color: #fff;
+      -ms-flex-direction: row-reverse;
       -webkit-box-orient: horizontal;
       -webkit-box-direction: reverse;
-      -ms-flex-direction: row-reverse;
       flex-direction: row-reverse;
    }
 
