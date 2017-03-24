@@ -25,6 +25,11 @@ ul.stepper {
    /*max-width: 800px;*/
 }
 
+.card-content ul.stepper {
+   margin: 1em -24px;
+   padding: 0 24px;
+}
+
 @media only screen and (min-width: 993px){
    ul.stepper.horizontal {
       position: relative;
