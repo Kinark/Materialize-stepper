@@ -1,6 +1,6 @@
 /* Materializecss Stepper - By Kinark 2016
 // https://github.com/Kinark/Materialize-stepper
-// JS v2.1.2
+// JS v2.1.3
 */
 
 var validation = $.isFunction($.fn.valid) ? 1 : 0;
