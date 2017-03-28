@@ -1,5 +1,9 @@
 Date format: d/m/y
 
+### 2.1.3 (28/03/17)
+* Fixed step-title margins;
+* Added small CSS callback for browsers that don't support calc() on CSS.
+
 ### 2.1.2 (24/03/17)
 * Fixed 2 seconds animation bug on deactivateStep. Sorry!
 * Fixed animations with last step dinamically added (on verticals) again... Sorry, again ;-;
