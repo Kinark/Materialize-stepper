@@ -27,6 +27,16 @@ Since it's an implementation to [Materializecss framework](http://materializecss
 
 ### Installing
 
+### Download (zip)
+
+You can [download](https://github.com/Kinark/Materialize-stepper/archive/master.zip) the current version of repository compacted.
+
+### NPM
+
+```bash
+npm install --save materialize-stepper
+```
+
 You just need to import the .css and the .js files **after** you import the prerequisites listed above:
 
 ```html
