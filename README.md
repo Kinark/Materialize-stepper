@@ -10,9 +10,9 @@ Codepen Playground: http://codepen.io/Kinark/pen/VKrjJp
 
 ## Getting Started
 
-First of all, sorry for the bad english. Also, I don't know how to work with github yet. Yeah.  
+First of all, not native english speaker. Also, I don't know how to work with github yet. Yeah.  
 
-The plugin is simple (really simple), small, bugged and has lack of resources, so... Wait for more (???) and... HELP ME!!!
+The plugin is simple (really simple), small and has lack of resources, so... Wait for more (???) and... HELP ME!!!
 
 ### Prerequisities
 
