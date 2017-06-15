@@ -1,5 +1,6 @@
 # Materialize-stepper
 [![GitHub version](https://badge.fury.io/gh/Kinark%2FMaterialize-stepper.svg)](https://badge.fury.io/gh/Kinark%2FMaterialize-stepper)
+[![npm version](https://badge.fury.io/js/materialize-stepper.svg)](https://badge.fury.io/js/materialize-stepper)
 
 ![Small demo](docs/small_demo.gif)  
 
