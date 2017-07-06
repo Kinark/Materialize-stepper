@@ -228,7 +228,7 @@ $.fn.activateStepper = function(options) {
          $stepper.wrap( '<form action="'+action+'" method="'+method+'"></div>' );
       }
 
-      $stepper.data('settings', {linearStepsNavigation: settings.linearStepsNavigation,autoFocusInput: settings.autoFocusInput,showFeedbackLoader:settings.showFeedbackLoader});
+      $stepper.data('settings', {linearStepsNavigation: settings.linearStepsNavigation,autoFocusInput: settings.autoFocusInput,showFeedbackLoader:settings.showFeedbackLoader, openStepOnValidationError: settings.openStepOnValidationError});
       $stepper.find('li.step.active').openAction(1);
       $stepper.find('>li').removeAttr("data-last");
       $stepper.find('>li.step').last().attr('data-last', 'true');
