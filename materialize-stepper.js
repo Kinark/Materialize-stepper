@@ -17,6 +17,8 @@ if (validation) {
    $.validator.setDefaults({
       errorClass: 'invalid',
       validClass: "valid",
+      // Allows inputs in hidden steps to be validated on form submission
+      ignore: [],
       errorPlacement: function (error, element) {
          if(element.is(':radio') || element.is(':checkbox')) {
             error.insertBefore($(element).parent());
@@ -126,7 +128,16 @@ $.fn.nextStep = function(callback, activefb, e) {
    active = this.find('.step.active');
    next = $(this.children('.step:visible')).index($(active))+2;
    feedback = active.find('.next-step').length > 1 ? (e ? $(e.target).data("feedback") : undefined) : active.find('.next-step').data("feedback");
-   if(form.isValid()) {
+   active_has_invalid = false
+   inputs = active.find(':input');
+   for (index = 0; index < inputs.length; ++index) {
+     if (!inputs[index].validity.valid) {
+       active_has_invalid = true
+     }
+   }
+   // This insures the validation plugin sets errors on input fields
+   form.isValid();
+   if (!active_has_invalid) {
       if(feedback && activefb) {
          if(settings.showFeedbackLoader) stepper.activateFeedback();
          return window[feedback].call();
@@ -198,7 +209,8 @@ $.fn.activateStepper = function(options) {
       linearStepsNavigation: true,
       autoFocusInput: true,
       showFeedbackLoader: true,
-      autoFormCreation: true
+      autoFormCreation: true,
+      openStepOnValidationError: true
    }, options);
    $(document).on('click', function(e){
       if(!$(e.target).parents(".stepper").length){
@@ -249,6 +261,20 @@ $.fn.activateStepper = function(options) {
                return window[feedback].call();
             }
             form.submit();
+         } else {
+          inputs = $stepper.find(':input');
+          first_found = true
+          for (index = 0; index < inputs.length; ++index) {
+            if (!inputs[index].validity.valid) {
+              step = inputs[index].closest('.step')
+              if (first_found && settings.openStepOnValidationError) {
+                step_number = $stepper.children('.step').index($(step))+1;
+                $stepper.openStep(step_number)
+                first_found = false
+              }
+              $(step).removeClass('done').addClass('wrong');
+            }
+          }
          }
       }).on("click", function () {
          $('.stepper.focused').removeClass('focused');
