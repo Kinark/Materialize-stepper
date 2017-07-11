@@ -35,13 +35,13 @@ if (validation) {
 }
 
 $.fn.getActiveStep  = function() {
-   active = this.find('.step.active');
+   var active = this.find('.step.active');
    return $(this.children('.step:visible')).index($(active))+1;
 };
 
 $.fn.activateStep  = function(callback) {
    if($(this).hasClass('step')) return;
-   stepper = $(this).closest('ul.stepper');
+   var stepper = $(this).closest('ul.stepper');
    stepper.find('>li').removeAttr("data-last");
    if(window.innerWidth < 993 || !stepper.hasClass('horizontal')) {
       $(this).addClass("step").stop().slideDown(400, function(){
@@ -58,7 +58,7 @@ $.fn.activateStep  = function(callback) {
 
 $.fn.deactivateStep  = function(callback) {
    if(!$(this).hasClass('step')) return;
-   stepper = $(this).closest('ul.stepper');
+   var stepper = $(this).closest('ul.stepper');
    stepper.find('>li').removeAttr("data-last");
    if(window.innerWidth < 993 || !stepper.hasClass('horizontal')) {
       $(this).stop().css({'transition':'none', '-webkit-transition':'margin-bottom none'}).slideUp(400, function(){
@@ -78,8 +78,8 @@ $.fn.deactivateStep  = function(callback) {
 
 $.fn.showError  = function(error) {
    if(validation) {
-      name = this.attr('name');
-      form = this.closest('form');
+      var name = this.attr('name');
+      var form = this.closest('form');
       var obj = {};
       obj[name] = error;
       form.validate().showErrors(obj);
@@ -91,12 +91,12 @@ $.fn.showError  = function(error) {
 };
 
 $.fn.activateFeedback  = function() {
-   active = this.find('.step.active:not(.feedbacking)').addClass('feedbacking').find('.step-content');
+   var active = this.find('.step.active:not(.feedbacking)').addClass('feedbacking').find('.step-content');
    active.prepend('<div class="wait-feedback"> <div class="preloader-wrapper active"> <div class="spinner-layer spinner-blue"> <div class="circle-clipper left"> <div class="circle"></div></div><div class="gap-patch"> <div class="circle"></div></div><div class="circle-clipper right"> <div class="circle"></div></div></div><div class="spinner-layer spinner-red"> <div class="circle-clipper left"> <div class="circle"></div></div><div class="gap-patch"> <div class="circle"></div></div><div class="circle-clipper right"> <div class="circle"></div></div></div><div class="spinner-layer spinner-yellow"> <div class="circle-clipper left"> <div class="circle"></div></div><div class="gap-patch"> <div class="circle"></div></div><div class="circle-clipper right"> <div class="circle"></div></div></div><div class="spinner-layer spinner-green"> <div class="circle-clipper left"> <div class="circle"></div></div><div class="gap-patch"> <div class="circle"></div></div><div class="circle-clipper right"> <div class="circle"></div></div></div></div></div>');
 };
 
 $.fn.destroyFeedback  = function() {
-   active = this.find('.step.active.feedbacking');
+   var active = this.find('.step.active.feedbacking');
    if(active) {
       active.removeClass('feedbacking');
       active.find('.wait-feedback').remove();
@@ -106,26 +106,26 @@ $.fn.destroyFeedback  = function() {
 
 $.fn.resetStepper  = function(step) {
    if(!step) step = 1;
-   form = $(this).closest('form');
+   var form = $(this).closest('form');
    $(form)[0].reset();
    Materialize.updateTextFields();
    return $(this).openStep(step);
 };
 
 $.fn.submitStepper  = function(step) {
-   form = this.closest('form');
+   var form = this.closest('form');
    if(form.isValid()) {
       form.submit();
    }
 };
 
 $.fn.nextStep = function(callback, activefb, e) {
-   stepper = this;
-   settings = $(stepper).data('settings');
-   form = this.closest('form');
-   active = this.find('.step.active');
-   next = $(this.children('.step:visible')).index($(active))+2;
-   feedback = active.find('.next-step').length > 1 ? (e ? $(e.target).data("feedback") : undefined) : active.find('.next-step').data("feedback");
+   var stepper = this;
+   var settings = $(stepper).data('settings');
+   var form = this.closest('form');
+   var active = this.find('.step.active');
+   var next = $(this.children('.step:visible')).index($(active))+2;
+   var feedback = active.find('.next-step').length > 1 ? (e ? $(e.target).data("feedback") : undefined) : active.find('.next-step').data("feedback");
    if(form.isValid()) {
       if(feedback && activefb) {
          if(settings.showFeedbackLoader) stepper.activateFeedback();
@@ -140,23 +140,24 @@ $.fn.nextStep = function(callback, activefb, e) {
 };
 
 $.fn.prevStep = function(callback) {
-   active = this.find('.step.active');
+   var active = this.find('.step.active');
    if(active.hasClass('feedbacking')) return;
-   prev = $(this.children('.step:visible')).index($(active));
+   var prev = $(this.children('.step:visible')).index($(active));
    active.removeClass('wrong');
    this.openStep(prev, callback);
    return this.trigger('prevstep');
 };
 
 $.fn.openStep = function(step, callback) {
-   settings = $(this).closest('ul.stepper').data('settings');
-   $this = this;
-   step_num = step - 1;
+   var settings = $(this).closest('ul.stepper').data('settings');
+   var $this = this;
+   var step_num = step - 1;
    step = this.find('.step:visible:eq('+step_num+')');
    if(step.hasClass('active')) return;
-   active = this.find('.step.active');
-   prev_active = next = $(this.children('.step:visible')).index($(active));
-   order = step_num > prev_active ? 1 : 0;
+   var active = this.find('.step.active');
+   var next;
+   var prev_active = next = $(this.children('.step:visible')).index($(active));
+   var order = step_num > prev_active ? 1 : 0;
    if(active.hasClass('feedbacking')) $this.destroyFeedback();
    active.closeAction(order);
    step.openAction(order, function(){
@@ -168,7 +169,7 @@ $.fn.openStep = function(step, callback) {
 };
 
 $.fn.closeAction = function(order, callback) {
-   closable = this.removeClass('active').find('.step-content');
+   var closable = this.removeClass('active').find('.step-content');
    if(window.innerWidth < 993 || !this.closest('ul').hasClass('horizontal')) {
       closable.stop().slideUp(300,"easeOutQuad", callback);
    } else {
@@ -181,7 +182,7 @@ $.fn.closeAction = function(order, callback) {
 };
 
 $.fn.openAction = function(order, callback) {
-   openable = this.removeClass('done').addClass('active').find('.step-content');
+   var openable = this.removeClass('done').addClass('active').find('.step-content');
    if(window.innerWidth < 993 || !this.closest('ul').hasClass('horizontal')) {
       openable.slideDown(300,"easeOutQuad", callback);
    } else {
@@ -209,9 +210,9 @@ $.fn.activateStepper = function(options) {
    $(this).each(function(){
       var $stepper = $(this);
       if(!$stepper.parents("form").length && settings.autoFormCreation) {
-         method = $stepper.data('method');
-         action = $stepper.data('action');
-         method = (method ? method : "GET");
+         var method = $stepper.data('method');
+         var action = $stepper.data('action');
+         var method = (method ? method : "GET");
          action = (action ? action : "?");
          $stepper.wrap( '<form action="'+action+'" method="'+method+'"></div>' );
       }
@@ -222,11 +223,11 @@ $.fn.activateStepper = function(options) {
       $stepper.find('>li.step').last().attr('data-last', 'true');
 
       $stepper.on("click", '.step:not(.active)', function () {
-         object = $($stepper.children('.step:visible')).index($(this));
+         var object = $($stepper.children('.step:visible')).index($(this));
          if(!$stepper.hasClass('linear')) {
             $stepper.openStep(object+1);
          } else if(settings.linearStepsNavigation) {
-            active = $stepper.find('.step.active');
+            var active = $stepper.find('.step.active');
             if($($stepper.children('.step:visible')).index($(active))+1 == object) {
                $stepper.nextStep(undefined, true, undefined);
             } else if ($($stepper.children('.step:visible')).index($(active))-1 == object) {
@@ -242,7 +243,7 @@ $.fn.activateStepper = function(options) {
       }).on("click", "button:submit:not(.next-step, .previous-step)", function (e) {
          e.preventDefault();
          feedback = e ? $(e.target).data("feedback") : undefined;
-         form = $stepper.closest('form');
+         var form = $stepper.closest('form');
          if(form.isValid()) {
             if(feedback) {
                stepper.activateFeedback();
