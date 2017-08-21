@@ -214,7 +214,7 @@ $.fn.activateStepper = function(options) {
          var action = $stepper.data('action');
          var method = (method ? method : "GET");
          action = (action ? action : "?");
-         $stepper.wrap( '<form action="'+action+'" method="'+method+'"></div>' );
+         $stepper.wrap( '<form action="'+action+'" method="'+method+'"></form>' );
       }
 
       $stepper.data('settings', {linearStepsNavigation: settings.linearStepsNavigation,autoFocusInput: settings.autoFocusInput,showFeedbackLoader:settings.showFeedbackLoader});
