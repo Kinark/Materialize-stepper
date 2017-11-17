@@ -32,6 +32,10 @@ if (validation) {
          }
       }
    });
+
+   // When parallel stepper is defined we need to consider invisible and
+   // hidden fields
+   if($('.stepper.parallel').length) $.validator.setDefaults({ignore:''});
 }
 
 $.fn.getActiveStep  = function() {
@@ -224,7 +228,12 @@ $.fn.activateStepper = function(options) {
 
       $stepper.on("click", '.step:not(.active)', function () {
          var object = $($stepper.children('.step:visible')).index($(this));
-         if(!$stepper.hasClass('linear')) {
+         if($stepper.hasClass('parallel')) { // Invoke parallel stepper behaviour
+            $(this).addClass('temp-active');
+            $stepper.validatePreviousSteps()
+            $stepper.openStep(object + 1);
+            $(this).removeClass('temp-active');
+         } else if(!$stepper.hasClass('linear')) {
             $stepper.openStep(object+1);
          } else if(settings.linearStepsNavigation) {
             var active = $stepper.find('.step.active');
@@ -256,4 +265,78 @@ $.fn.activateStepper = function(options) {
          $(this).addClass('focused');
       });
    });
+};
+
+/**
+ * Return the step element on given index.
+ *
+ * @param step, index of the step to be returned
+ * @returns {*}, the step requested
+ */
+$.fn.getStep = function(step) {
+    var settings = $(this).closest('ul.stepper').data('settings');
+    var $this = this;
+    var step_num = step - 1;
+    step = this.find('.step:visible:eq('+step_num+')');
+    return step;
+};
+
+/**
+ * Run validation over all previous steps from the steps this
+ * function is called on.
+ */
+$.fn.validatePreviousSteps = function() {
+    var active = $(this).find('.step.temp-active');
+    var index = $(this.children('.step')).index($(active));
+    // We assume that the validator is set to ignore nothing.
+    $(this.children('.step')).each(function(i) {
+        if (i >= index) {
+            $(this).removeClass('wrong done');
+        } else {
+            $(this).validateStep();
+        }
+    });
+};
+
+/**
+ * Validate the step that this function is called on.
+ */
+$.fn.validateStep = function() {
+    var stepper = this.closest('ul.stepper');
+    var form = this.closest('form');
+    var step = $(this);
+    // Retrieve the custom validator for that step if exists.
+    var validator = step.find('.next-step').data("validator");
+    if(this.validateStepInput()) { // If initial base validation succeeded go on
+      if(validator) { // If a custom validator is given also call that validator
+         if (window[validator].call()) {
+             return step.removeClass('wrong').addClass('done');
+         }
+         else {
+             return step.removeClass('done').addClass('wrong');
+         }
+      }
+      return step.removeClass('wrong').addClass('done');
+    } else {
+      return step.removeClass('done').addClass('wrong');
+    }
+};
+
+/**
+ * Uses the validation variable set by the stepper constructor
+ * to run standard validation on the current step.
+ * @returns {boolean}
+ */
+$.fn.validateStepInput = function() {
+    var valid = true;
+    if (validation) {
+        // Find all input fields dat need validation in current step.
+        $(this).find('input.validate').each(function() {
+            if (!$(this).valid()) {
+                valid = false;
+                return false;
+            }
+        });
+    }
+    return valid;
 };
