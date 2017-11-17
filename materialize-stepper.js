@@ -228,7 +228,7 @@ $.fn.activateStepper = function(options) {
 
       $stepper.on("click", '.step:not(.active)', function () {
          var object = $($stepper.children('.step:visible')).index($(this));
-         if($stepper.hasClass('parallel')) { // Invoke parallel stepper behaviour
+         if($stepper.hasClass('parallel') && validation) { // Invoke parallel stepper behaviour
             $(this).addClass('temp-active');
             $stepper.validatePreviousSteps()
             $stepper.openStep(object + 1);
