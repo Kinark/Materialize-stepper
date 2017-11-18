@@ -425,9 +425,14 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 
 <p align="center">
-<a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=RZYQNQ394RE3S"><img src="https://coperni.design/files/coffe.svg" width="48" ></a>
+<a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=RZYQNQ394RE3S"><img src="https://coperni.design/files/coffe.svg" width="48" ></a>  
+   
 Hey!  
-Did you like the stepper? I hope you did :)  
+   
+Did you like the stepper? I hope you did!
+   
 If you did, why not buy me a coffe? :D  
+   
 <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=RZYQNQ394RE3S"><img src="https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif" ></a>  
+
 </p>
