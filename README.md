@@ -429,9 +429,11 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 </p>
 <p align="center">
 Hey!
-
+</p>
+<p align="center">
 Did you like the stepper? I hope you did!
-
+</p>
+<p align="center">
 If you did, why not buy me a coffe? :D
 </p>
 <p align="center">
