@@ -424,8 +424,8 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 * THANK YOU [MDL-Stepper](https://ahlechandre.github.io/mdl-stepper/) FOR IDEAS AND A LITTLE OF CSS!
 
 ## Donation
-
-Hey!
-Did you like the stepper? I hope you did :)
-If you did, why not buy me a coffe? :D
-[![paypal](https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif)](RZYQNQ394RE3S)
+[![paypal](https://coperni.design/files/coffe.svg)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=RZYQNQ394RE3S)
+Hey!  
+Did you like the stepper? I hope you did :)  
+If you did, why not buy me a coffe? :D  
+[![paypal](https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=RZYQNQ394RE3S)
