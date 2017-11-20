@@ -131,7 +131,7 @@ $.fn.nextStep = function(callback, activefb, e) {
    var next = $(this.children('.step:visible')).index($(active))+2;
    var feedback = active.find('.next-step').length > 1 ? (e ? $(e.target).data("feedback") : undefined) : active.find('.next-step').data("feedback");
    // If the stepper is parallel, we want to validate the input of the current active step. Not all elements.
-   if(($(stepper).hasClass('parallel') && $(active).validateStepInput()) || form.isValid()) {
+   if((settings.parallel && $(active).validateStep()) || (!settings.parallel && form.isValid())) {
       if(feedback && activefb) {
          if(settings.showFeedbackLoader) stepper.activateFeedback();
          return window[feedback].call();
@@ -204,7 +204,8 @@ $.fn.activateStepper = function(options) {
       linearStepsNavigation: true,
       autoFocusInput: true,
       showFeedbackLoader: true,
-      autoFormCreation: true
+      autoFormCreation: true,
+      parallel: false // By default we don't assume the stepper is parallel
    }, options);
    $(document).on('click', function(e){
       if(!$(e.target).parents(".stepper").length){
@@ -222,14 +223,14 @@ $.fn.activateStepper = function(options) {
          $stepper.wrap( '<form action="'+action+'" method="'+method+'"></form>' );
       }
 
-      $stepper.data('settings', {linearStepsNavigation: settings.linearStepsNavigation,autoFocusInput: settings.autoFocusInput,showFeedbackLoader:settings.showFeedbackLoader});
+      $stepper.data('settings', {linearStepsNavigation: settings.linearStepsNavigation,autoFocusInput: settings.autoFocusInput,showFeedbackLoader:settings.showFeedbackLoader, parallel:$stepper.hasClass('parallel')});
       $stepper.find('li.step.active').openAction(1);
       $stepper.find('>li').removeAttr("data-last");
       $stepper.find('>li.step').last().attr('data-last', 'true');
 
       $stepper.on("click", '.step:not(.active)', function () {
          var object = $($stepper.children('.step:visible')).index($(this));
-         if($stepper.hasClass('parallel') && validation) { // Invoke parallel stepper behaviour
+         if($stepper.data('settings').parallel && validation) { // Invoke parallel stepper behaviour
             $(this).addClass('temp-active');
             $stepper.validatePreviousSteps()
             $stepper.openStep(object + 1);
@@ -311,15 +312,19 @@ $.fn.validateStep = function() {
     if(this.validateStepInput()) { // If initial base validation succeeded go on
       if(validator) { // If a custom validator is given also call that validator
          if (window[validator].call()) {
-             return step.removeClass('wrong').addClass('done');
+             step.removeClass('wrong').addClass('done');
+             return true;
          }
          else {
-             return step.removeClass('done').addClass('wrong');
+             step.removeClass('done').addClass('wrong');
+             return false;
          }
       }
-      return step.removeClass('wrong').addClass('done');
+      step.removeClass('wrong').addClass('done');
+      return true;
     } else {
-      return step.removeClass('done').addClass('wrong');
+      step.removeClass('done').addClass('wrong');
+      return false;
     }
 };
 
