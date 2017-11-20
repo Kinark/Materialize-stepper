@@ -130,7 +130,8 @@ $.fn.nextStep = function(callback, activefb, e) {
    var active = this.find('.step.active');
    var next = $(this.children('.step:visible')).index($(active))+2;
    var feedback = active.find('.next-step').length > 1 ? (e ? $(e.target).data("feedback") : undefined) : active.find('.next-step').data("feedback");
-   if(form.isValid()) {
+   // If the stepper is parallel, we want to validate the input of the current active step. Not all elements.
+   if(($(stepper).hasClass('parallel') && $(active).validateStepInput()) || form.isValid()) {
       if(feedback && activefb) {
          if(settings.showFeedbackLoader) stepper.activateFeedback();
          return window[feedback].call();
