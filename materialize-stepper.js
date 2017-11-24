@@ -109,6 +109,12 @@ $.fn.resetStepper  = function(step) {
    var form = $(this).closest('form');
    $(form)[0].reset();
    Materialize.updateTextFields();
+   
+   if (validation) {
+       form.validate().resetForm();
+       $(this).find('li.step').removeClass('wrong');
+   }
+   
    return $(this).openStep(step);
 };
 
