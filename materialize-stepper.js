@@ -177,7 +177,7 @@ $.fn.openStep = function(step, callback) {
 $.fn.closeAction = function(order, callback) {
    var closable = this.removeClass('active').find('.step-content');
    if(window.innerWidth < 993 || !this.closest('ul').hasClass('horizontal')) {
-      closable.stop().slideUp(300,"easeOutQuad", callback);
+      closable.stop().slideUp(300,"swing", callback);
    } else {
       if(order==1) {
          closable.animate({left: '-100%'},function(){closable.css({display: 'none', left: '0%'}, callback);});
@@ -190,7 +190,7 @@ $.fn.closeAction = function(order, callback) {
 $.fn.openAction = function(order, callback) {
    var openable = this.removeClass('done').addClass('active').find('.step-content');
    if(window.innerWidth < 993 || !this.closest('ul').hasClass('horizontal')) {
-      openable.slideDown(300,"easeOutQuad", callback);
+      openable.slideDown(300,"swing", callback);
    } else {
       if(order==1) {
          openable.css({left: '100%', display: 'block'}).animate({left: '0%'}, callback);
