@@ -169,7 +169,8 @@ $(function(){
       linearStepsNavigation: true, //allow navigation by clicking on the next and previous steps on linear steppers
       autoFocusInput: true, //since 2.1.1, stepper can auto focus on first input of each step
       autoFormCreation: true, //control the auto generation of a form around the stepper (in case you want to disable it)
-      showFeedbackLoader: true //set if a loading screen will appear while feedbacks functions are running
+      showFeedbackLoader: true //set if a loading screen will appear while feedbacks functions are running,
+      parallel: false // By default we don't assume the stepper is parallel, this is set to true when stepper has .parallel class
    });
 });
 </script>
@@ -195,12 +196,18 @@ or inline:
 
 **IMPORTANT: THE HEIGHT OF THE ".stepper-content" TAG IS SUBTRACTED BY 84PX. SO, FOR EXAMPLE, IF YOU WANT YOUR CONTENT TO HAVE 400PX HEIGHT, YOU'LL NEED TO SET THE "min-height" OF YOUR PRIMARY "ul" TAG TO 484PX!**
 
-### Linear and non-linear
+### Linear, non-linear and parallel
 
 If you want users to change between steps freely (without validations or the obligation to advance a step at a time), just remove .linear class from the primary ul:
 
 ```html
 <ul class="stepper">...</ul>
+```
+
+If you want users to change between steps freely AND have all previous steps validated add the .parallel class to the primary ul:
+
+```html
+<ul class="stepper parallel">...</ul>
 ```
 
 ### Form and inputs
@@ -319,6 +326,33 @@ $('selector').showError('error message');
 ```
 
 That is a shorthand with additions to showErrors function of jQueryValidation plugin.
+
+### Custom Validation
+
+Custom validation can be included when using a Parallel stepper. It can be used for the other stepper types, but that isn't necessarily useful. You define a custom validation function in the ".next-step" element like this:
+
+```html
+<button class="waves-effect waves-dark btn next-step" data-validator="validateEmailDB">CONTINUE</button>
+```
+
+This "validateEmailDB" function is expected to return a boolean value. If it is anything other than a boolean value unexpected behaviour might occur.
+
+Tip: When using both Feedback and Custom Validation it is best practice to use the validator method for validation and the feedback function to handle the step change. Like so:
+
+```html
+function validateEmailDB() {
+ ... // email validation here
+ return true // or false according to validation of course.
+}
+
+function checkEmailDB() {
+    if(validateEmailDB()) {
+        ... // Handle successful step validation behaviour here
+    } else {
+        ... // Handle unsuccessful step validation behaviour here
+    }
+}
+```
 
 ### Custom Events
 
