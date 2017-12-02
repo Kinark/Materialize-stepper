@@ -1,5 +1,9 @@
 Date format: d/m/y
 
+### 2.1.5 (only on github for now) (01/12/17)
+* Bug fixes.
+* Added parallel stepper.
+
 ### 2.1.4 (14/06/17)
 * Added NPM package.
 
