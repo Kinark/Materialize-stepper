@@ -445,9 +445,10 @@ Just visit [CHANGELOG](CHANGELOG.md) file.
 
 * Atom - ergaerga
 
-## Authors
+## Authors and collaborators
 
 * **Igor Marcossi** - *Initial work* - [Kinark](https://github.com/Kinark)
+* **Floris** - *Added parallel stepper* - [feclist](https://github.com/feclist)
 
 ## License
 
