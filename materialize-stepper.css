@@ -39,7 +39,7 @@ ul.stepper {
       -ms-flex-pack: justify;
       -webkit-box-pack: justify;
       justify-content: space-between;
-      min-height: 458px;
+     
    }
 
    .card-content ul.stepper.horizontal {
