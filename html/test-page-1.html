@@ -1,0 +1,69 @@
+<!doctype html>
+<html>
+    <!-- Change this file at your own risk... many tests may break -->
+<head>
+    <meta charset="utf-8">
+    <title>Materialize Stepper Test Suite</title>
+
+    <!-- <link rel="stylesheet" type="text/css" href="../node_modules/materialize-css/dist/css/materialize.css" />
+    <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+    <link ref="stylesheet" href="../materialize-stepper.css" />
+
+    <script type="text/javascript" src="../node_modules/jquery/dist/jquery.js"></script>
+    <script type="text/javascript" src="../node_modules/materialize-css//dist/js/materialize.js"></script>
+
+    <script type="text/javascript" src="../node_modules/jquery-validation/dist/jquery.validate.js"> </script>
+
+    <script type="text/javascript" src="../materialize-stepper.js"> </script> -->
+
+    <script>window._$ = jQuery.noConflict(true);</script>
+</head>
+
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col l6 m10 s12 offset-l3 offset-m1">
+                <h3 class="">Sign up form</h3>
+                <div class="card">
+                    <div class="card-content">
+                        <ul data-method="GET" class="stepper linear">
+                            <li class="step active">
+                                <div class="step-title">E-mail</div>
+                                <div class="step-content">
+                                    <div class="row">
+                                        <div class="input-field col s6">
+                                            <input id="email" name="email" type="email" class="validate" required>
+                                            <label for="first_name">Your e-mail</label>
+                                        </div>
+                                    </div>
+                                    <div class="step-actions">
+                                        <button class="btn next-step" data-feedback="anyThing">Continue</button>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="step">
+                                <div class="step-title">Step 2</div>
+                                <div class="step-content">
+                                    <div class="row">
+                                        <div class="input-field col s6">
+                                            <input id="password" name="password" type="password" class="validate"
+                                                required>
+                                            <label for="password">Your password</label>
+                                        </div>
+                                    </div>
+                                    <div class="step-actions">
+                                        <button class="btn next-step">CONTINUE</button>
+                                        <button class="btn-flat previous-step">BACK</button>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
