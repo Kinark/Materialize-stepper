@@ -1,5 +1,8 @@
 Date format: d/m/y
 
+### 2.1.6 (10/02/2018)
+* Added a basic test suite
+
 ### 2.1.5 (only on github for now) (01/12/17)
 * Bug fixes.
 * Added parallel stepper.
