@@ -1,9 +1,9 @@
 ## IMPORTANT!
-#### Due to a huge amount of reasons, this project was abandoned until today.
+#### Do. Or do not. There is no try.
 
-###### I'm starting the development of a new version of the Materialize Stepper ~~almost~~ from scratch in order to: adapt to the new versions of materializecss, fix the mess it is right now on github, implement gulp in order to organize the pure CSS/HTML that I used to build everything and finally try to make things right. I'm sorry for the unanswered questions/issues/PRs, but my life was a mess and my mind wasn't working properly.
+###### After a looooong period of darkness, this project can see the light once more. This is the master branch, where I used to make all the development. It was never intended to be popular repo at any level (that's one of the reasons for it to be a mess, I just made for myself and shared to try to help someone in the same position as I was) but it ended up being used by a considerable amount of people (that's why I decided to dedicate myself a little more). Right now I don't know the actual state of this branch. I didn't adapt it to work with the latests materializecss versions (that doesn't require jQuery anymore), so it shouldn't work. Anyways, maybe there some people that found a workaround, so I'm refactoring everything in a new branch called [mstepper-v3](https://github.com/Kinark/Materialize-stepper/tree/mstepper-v3). When everything is good, I'll release it as beta, and if it's stable enough, I'll store this messed up version in another branch (just in case) and merge the [mstepper-v3](https://github.com/Kinark/Materialize-stepper/tree/mstepper-v3) with the master.
 
-##### Wait for changes.
+##### Yay.
 
 # Materialize-stepper
 [![GitHub version](https://badge.fury.io/gh/Kinark%2FMaterialize-stepper.svg)](https://badge.fury.io/gh/Kinark%2FMaterialize-stepper)
