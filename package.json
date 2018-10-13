@@ -1,20 +1,22 @@
 {
   "name": "materialize-stepper",
-  "version": "2.1.4",
+  "version": "3.0.0",
   "description": "A little plugin, inspired by MDL-Stepper, that implements a stepper to Materializecss framework.",
-  "main": "materialize-stepper.js",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Kinark/Materialize-stepper.git"
   },
   "keywords": [
     "materialize",
-    "stepper"
+    "material",
+    "stepper",
+    "plugin"
   ],
-  "author": {
-    "name": "Kinark",
-    "url": "https://github.com/Kinark"
-  },
+  "author": "Kinark",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/Kinark/Materialize-stepper/issues"

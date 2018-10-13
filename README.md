@@ -1,7 +1,9 @@
 ## IMPORTANT!
-#### Oh, my dear friend. How I’ve missed you.
+#### Due to a huge amount of reasons, this project was abandoned until today.
 
-###### This is a total refactoring of materialize-stepper. I'm adding gulp in order to make this a real project, so expect everything to be better and more organized. The documentation below is outdated right now, btw.
+###### I'm starting the development of a new version of the Materialize Stepper ~~almost~~ from scratch in order to: adapt to the new versions of materializecss, fix the mess it is right now on github, implement gulp in order to organize the pure CSS/HTML that I used to build everything and finally try to make things right. I'm sorry for the unanswered questions/issues/PRs, but my life was a mess and my mind wasn't working properly.
+
+##### Wait for changes.
 
 # Materialize-stepper
 [![GitHub version](https://badge.fury.io/gh/Kinark%2FMaterialize-stepper.svg)](https://badge.fury.io/gh/Kinark%2FMaterialize-stepper)
