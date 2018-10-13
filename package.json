@@ -21,5 +21,18 @@
   "bugs": {
     "url": "https://github.com/Kinark/Materialize-stepper/issues"
   },
-  "homepage": "https://github.com/Kinark/Materialize-stepper#readme"
+  "homepage": "https://github.com/Kinark/Materialize-stepper#readme",
+  "devDependencies": {
+    "gulp": "^3.9.1",
+    "gulp-autoprefixer": "^6.0.0",
+    "gulp-clean-css": "^3.10.0",
+    "gulp-concat": "^2.6.1",
+    "gulp-file-include": "^2.0.1",
+    "gulp-line-ending-corrector": "^1.0.3",
+    "gulp-rename": "^1.4.0",
+    "gulp-sass": "^4.0.1",
+    "gulp-sourcemaps": "^2.6.4",
+    "gulp-uglify": "^3.0.1",
+    "pump": "^3.0.0"
+  }
 }
