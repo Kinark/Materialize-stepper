@@ -7,7 +7,7 @@ var lec = require('gulp-line-ending-corrector');
 ////////PATHS////////
 /////////////////////
 
-var mainScss = './src/scss/ceres.scss';
+var mainScss = './src/scss/mstepper.scss';
 
 var scssInput = './src/scss/**/*.scss';
 var scssOutput = './dist/css';
@@ -15,10 +15,8 @@ var scssOutput = './dist/css';
 var jsInput = './src/js/**/*.js';
 var jsOutput = './dist/js/';
 
-var testOutput = './test';
-
-var jadeInput = './src/jade/*.jade';
-var jadeOutput = './doc/';
+var docsInput = './src/html_docs/index.html';
+var docsOutput = './docs/';
 
 /////////////////////
 /////////CSS/////////
@@ -37,11 +35,10 @@ gulp.task('sass', function (cb) {
       autoprefixer(),
       gulp.dest(scssOutput),
       sourcemaps.write(),
-      gulp.dest(testOutput),
       cleanCss(),
-      rename("ceres.min.css"),
+      rename("mstepper.min.css"),
       gulp.dest(scssOutput),
-   ],cb);
+   ], cb);
 });
 
 /////////////////////
@@ -53,56 +50,52 @@ var concatJS = require('gulp-concat');
 gulp.task('js', function (cb) {
    pump([
       gulp.src(jsInput),
-      concatJS('ceres.js'),
+      concatJS('mstepper.js'),
       gulp.dest(jsOutput),
       gulp.dest(testOutput),
       uglify().on('error', onError),
-      rename("ceres.min.js"),
+      rename("mstepper.min.js"),
       gulp.dest(jsOutput),
-   ],cb);
+   ], cb);
 });
 
 /////////////////////
-////////JADE/////////
+////////HTML/////////
 /////////////////////
-// var jade = require('gulp-file-include');
+var fileInclude = require('gulp-file-include');
 
-// gulp.task('jade', function (cb) {
-//    var YOUR_LOCALS = { }
-//    pump([
-//       gulp.src('./src/jade/*.jade'),
-//       jade({
-//          locals: YOUR_LOCALS
-//       }),
-//       gulp.dest('./doc/')
-//    ],cb);
-// });
+gulp.task('html', function (cb) {
+   pump([
+      gulp.src(docsInput),
+      fileinclude({
+         prefix: '@@',
+         basepath: '@file'
+      }),
+      gulp.dest(docsOutput)
+   ], cb);
+});
 
 /////////////////////
 ////////WATCH////////
 /////////////////////
 
-gulp.task('watchCSS', function() {
-   return gulp
-   .watch(scssInput, ['sass']);
+gulp.task('watchCSS', function () {
+   return gulp.watch(scssInput, ['sass']);
 });
 
-gulp.task('watchJS', function() {
-   return gulp
-   .watch(jsInput, ['js']);
+gulp.task('watchJS', function () {
+   return gulp.watch(jsInput, ['js']);
 });
 
-// gulp.task('watchJade', function() {
-//    return gulp
-//    .watch(jadeInput, ['jade']);
-// });
+gulp.task('watchHTML', function () {
+   return gulp.watch(jadeInput, ['html']);
+});
 
 /////////////////////
 ///////DEFAULT///////
 /////////////////////
 
-// gulp.task('default', ['js', 'sass', 'jade', 'watchCSS', 'watchJS', 'watchJade']);
-gulp.task('default', ['js', 'sass', 'jade', 'watchCSS', 'watchJS']);
+gulp.task('default', ['js', 'sass', 'jade', 'watchCSS', 'watchJS', 'watchHTML']);
 
 function onError(err) {
    console.log(err);
