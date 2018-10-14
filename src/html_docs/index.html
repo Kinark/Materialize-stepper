@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+   @@include('./components/head.html')
+</head>
+
+<body>
+   <!--Import jQuery before materialize.js-->
+   <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.0/js/materialize.min.js"></script>
+
+   @@include('./components/navbar.html')
+
+   <main>
+      <div class="container grey-text text-darken-2">
+
+         @@include('./components/hero.html')
+
+         <div class="row">
+            <div class="section col s12 m9 l10">
+
+               @@include('./components/introductions/getting_started.html')
+               @@include('./components/introductions/prerequisites.html')
+               @@include('./installing/introductions/installing.html')
+
+               @@include('./installing/steppers/linear.html')
+               @@include('./installing/steppers/non-linear.html')
+               @@include('./installing/steppers/parallel.html')
+               @@include('./installing/steppers/horizontal.html')
+               @@include('./installing/steppers/feedback.html')
+               @@include('./installing/steppers/custom-validate.html')
+
+               @@include('./changelog.html')
+               @@include('./credits.html')
+
+            </div>
+
+            <div class="col hide-on-small-only m3 l2">
+
+               @@include('./sidenav.html')
+
+            </div>
+
+         </div>
+      </div>
+   </main>
+
+   @@include('./footer.html')
+
+   <script>
+      function someFunction() {
+         setTimeout(function () { $('#feedbacker').nextStep(); }, 1000);
+      }
+
+      function someOtherFunction() {
+         return true;
+      }
+
+      $(document).ready(function () {
+         $('.toc-wrapper').pushpin({ top: $('.toc-wrapper').offset().top, offset: 77 });
+         $('.scrollspy').scrollSpy();
+         $('.stepper').activateStepper();
+      });
+   </script>
+
+   <script src="https://ajax.aspnetcdn.com/ajax/jquery.validate/1.15.0/jquery.validate.min.js"></script>
+   <!-- <script src="./materialize-stepper.min.js"></script> -->
+   <script src="prism.js"></script>
+   <script src="https://rawgit.com/Kinark/Materialize-stepper/master/materialize-stepper.min.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,62 @@
+<div class="section scrollspy" id="linear">
+   <div class="row">
+      <div class="col s12">
+         <h5>Linear Stepper</h5>
+      </div>
+      <div class="col l6 m12 s12">
+         <div class="card">
+            <div class="card-content">
+               <ul class="stepper linear">
+                  <li class="step active">
+                     <div data-step-label="There's labels too!" class="step-title waves-effect waves-dark">Step 1</div>
+                     <div class="step-content">
+                        <div class="row">
+                           <div class="input-field col s12">
+                              <input name="email" type="email" class="validate" required>
+                              <label for="email">Your e-mail</label>
+                           </div>
+                        </div>
+                        <div class="step-actions">
+                           <button class="waves-effect waves-dark btn blue next-step">CONTINUE</button>
+                        </div>
+                     </div>
+                  </li>
+                  <li class="step">
+                     <div class="step-title waves-effect waves-dark">Step 2</div>
+                     <div class="step-content">
+                        <div class="row">
+                           <div class="input-field col s12">
+                              <input id name="password" type="password" class="validate" required>
+                              <label for="password">Your password</label>
+                           </div>
+                        </div>
+                        <div class="step-actions">
+                           <button class="waves-effect waves-dark btn blue next-step">CONTINUE</button>
+                           <button class="waves-effect waves-dark btn-flat previous-step">BACK</button>
+                        </div>
+                     </div>
+                  </li>
+                  <li class="step">
+                     <div class="step-title waves-effect waves-dark">Step 3</div>
+                     <div class="step-content">
+                        Finish!
+                        <div class="step-actions">
+                           <button class="waves-effect waves-dark btn blue" type="submit">SUBMIT</button>
+                        </div>
+                     </div>
+                  </li>
+               </ul>
+            </div>
+         </div>
+      </div>
+      <div class="col l6 m12 s12">
+         <p>
+            Linear Stepper is the most common one. In it, you can't navigate freely between steps. It's step by step, obeying the validation ruled by the required inputs (if you're using jQuery Validation Plugin).
+         </p>
+         <p><b>Example:</b></p>
+         <pre class="language-markup"><code class=" language-markup">
+&lt;ul class="stepper linear"&gt;...&lt;/ul&gt;
+                        </code></pre>
+      </div>
+   </div>
+</div>
