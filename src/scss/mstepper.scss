@@ -1,0 +1,309 @@
+/* Materializecss Stepper - By Kinark 2016
+// https://github.com/Kinark/Materialize-stepper
+// CSS v2.1.3
+*/
+
+/*Validate.js FIX*/
+
+label {
+   .invalid {
+      font-size: 12.8px;
+      font-size: 0.8rem;
+      font-weight: 500;
+      color: red !important;
+      top: 50px !important;
+      .active {
+         transform: translateY(0%) !important;
+      }
+   }
+}
+
+/*Validate.js FIX*/
+
+.card-content ul.stepper {
+   margin: 1em -24px;
+   padding: 0 24px;
+   &.horizontal {
+      @media only screen and (min-width: 993px) {
+         margin-left: -24px;
+         margin-right: -24px;
+         padding-left: 24px;
+         padding-right: 24px;
+         overflow: hidden;
+         &:first-child {
+            margin-top: -24px;
+         }
+         .step.step-content {
+            padding-left: 40px;
+            padding-right: 40px;
+            .step-actions {
+               padding-left: 40px;
+               padding-right: 40px;
+            }
+         }
+      }
+   }
+}
+
+ul.stepper {
+   counter-reset: section;
+   overflow-y: auto;
+   overflow-x: hidden;
+   &.horizontal {
+      @media only screen and (min-width: 993px) {
+         position: relative;
+         display: flex;
+         justify-content: space-between;
+         min-height: 458px;
+         &::before {
+            content: '';
+            background-color: transparent;
+            width: 100%;
+            min-height: 84px;
+            box-shadow: 0px 2px 1px -1px rgba(0, 0, 0, 0.2), 0px 1px 1px 0px rgba(0, 0, 0, 0.14), 0px 1px 3px 0px rgba(0, 0, 0, 0.12);
+            position: absolute;
+            left: 0;
+         }
+         .step {
+            position: static;
+            margin: 0;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            height: 84px !important;
+            &::before {
+               content: none;
+            }
+            &:last-of-type,
+            &[data-last="true"] {
+               width: auto !important;
+            }
+            &:not(:last-of-type)::after,
+            &.active:not(:last-of-type)::after {
+               content: '';
+               position: static;
+               display: inline-block;
+               width: 100%;
+               height: 1px;
+            }
+            .step-title {
+               line-height: 84px;
+               height: 84px;
+               margin: 0;
+               padding: 0 25px 0 65px;
+               display: inline-block;
+               max-width: 220px;
+               white-space: nowrap;
+               overflow: hidden;
+               text-overflow: ellipsis;
+               flex-shrink: 0;
+               &::before {
+                  position: absolute;
+                  top: 28.5px;
+                  left: 19px;
+                  counter-increment: section;
+                  content: counter(section);
+                  height: 28px;
+                  width: 28px;
+                  color: white;
+                  background-color: rgba(0, 0, 0, 0.3);
+                  border-radius: 50%;
+                  text-align: center;
+                  line-height: 28px;
+                  font-weight: 400;
+               }
+               &::after {
+                  top: 15px;
+               }
+            }
+            &.active,
+            &.done {
+               .step-title {
+                  &::before {
+                     background-color: #2196f3;
+                  }
+               }
+            }
+            &.done {
+               .step-title:before {
+                  content: '\e5ca';
+                  font-size: 16px;
+                  font-family: 'Material Icons';
+               }
+            }
+            &.wrong {
+               .step-title {
+                  &::before {
+                     content: '\e001';
+                     font-size: 24px;
+                     font-family: 'Material Icons';
+                     background-color: red !important;
+                  }
+               }
+            }
+            .step-content {
+               position: absolute;
+               height: calc(100% - 84px);
+               top: 84px;
+               left: 0;
+               width: 100%;
+               overflow-y: auto;
+               overflow-x: hidden;
+               margin: 0;
+               padding: 20px 20px 76px 20px;
+               .step-actions {
+                  position: absolute;
+                  bottom: 0;
+                  left: 0;
+                  width: 100%;
+                  padding: 20px;
+                  background-color: #fff;
+                  flex-direction: row-reverse;
+                  .btn,
+                  .btn-flat,
+                  .btn-large {
+                     &:not(:last-child) {
+                        margin-left: 5px;
+                        margin-right: 0;
+                     }
+                  }
+               }
+            }
+         }
+      }
+   }
+   .wait-feedback {
+      left: 0;
+      right: 0;
+      top: 0;
+      z-index: 2;
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      text-align: center;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+   }
+   .step {
+      position: relative;
+      &::before {
+         position: absolute;
+         top: 12px;
+         counter-increment: section;
+         content: counter(section);
+         height: 28px;
+         width: 28px;
+         color: white;
+         background-color: rgba(0, 0, 0, 0.3);
+         border-radius: 50%;
+         text-align: center;
+         line-height: 28px;
+         font-weight: 400;
+      }
+      &[data-last="true"] {
+         margin-bottom: 0;
+         &::after {
+            height: 0;
+            width: 0;
+         }
+      }
+      &.active,
+      &.done {
+         &::before {
+            background-color: #2196f3;
+         }
+      }
+      &.active {
+         &:not(:last-child):after {
+            height: 93%;
+            height: calc(100% - 12px);
+         }
+         .step-title {
+            font-weight: 500;
+         }
+      }
+      &.done {
+         &::before {
+            content: '\e5ca';
+            font-size: 16px;
+            font-family: 'Material Icons';
+         }
+      }
+      &.wrong {
+         &::before {
+            content: '\e001';
+            font-size: 24px;
+            font-family: 'Material Icons';
+            background-color: red !important;
+         }
+      }
+      &.feedbacking {
+         .step-content>*:not(.wait-feedback) {
+            opacity: 0.1;
+         }
+      }
+      &:not(:last-of-type) {
+         &::after {
+            content: '';
+            position: absolute;
+            top: 50px;
+            left: 13.5px;
+            width: 1px;
+            height: 40%;
+            height: calc(100% - 38px);
+            background-color: rgba(0, 0, 0, 0.1);
+            transition: all 0.4s;
+         }
+         .active {
+            margin-bottom: 36px;
+         }
+      }
+      .step-title {
+         margin: 0 -24px;
+         cursor: pointer;
+         padding: 15.5px 44px 24px 64px;
+         display: block;
+         &:hover {
+            background-color: rgba(0, 0, 0, 0.06);
+         }
+         &::after {
+            content: attr(data-step-label);
+            display: block;
+            position: absolute;
+            font-size: 12.8px;
+            font-size: 0.8rem;
+            color: #424242;
+            font-weight: 400;
+         }
+      }
+      .step-content {
+         position: relative;
+         display: none;
+         height: calc(100% - 132px);
+         width: inherit;
+         overflow: visible;
+         margin-left: 41px;
+         margin-right: 24px;
+         .step-actions {
+            padding-top: 16px;
+            display: flex;
+            justify-content: flex-start;
+            .btn,
+            .btn-flat,
+            .btn-large {
+               &:not(:last-child) {
+                  margin-right: 5px;
+               }
+            }
+         }
+         .row {
+            margin-bottom: 7px;
+         }
+      }
+   }
+   &>li:not(:last-of-type) {
+      margin-bottom: 10px;
+      transition: margin-bottom 0.4s;
+   }
+}
