@@ -5,16 +5,14 @@
 
 /*Validate.js FIX*/
 
-label {
-   .invalid {
-      font-size: 12.8px;
-      font-size: 0.8rem;
-      font-weight: 500;
-      color: red !important;
-      top: 50px !important;
-      .active {
-         transform: translateY(0%) !important;
-      }
+label.invalid {
+   font-size: 12.8px;
+   font-size: 0.8rem;
+   font-weight: 500;
+   color: red !important;
+   top: 50px !important;
+   &.active {
+      transform: translateY(0%) !important;
    }
 }
 
@@ -49,129 +47,7 @@ ul.stepper {
    counter-reset: section;
    overflow-y: auto;
    overflow-x: hidden;
-   &.horizontal {
-      @media only screen and (min-width: 993px) {
-         position: relative;
-         display: flex;
-         justify-content: space-between;
-         min-height: 458px;
-         &::before {
-            content: '';
-            background-color: transparent;
-            width: 100%;
-            min-height: 84px;
-            box-shadow: 0px 2px 1px -1px rgba(0, 0, 0, 0.2), 0px 1px 1px 0px rgba(0, 0, 0, 0.14), 0px 1px 3px 0px rgba(0, 0, 0, 0.12);
-            position: absolute;
-            left: 0;
-         }
-         .step {
-            position: static;
-            margin: 0;
-            width: 100%;
-            display: flex;
-            align-items: center;
-            height: 84px !important;
-            &::before {
-               content: none;
-            }
-            &:last-of-type,
-            &[data-last="true"] {
-               width: auto !important;
-            }
-            &:not(:last-of-type)::after,
-            &.active:not(:last-of-type)::after {
-               content: '';
-               position: static;
-               display: inline-block;
-               width: 100%;
-               height: 1px;
-            }
-            .step-title {
-               line-height: 84px;
-               height: 84px;
-               margin: 0;
-               padding: 0 25px 0 65px;
-               display: inline-block;
-               max-width: 220px;
-               white-space: nowrap;
-               overflow: hidden;
-               text-overflow: ellipsis;
-               flex-shrink: 0;
-               &::before {
-                  position: absolute;
-                  top: 28.5px;
-                  left: 19px;
-                  counter-increment: section;
-                  content: counter(section);
-                  height: 28px;
-                  width: 28px;
-                  color: white;
-                  background-color: rgba(0, 0, 0, 0.3);
-                  border-radius: 50%;
-                  text-align: center;
-                  line-height: 28px;
-                  font-weight: 400;
-               }
-               &::after {
-                  top: 15px;
-               }
-            }
-            &.active,
-            &.done {
-               .step-title {
-                  &::before {
-                     background-color: #2196f3;
-                  }
-               }
-            }
-            &.done {
-               .step-title:before {
-                  content: '\e5ca';
-                  font-size: 16px;
-                  font-family: 'Material Icons';
-               }
-            }
-            &.wrong {
-               .step-title {
-                  &::before {
-                     content: '\e001';
-                     font-size: 24px;
-                     font-family: 'Material Icons';
-                     background-color: red !important;
-                  }
-               }
-            }
-            .step-content {
-               position: absolute;
-               height: calc(100% - 84px);
-               top: 84px;
-               left: 0;
-               width: 100%;
-               overflow-y: auto;
-               overflow-x: hidden;
-               margin: 0;
-               padding: 20px 20px 76px 20px;
-               .step-actions {
-                  position: absolute;
-                  bottom: 0;
-                  left: 0;
-                  width: 100%;
-                  padding: 20px;
-                  background-color: #fff;
-                  flex-direction: row-reverse;
-                  .btn,
-                  .btn-flat,
-                  .btn-large {
-                     &:not(:last-child) {
-                        margin-left: 5px;
-                        margin-right: 0;
-                     }
-                  }
-               }
-            }
-         }
-      }
-   }
+
    .wait-feedback {
       left: 0;
       right: 0;
@@ -306,4 +182,129 @@ ul.stepper {
       margin-bottom: 10px;
       transition: margin-bottom 0.4s;
    }
+
+   &.horizontal {
+      @media only screen and (min-width: 993px) {
+         position: relative;
+         display: flex;
+         justify-content: space-between;
+         min-height: 458px;
+         &::before {
+            content: '';
+            background-color: transparent;
+            width: 100%;
+            min-height: 84px;
+            box-shadow: 0px 2px 1px -1px rgba(0, 0, 0, 0.2), 0px 1px 1px 0px rgba(0, 0, 0, 0.14), 0px 1px 3px 0px rgba(0, 0, 0, 0.12);
+            position: absolute;
+            left: 0;
+         }
+         .step {
+            position: static;
+            margin: 0;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            height: 84px !important;
+            &::before {
+               content: none;
+            }
+            &:last-of-type,
+            &[data-last="true"] {
+               width: auto !important;
+            }
+            &:not(:last-of-type)::after,
+            &.active:not(:last-of-type)::after {
+               content: '';
+               position: static;
+               display: inline-block;
+               width: 100%;
+               height: 1px;
+            }
+            .step-title {
+               line-height: 84px;
+               height: 84px;
+               margin: 0;
+               padding: 0 25px 0 65px;
+               display: inline-block;
+               max-width: 220px;
+               white-space: nowrap;
+               overflow: hidden;
+               text-overflow: ellipsis;
+               flex-shrink: 0;
+               &::before {
+                  position: absolute;
+                  top: 28.5px;
+                  left: 19px;
+                  counter-increment: section;
+                  content: counter(section);
+                  height: 28px;
+                  width: 28px;
+                  color: white;
+                  background-color: rgba(0, 0, 0, 0.3);
+                  border-radius: 50%;
+                  text-align: center;
+                  line-height: 28px;
+                  font-weight: 400;
+               }
+               &::after {
+                  top: 15px;
+               }
+            }
+            &.active,
+            &.done {
+               .step-title {
+                  &::before {
+                     background-color: #2196f3;
+                  }
+               }
+            }
+            &.done {
+               .step-title:before {
+                  content: '\e5ca';
+                  font-size: 16px;
+                  font-family: 'Material Icons';
+               }
+            }
+            &.wrong {
+               .step-title {
+                  &::before {
+                     content: '\e001';
+                     font-size: 24px;
+                     font-family: 'Material Icons';
+                     background-color: red !important;
+                  }
+               }
+            }
+            .step-content {
+               position: absolute;
+               height: calc(100% - 84px);
+               top: 84px;
+               left: 0;
+               width: 100%;
+               overflow-y: auto;
+               overflow-x: hidden;
+               margin: 0;
+               padding: 20px 20px 76px 20px;
+               .step-actions {
+                  position: absolute;
+                  bottom: 0;
+                  left: 0;
+                  width: 100%;
+                  padding: 20px;
+                  background-color: #fff;
+                  flex-direction: row-reverse;
+                  .btn,
+                  .btn-flat,
+                  .btn-large {
+                     &:not(:last-child) {
+                        margin-left: 5px;
+                        margin-right: 0;
+                     }
+                  }
+               }
+            }
+         }
+      }
+   }
+
 }
