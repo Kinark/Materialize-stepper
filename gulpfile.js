@@ -2,6 +2,20 @@ var gulp = require('gulp');
 var rename = require('gulp-rename');
 var pump = require('pump')
 var lec = require('gulp-line-ending-corrector');
+var header = require('gulp-header');
+var version = require('./package.json').version
+
+var licenseHeader = [
+   '/**',
+   ' * Materialize Stepper - A little plugin that implements a stepper to Materializecss framework.',
+   ' * @version v' + version + '',
+   ' * @author Igor Marcossi (Kinark) <igormarcossi@gmail.com>.',
+   ' * @link https://github.com/Kinark/Materialize-stepper',
+   ' * ',
+   ' * Licensed under the MIT License (https://github.com/Kinark/Materialize-stepper/blob/master/LICENSE).',
+   ' */',
+   '\n'
+].join('\n')
 
 /////////////////////
 ////////PATHS////////
@@ -15,7 +29,8 @@ var scssOutput = './dist/css';
 var jsInput = './src/js/**/*.js';
 var jsOutput = './dist/js/';
 
-var docsInput = './src/html_docs/index.html';
+var docsInput = './src/html_docs/**/*.html';
+var docsIndex = './src/html_docs/index.html';
 var docsOutput = './docs/';
 
 /////////////////////
@@ -33,10 +48,13 @@ gulp.task('sass', function (cb) {
       sourcemaps.init(),
       sass().on('error', onError),
       autoprefixer(),
+      header(licenseHeader),
+      rename("mstepper.css"),
       gulp.dest(scssOutput),
       sourcemaps.write(),
       cleanCss(),
       rename("mstepper.min.css"),
+      header(licenseHeader),
       gulp.dest(scssOutput),
    ], cb);
 });
@@ -51,10 +69,11 @@ gulp.task('js', function (cb) {
    pump([
       gulp.src(jsInput),
       concatJS('mstepper.js'),
+      header(licenseHeader),
       gulp.dest(jsOutput),
-      gulp.dest(testOutput),
       uglify().on('error', onError),
       rename("mstepper.min.js"),
+      header(licenseHeader),
       gulp.dest(jsOutput),
    ], cb);
 });
@@ -66,8 +85,8 @@ var fileInclude = require('gulp-file-include');
 
 gulp.task('html', function (cb) {
    pump([
-      gulp.src(docsInput),
-      fileinclude({
+      gulp.src(docsIndex),
+      fileInclude({
          prefix: '@@',
          basepath: '@file'
       }),
@@ -88,14 +107,14 @@ gulp.task('watchJS', function () {
 });
 
 gulp.task('watchHTML', function () {
-   return gulp.watch(jadeInput, ['html']);
+   return gulp.watch(docsInput, ['html']);
 });
 
 /////////////////////
 ///////DEFAULT///////
 /////////////////////
 
-gulp.task('default', ['js', 'sass', 'jade', 'watchCSS', 'watchJS', 'watchHTML']);
+gulp.task('default', ['js', 'sass', 'html', 'watchCSS', 'watchJS', 'watchHTML']);
 
 function onError(err) {
    console.log(err);

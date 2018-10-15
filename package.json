@@ -28,6 +28,7 @@
     "gulp-clean-css": "^3.10.0",
     "gulp-concat": "^2.6.1",
     "gulp-file-include": "^2.0.1",
+    "gulp-header": "^2.0.5",
     "gulp-line-ending-corrector": "^1.0.3",
     "gulp-rename": "^1.4.0",
     "gulp-sass": "^4.0.1",
