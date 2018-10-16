@@ -1,9 +1,9 @@
 var gulp = require('gulp');
 var rename = require('gulp-rename');
-var pump = require('pump')
+var pump = require('pump');
 var lec = require('gulp-line-ending-corrector');
 var header = require('gulp-header');
-var version = require('./package.json').version
+var version = require('./package.json').version;
 
 var licenseHeader = [
    '/**',
@@ -15,7 +15,7 @@ var licenseHeader = [
    ' * Licensed under the MIT License (https://github.com/Kinark/Materialize-stepper/blob/master/LICENSE).',
    ' */',
    '\n'
-].join('\n')
+].join('\n');
 
 /////////////////////
 ////////PATHS////////
