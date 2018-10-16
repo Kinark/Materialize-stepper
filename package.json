@@ -23,6 +23,7 @@
   },
   "homepage": "https://github.com/Kinark/Materialize-stepper#readme",
   "devDependencies": {
+    "eslint": "^5.7.0",
     "gulp": "^3.9.1",
     "gulp-autoprefixer": "^6.0.0",
     "gulp-clean-css": "^3.10.0",
