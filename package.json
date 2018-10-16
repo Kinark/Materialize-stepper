@@ -1,40 +1,49 @@
 {
-  "name": "materialize-stepper",
-  "version": "3.0.0",
-  "description": "A little plugin, inspired by MDL-Stepper, that implements a stepper to Materializecss framework.",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/Kinark/Materialize-stepper.git"
-  },
-  "keywords": [
-    "materialize",
-    "material",
-    "stepper",
-    "plugin"
-  ],
-  "author": "Kinark",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/Kinark/Materialize-stepper/issues"
-  },
-  "homepage": "https://github.com/Kinark/Materialize-stepper#readme",
-  "devDependencies": {
-    "eslint": "^5.7.0",
-    "gulp": "^3.9.1",
-    "gulp-autoprefixer": "^6.0.0",
-    "gulp-clean-css": "^3.10.0",
-    "gulp-concat": "^2.6.1",
-    "gulp-file-include": "^2.0.1",
-    "gulp-header": "^2.0.5",
-    "gulp-line-ending-corrector": "^1.0.3",
-    "gulp-rename": "^1.4.0",
-    "gulp-sass": "^4.0.1",
-    "gulp-sourcemaps": "^2.6.4",
-    "gulp-uglify": "^3.0.1",
-    "pump": "^3.0.0"
-  }
+   "name": "materialize-stepper",
+   "version": "3.0.0",
+   "description": "A little plugin, inspired by MDL-Stepper, that implements a stepper to Materializecss framework.",
+   "main": "dist/js/mstepper.js",
+   "style": "dist/css/mstepper.css",
+   "sass": "src/scss/mstepper.scss",
+   "scripts": {
+      "test": "echo \"Error: no test specified\" && exit 1"
+   },
+   "repository": {
+      "type": "git",
+      "url": "git+https://github.com/Kinark/Materialize-stepper.git"
+   },
+   "files": [
+      "dist",
+      "src/js/**/*.js",
+      "src/scss/**/*.scss",
+      "gulpfile.js",
+      "LICENSE"
+   ],
+   "keywords": [
+      "materialize",
+      "material",
+      "stepper",
+      "plugin"
+   ],
+   "author": "Kinark",
+   "license": "MIT",
+   "bugs": {
+      "url": "https://github.com/Kinark/Materialize-stepper/issues"
+   },
+   "homepage": "https://kinark.github.io/Materialize-stepper/",
+   "devDependencies": {
+      "eslint": "^5.7.0",
+      "gulp": "^3.9.1",
+      "gulp-autoprefixer": "^6.0.0",
+      "gulp-clean-css": "^3.10.0",
+      "gulp-concat": "^2.6.1",
+      "gulp-file-include": "^2.0.1",
+      "gulp-header": "^2.0.5",
+      "gulp-line-ending-corrector": "^1.0.3",
+      "gulp-rename": "^1.4.0",
+      "gulp-sass": "^4.0.1",
+      "gulp-sourcemaps": "^2.6.4",
+      "gulp-uglify": "^3.0.1",
+      "pump": "^3.0.0"
+   }
 }
