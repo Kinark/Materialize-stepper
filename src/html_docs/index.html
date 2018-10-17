@@ -2,14 +2,12 @@
 <html>
 
 <head>
+   @@include('./components/favicon.html')
    @@include('./components/head.html')
 </head>
 
 <body>
-   <!--Import jQuery before materialize.js-->
    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
-   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.0/js/materialize.min.js"></script>
-
    @@include('./components/navbar.html')
 
    <main>
@@ -26,7 +24,7 @@
 
                @@include('./components/steppers/linear.html')
                @@include('./components/steppers/non-linear.html')
-               @@include('./components/steppers/parallel.html')
+               <!-- @@include('./components/steppers/parallel.html') -->
                @@include('./components/steppers/horizontal.html')
                @@include('./components/steppers/feedback.html')
                @@include('./components/steppers/custom-validate.html')
@@ -48,26 +46,8 @@
 
    @@include('./components/footer.html')
 
-   <script>
-      function someFunction() {
-         setTimeout(function () { $('#feedbacker').nextStep(); }, 1000);
-      }
+   @@include('./components/scripts.html')
 
-      function someOtherFunction() {
-         return true;
-      }
-
-      $(document).ready(function () {
-         $('.toc-wrapper').pushpin({ top: $('.toc-wrapper').offset().top, offset: 77 });
-         $('.scrollspy').scrollSpy();
-         $('.stepper').activateStepper();
-      });
-   </script>
-
-   <script src="https://ajax.aspnetcdn.com/ajax/jquery.validate/1.15.0/jquery.validate.min.js"></script>
-   <!-- <script src="./materialize-stepper.min.js"></script> -->
-   <script src="prism.js"></script>
-   <script src="https://rawgit.com/Kinark/Materialize-stepper/master/materialize-stepper.min.js"></script>
 </body>
 
 </html>

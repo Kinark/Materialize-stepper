@@ -1,0 +1,20 @@
+<script>
+   function someFunction() {
+      setTimeout(function () { $('#feedbacker').nextStep(); }, 1000);
+   }
+
+   function someOtherFunction() {
+      return true;
+   }
+
+   $(document).ready(function () {
+      $('.toc-wrapper').pushpin({ top: $('.toc-wrapper').offset().top, offset: 77 });
+      $('.scrollspy').scrollSpy();
+      $('.stepper').activateStepper();
+   });
+</script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.0/js/materialize.min.js"></script>
+<script src="https://ajax.aspnetcdn.com/ajax/jquery.validate/1.15.0/jquery.validate.min.js"></script>
+<script src="js/prism.js"></script>
+<script src="js/mstepper.min.js"></script>

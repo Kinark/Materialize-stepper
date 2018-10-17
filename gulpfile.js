@@ -56,6 +56,7 @@ gulp.task('sass', function (cb) {
       rename("mstepper.min.css"),
       header(licenseHeader),
       gulp.dest(scssOutput),
+      gulp.dest(docsOutput + '/css'),
    ], cb);
 });
 
@@ -75,6 +76,7 @@ gulp.task('js', function (cb) {
       rename("mstepper.min.js"),
       header(licenseHeader),
       gulp.dest(jsOutput),
+      gulp.dest(docsOutput + '/js'),
    ], cb);
 });
 
