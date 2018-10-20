@@ -65,11 +65,15 @@ gulp.task('sass', function (cb) {
 /////////////////////
 var uglify = require('gulp-uglify');
 var concatJS = require('gulp-concat');
+const babel = require('gulp-babel');
 
 gulp.task('js', function (cb) {
    pump([
       gulp.src(jsInput),
       concatJS('mstepper.js'),
+      babel({
+         presets: ['@babel/env']
+      }),
       header(licenseHeader),
       gulp.dest(jsOutput),
       uglify().on('error', onError),
