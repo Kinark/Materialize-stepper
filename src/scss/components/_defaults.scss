@@ -1,4 +1,4 @@
-%step-counter {
+@mixin step-counter {
    position: absolute;
    counter-increment: section;
    content: counter(section);
@@ -12,17 +12,17 @@
    font-weight: 400;
 }
 
-%step-counter-active-done {
+@mixin step-counter-active-done {
    background-color: $active-done-counter-bgcolor;
 }
 
-%step-counter-done {
+@mixin step-counter-done {
    content: '\e5ca';
    font-size: 16px;
    font-family: 'Material Icons';
 }
 
-%step-counter-wrong {
+@mixin step-counter-wrong {
    content: '\e001';
    font-size: 24px;
    font-family: 'Material Icons';

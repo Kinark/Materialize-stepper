@@ -1,7 +1,7 @@
 .step {
    position: relative;
    &::before {
-      @extend %step-counter;
+      @include step-counter;
       top: 12px;
    }
    &[data-last="true"] {
@@ -23,14 +23,14 @@
    &.active,
    &.done {
       &::before {
-         @extend %step-counter-active-done;
+         @include step-counter-active-done;
       }
    }
    &.done::before {
-      @extend %step-counter-done;
+      @include step-counter-done;
    }
    &.wrong::before {
-      @extend %step-counter-wrong
+      @include step-counter-wrong
    }
    &.feedbacking {
       .step-content>*:not(.wait-feedback) {
