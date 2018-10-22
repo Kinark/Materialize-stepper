@@ -1,0 +1,103 @@
+.step {
+   position: relative;
+   &::before {
+      @extend %step-counter;
+      top: 12px;
+   }
+   &[data-last="true"] {
+      margin-bottom: 0;
+      &::after {
+         height: 0;
+         width: 0;
+      }
+   }
+   &.active {
+      &:not(:last-child):after {
+         height: 93%;
+         height: calc(100% - 12px);
+      }
+      .step-title {
+         font-weight: 500;
+      }
+   }
+   &.active,
+   &.done {
+      &::before {
+         @extend %step-counter-active-done;
+      }
+   }
+   &.done::before {
+      @extend %step-counter-done;
+   }
+   &.wrong::before {
+      @extend %step-counter-wrong
+   }
+   &.feedbacking {
+      .step-content>*:not(.wait-feedback) {
+         opacity: 0.1;
+      }
+   }
+   &:not(:last-of-type) {
+      &::after {
+         content: '';
+         position: absolute;
+         top: 50px;
+         left: 13.5px;
+         width: 1px;
+         height: 40%;
+         height: calc(100% - 38px);
+         background-color: $step-divider-bgcolor;
+         transition: all 0.4s;
+      }
+      .active {
+         margin-bottom: 36px;
+      }
+   }
+   .step-title {
+      margin: 0 -24px;
+      cursor: pointer;
+      padding: 15.5px 44px 24px 64px;
+      display: block;
+      &:hover {
+         background-color: $step-hover-bgcolor;
+      }
+      &::after {
+         content: attr(data-step-label);
+         display: block;
+         position: absolute;
+         font-size: 12.8px;
+         font-size: 0.8rem;
+         color: #424242;
+         font-weight: 400;
+      }
+   }
+   .step-content {
+      position: relative;
+      display: none;
+      height: calc(100% - 132px);
+      width: inherit;
+      overflow: visible;
+      margin-left: 41px;
+      margin-right: 24px;
+      .step-actions {
+         padding-top: 16px;
+         display: flex;
+         justify-content: flex-start;
+         .btn,
+         .btn-flat,
+         .btn-large {
+            &:not(:last-child) {
+               margin-right: 5px;
+            }
+         }
+      }
+      .row {
+         margin-bottom: 7px;
+      }
+   }
+}
+
+&>li:not(:last-of-type) {
+   margin-bottom: 10px;
+   transition: margin-bottom 0.4s;
+}
