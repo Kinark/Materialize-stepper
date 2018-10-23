@@ -33,8 +33,10 @@
    "homepage": "https://kinark.github.io/Materialize-stepper/",
    "devDependencies": {
       "@babel/core": "^7.1.2",
+      "@babel/plugin-proposal-class-properties": "^7.1.0",
       "@babel/preset-env": "^7.1.0",
-      "eslint": "^5.7.0",
+      "babel-eslint": "8",
+      "eslint": "4.x",
       "gulp": "^3.9.1",
       "gulp-autoprefixer": "^6.0.0",
       "gulp-babel": "^8.0.0",

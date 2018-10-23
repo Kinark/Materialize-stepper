@@ -26,7 +26,8 @@ var mainScss = './src/scss/mstepper.scss';
 var scssInput = './src/scss/**/*.scss';
 var scssOutput = './dist/css';
 
-var jsInput = './src/js/**/*.js';
+// var jsInput = './src/js/**/*.js';
+var jsInput = './src/js/mstepper.js';
 var jsOutput = './dist/js/';
 
 var docsInput = './src/html_docs/**/*.html';
@@ -51,6 +52,7 @@ gulp.task('sass', function (cb) {
       header(licenseHeader),
       rename("mstepper.css"),
       gulp.dest(scssOutput),
+      gulp.dest(docsOutput + '/css'),
       sourcemaps.write(),
       cleanCss(),
       rename("mstepper.min.css"),
@@ -72,10 +74,12 @@ gulp.task('js', function (cb) {
       gulp.src(jsInput),
       concatJS('mstepper.js'),
       babel({
-         presets: ['@babel/env']
+         presets: ['@babel/env'],
+         plugins: ['@babel/plugin-proposal-class-properties']
       }),
       header(licenseHeader),
       gulp.dest(jsOutput),
+      gulp.dest(docsOutput + '/js'),
       uglify().on('error', onError),
       rename("mstepper.min.js"),
       header(licenseHeader),
