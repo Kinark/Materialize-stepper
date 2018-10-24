@@ -33,11 +33,11 @@
 <!--Import Google Icon Font-->
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 <!--Import materialize.css-->
-<link type="text/css" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.0/css/materialize.min.css" media="screen,projection" />
+<link type="text/css" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css" media="screen,projection" />
 <!-- <link type="text/css" rel="stylesheet" href="./materialize-stepper.min.css"  media="screen,projection"/> -->
-<link type="text/css" rel="stylesheet" href="style.css" media="screen,projection" />
-<link type="text/css" rel="stylesheet" href="prism.css" media="screen,projection" />
-<link type="text/css" rel="stylesheet" href="https://rawgit.com/Kinark/Materialize-stepper/master/materialize-stepper.min.css" media="screen,projection" />
+<link type="text/css" rel="stylesheet" href="css/style.css" media="screen,projection" />
+<link type="text/css" rel="stylesheet" href="css/prism.css" media="screen,projection" />
+<link type="text/css" rel="stylesheet" href="css/mstepper.min.css" media="screen,projection" />
 
 <!--Let browser know website is optimized for mobile-->
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -45,10 +45,7 @@
 </head>
 
 <body>
-   <!--Import jQuery before materialize.js-->
-   <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
-   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.0/js/materialize.min.js"></script>
-
+   <!-- <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script> -->
    <header>
    <div class="navbar-fixed">
       <nav>
@@ -151,8 +148,8 @@
       <div class="col l6 m12 s12">
          <div class="card">
             <div class="card-content">
-               <ul class="stepper linear">
-                  <li class="step active">
+               <ul class="stepper linear" id="linearstepper">
+                  <li class="step">
                      <div data-step-label="There's labels too!" class="step-title waves-effect waves-dark">Step 1</div>
                      <div class="step-content">
                         <div class="row">
@@ -215,7 +212,7 @@
          <div class="card">
             <div class="card-content">
                <ul class="stepper">
-                  <li class="step active">
+                  <li class="step">
                      <div data-step-label="Just add a data-step-label!" class="step-title waves-effect waves-dark">Step 1</div>
                      <div class="step-content">
                         <div class="row">
@@ -269,69 +266,7 @@
    </div>
 </div>
 
-               <div class="section scrollspy" id="parallel">
-   <div class="row">
-      <div class="col s12">
-         <h5>Parallel Stepper</h5>
-      </div>
-      <div class="col l6 m12 s12">
-         <div class="card">
-            <div class="card-content">
-               <ul class="stepper parallel">
-                  <li class="step active">
-                     <div data-step-label="Just add a data-step-label!" class="step-title waves-effect waves-dark">Step 1</div>
-                     <div class="step-content">
-                        <div class="row">
-                           <div class="input-field col s12">
-                              <input name="email" type="email" class="validate" required>
-                              <label for="email">Your e-mail</label>
-                           </div>
-                        </div>
-                        <div class="step-actions">
-                           <button class="waves-effect waves-dark btn blue next-step">CONTINUE</button>
-                        </div>
-                     </div>
-                  </li>
-                  <li class="step">
-                     <div class="step-title waves-effect waves-dark">Step 2</div>
-                     <div class="step-content">
-                        <div class="row">
-                           <div class="input-field col s12">
-                              <input id name="password" type="password" class="validate" required>
-                              <label for="password">Your password</label>
-                           </div>
-                        </div>
-                        <div class="step-actions">
-                           <button class="waves-effect waves-dark btn blue next-step">CONTINUE</button>
-                           <button class="waves-effect waves-dark btn-flat previous-step">BACK</button>
-                        </div>
-                     </div>
-                  </li>
-                  <li class="step">
-                     <div class="step-title waves-effect waves-dark">Step 3</div>
-                     <div class="step-content">
-                        Finish!
-                        <div class="step-actions">
-                           <button class="waves-effect waves-dark btn blue" type="submit">SUBMIT</button>
-                        </div>
-                     </div>
-                  </li>
-               </ul>
-            </div>
-         </div>
-      </div>
-      <div class="col l6 m12 s12">
-         <p>
-
-            The parallel stepper is best of both worlds. You get to navigate freely through your stepper, but with continuous validation. Parallel behaves the same as the Non-Linear Stepper, but when opening a step all previous steps are validated by both custom validation (if present) as well as regular validation (if you're using the jQuery Validation Plugin). </p>
-         <p><b>Example:</b></p>
-         <pre class="language-markup"><code class=" language-markup">
-&lt;ul class="stepper parallel"&gt;...&lt;/ul&gt;
-                        </code></pre>
-      </div>
-   </div>
-</div>
-
+               
                <div class="section scrollspy" id="horizontal-stepper">
    <div class="row">
       <div class="col s12">
@@ -355,7 +290,7 @@
          <div class="card">
             <div class="card-content">
                <ul class="stepper horizontal" id="horizontal">
-                  <li class="step active">
+                  <li class="step">
                      <div data-step-label="To step-title!" class="step-title waves-effect waves-dark">Step 1</div>
                      <div class="step-content">
                         <div class="row">
@@ -409,7 +344,7 @@
          <div class="card">
             <div class="card-content">
                <ul class="stepper" id="feedbacker">
-                  <li class="step active">
+                  <li class="step">
                      <div data-step-label="It's just a second..." class="step-title waves-effect waves-dark">Step 1</div>
                      <div class="step-content">
                         <div class="row">
@@ -477,7 +412,7 @@ $(selector).nextStep();
          <div class="card">
             <div class="card-content">
                <ul class="stepper parallel" id="custom-validation">
-                  <li class="step active">
+                  <li class="step">
                      <div class="step-title waves-effect waves-dark">Step 1</div>
                      <div class="step-content">
                         <div class="row">
@@ -620,26 +555,40 @@ $(selector).nextStep();
 </footer>
 
 
-   <script>
-      function someFunction() {
-         setTimeout(function () { $('#feedbacker').nextStep(); }, 1000);
-      }
+   <!-- <script src="https://cdn.jsdelivr.net/npm/cash-dom@2.3.7/dist/cash.min.js"></script> -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+<script src="js/mstepper.js"></script>
+<script>
+   function someFunction() {
+      setTimeout(function () { $('#feedbacker').nextStep(); }, 1000);
+   }
 
-      function someOtherFunction() {
-         return true;
-      }
+   function someOtherFunction() {
+      return true;
+   }
 
-      $(document).ready(function () {
-         $('.toc-wrapper').pushpin({ top: $('.toc-wrapper').offset().top, offset: 77 });
-         $('.scrollspy').scrollSpy();
-         $('.stepper').activateStepper();
-      });
-   </script>
+   // $(document).ready(function () {
+   //    $('.toc-wrapper').pushpin({ top: $('.toc-wrapper').offset().top, offset: 77 });
+   //    $('.scrollspy').scrollSpy();
+   //    $('.stepper').activateStepper();
+   // });
+   // (function() {
+   var stepperElement = document.getElementById('linearstepper');
+   var stepper = new MStepper(stepperElement);
+   // });
 
-   <script src="https://ajax.aspnetcdn.com/ajax/jquery.validate/1.15.0/jquery.validate.min.js"></script>
-   <!-- <script src="./materialize-stepper.min.js"></script> -->
-   <script src="prism.js"></script>
-   <script src="https://rawgit.com/Kinark/Materialize-stepper/master/materialize-stepper.min.js"></script>
+   // var steppers = document.getElementsByClassName('stepper');
+   // for (var i = 0, len = steppers.length; i < len; i++) {
+   //    var stepper = steppers[i];
+   //    new MStepper(stepper);
+   // }
+</script>
+
+<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script> -->
+<!-- <script src="https://ajax.aspnetcdn.com/ajax/jquery.validate/1.15.0/jquery.validate.min.js"></script> -->
+<script src="js/prism.js"></script>
+
+
 </body>
 
 </html>
