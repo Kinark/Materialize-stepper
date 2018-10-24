@@ -1,260 +1,264 @@
-var validation = $.isFunction($.fn.valid) ? 1 : 0;
-
-$.fn.isValid = function () {
-   if (validation) {
-      return this.valid();
-   } else {
-      return true;
+class MStepper {
+   /**
+    * Util function to simplify the binding of functions to nodelists
+    * @param {HTMLElement} el - Element to search in
+    * @param {string} className - Class to search
+    * @param {string} event - Event name, like 'click'
+    * @param {function} fn Function to bind to elements found
+    * @returns {void}
+    */
+   static addEventListenerByClass(el, className, event, fn) {
+      var list = el.getElementsByClassName(className);
+      for (var i = 0, len = list.length; i < len; i++) {
+         list[i].addEventListener(event, fn, false);
+      }
    }
-};
 
-if (validation) {
-   $.validator.setDefaults({
-      errorClass: 'invalid',
-      validClass: "valid",
-      errorPlacement: function (error, element) {
-         if (element.is(':radio') || element.is(':checkbox')) {
-            error.insertBefore($(element).parent());
-         } else {
-            error.insertAfter(element); // default error placement.
-            // element.closest('label').data('error', error);
-            // element.next().attr('data-error', error);
+   /**
+    * An util function to simplify the removal of multiple properties
+    * @param {HTMLElement} el - Element target from wich the properties will me removed
+    * @param {string} properties - Properties to be removed, separated by spaces, like 'height margin padding-top'
+    */
+   static removeMultipleProperties(el, properties) {
+      var propArray = properties.split(' ');
+      for (let i = 0; i < propArray.length; i++) {
+         el.style.removeProperty(propArray[i]);
+      }
+   }
+
+   /**
+    * Util function to find the height of a hidden DOM object.
+    * @param {HTMLElement} el - Hidden HTML element (node)
+    * @returns {number} - The height without "px"
+    */
+   static getUnknownHeight(el) {
+      const clone = el.cloneNode(true);
+      clone.style.position = 'fixed';
+      clone.style.display = 'block';
+      clone.style.top = '-999999px';
+      clone.style.left = '-999999px';
+      clone.style.height = 'auto';
+      clone.style.opacity = '0';
+      clone.style.zIndex = '-999999';
+      clone.style.pointerEvents = 'none';
+      const insertedElement = el.parentNode.appendChild(clone);
+      const height = insertedElement.offsetHeight;
+      el.parentNode.removeChild(insertedElement);
+      return height;
+   }
+
+   /**
+    * Class constructor for Materialize Stepper.
+    * @constructor
+    * @param {HTMLElement} elem - Element in which stepper will be initialized.
+    * @param {object} [options] - Stepper options
+    * @param {number} [options.firstActive=0] - Default active step
+    * @param {boolean} [options.linearStepsNavigation=true] - Allow navigation by clicking on the next and previous steps on linear steppers
+    * @param {boolean} [options.autoFocusInput=true] - Auto focus on first input of each step
+    * @param {boolean} [options.showFeedbackLoader=true] - Set if a loading screen will appear while feedbacks functions are running
+    * @param {boolean} [options.autoFormCreation=true] - Auto generation of a form around the stepper
+    */
+   constructor(elem, options = {}) {
+      this.stepper = elem;
+      this.options = {
+         firstActive: options.firstActive || 0,
+         linearStepsNavigation: options.linearStepsNavigation || true,
+         autoFocusInput: options.autoFocusInput || true,
+         showFeedbackLoader: options.showFeedbackLoader || true,
+         autoFormCreation: options.autoFormCreation || true
+      };
+      this.classes = {
+         NEXT: 'next-step',
+         PREV: 'previous-step',
+         ACTIVE: 'active',
+         DONE: 'done',
+         FB: 'feedbacking'
+      };
+      this.events = {
+         STPCHG: 'stepChange',
+         NEXT: 'nextStep',
+         PREV: 'prevStep',
+         STEP: step => `step${step}`
+      };
+      this.listenerStore = [];
+      this.activateStepper();
+   }
+
+   /**
+    * An util method to manage binded eventListeners and avoid duplicates. This is the opposite of "smartListenerBind".
+    * @param {HTMLElement} el - Target element in wich the listener will be unbinded
+    * @param {string} listener - Event to unlisten like 'click'
+    * @param {function} fn - Function to be unbinded
+    */
+   smartListenerUnbind = (el, event, fn) => {
+      const { listenerStore } = this;
+      var existentOneIndex = listenerStore.indexOf({ el, event, fn });
+      el.removeEventListener(event, fn);
+      listenerStore.splice(existentOneIndex, 1);
+   }
+
+   /**
+    * An util method to manage binded eventListeners and avoid duplicates. This is the opposite of "smartListenerUnbind".
+    * @param {HTMLElement} el - Target element in wich the listener will be binded
+    * @param {string} event - Event to be listened like 'click'
+    * @param {function} fn - Function to be executed
+    * @param {boolean} [similar=false] - Unbind other listeners binded to the same event
+    * @param {boolean} [callFn=false] - If there's the same listener, will the function be executed before the removal?
+    */
+   smartListenerBind = (el, event, fn, similar = false, callFn = false) => {
+      const { listenerStore } = this;
+      // Builds an object with the element, event and function.
+      const newListener = { el, event, fn };
+      // Checks if similar listeners will be unbinded before the binding
+      if (similar) {
+         // Loops through the store searching for listeners binded to the same element listening for the same event
+         for (let i = 0; i < listenerStore.length; i++) {
+            const listener = listenerStore[i];
+            // Unbind if found
+            if (listener.event === event && listener.el.isSameNode(el)) listener.el.removeEventListener(listener.event, listener.fn);
+            // Call the binded function if requested
+            if (callFn) listener.fn();
          }
-      },
-      success: function (element) {
-         if (!$(element).closest('li').find('label.invalid:not(:empty)').length) {
-            $(element).closest('li').removeClass('wrong');
+      } else {
+         // If similar listeners won't be unbinded, unbind duplicates
+         var existentOneIndex = listenerStore.indexOf(newListener);
+         if (existentOne !== -1) {
+            var existentOne = listenerStore[existentOneIndex];
+            existentOne.el.removeEventListener(existentOne.event, existentOne.fn);
+            if (callFn) existentOne[existentOneIndex].fn();
          }
       }
-   });
+      // Finally, bind the listener
+      el.addEventListener(event, fn);
+      listenerStore.push(newListener);
+   }
+
+   /**
+    * Animation function
+    * @param {HTMLElement} step - Step to open
+    * @returns {HTMLElement} - The original received step
+    */
+   openAction = step => {
+      step.classList.remove('done');
+      const content = step.getElementsByClassName('step-content')[0];
+      const height = `${MStepper.getUnknownHeight(content)}px`;
+
+      const endSlideDown = e => {
+         if (e.propertyName !== 'height') return;
+         this.smartListenerUnbind(content, 'transitionend', endSlideDown);
+         MStepper.removeMultipleProperties(content, 'visibility overflow height display');
+      };
+
+      requestAnimationFrame(() => {
+         // Prepare the element for animation
+         content.style.overflow = 'hidden';
+         content.style.visibility = 'unset';
+         content.style.display = 'block';
+         requestAnimationFrame(() => {
+            this.smartListenerBind(content, 'transitionend', endSlideDown, true);
+            content.style.height = height;
+            step.classList.add('active');
+         });
+      });
+      return step;
+   }
+
+   /**
+    * Animation function
+    * @param {HTMLElement} step - Step to close
+    * @returns {HTMLElement} - The original received step
+    */
+   closeAction = step => {
+      const content = step.getElementsByClassName('step-content')[0];
+      const height = `${content.offsetHeight}px`;
+
+      const endSlideUp = e => {
+         if (e.propertyName !== 'height') return;
+         this.smartListenerUnbind(content, 'transitionend', endSlideUp);
+         MStepper.removeMultipleProperties(content, 'visibility overflow height display');
+      };
+
+      requestAnimationFrame(() => {
+         // Prepare the element for animation
+         content.style.overflow = 'hidden';
+         content.style.visibility = 'unset';
+         content.style.display = 'block';
+         content.style.height = height;
+         requestAnimationFrame(() => {
+            this.smartListenerBind(content, 'transitionend', endSlideUp, true);
+            content.style.height = '0';
+            step.classList.remove('active');
+         });
+      });
+
+      return step;
+   }
+
+   activateStepper = () => {
+      const { wrapWithForm, getSteps, options, stepper, classes, nextStep, prevStep, openAction } = this;
+      const { addEventListenerByClass } = MStepper;
+      wrapWithForm();
+      openAction(getSteps().steps[options.firstActive]);
+      addEventListenerByClass(stepper, classes.NEXT, 'click', nextStep);
+      addEventListenerByClass(stepper, classes.PREV, 'click', prevStep);
+   }
+   nextStep = () => {
+      var getSteps = this.getSteps();
+      const activeStep = getSteps.active;
+      this.closeAction(activeStep.step);
+      this.openAction(getSteps.steps[activeStep.index + 1]);
+   }
+   prevStep = () => {
+      const activeStep = this.getSteps().active;
+      this.closeAction(activeStep.step);
+      this.openAction(this.getSteps().steps[activeStep.index + -1]);
+   }
+   getSteps = () => {
+      const steps = this.stepper.querySelectorAll('li');
+      let active, activeIndex;
+      for (let i = 0; i < steps.length; i++) {
+         if (steps[i].classList.contains('active')) {
+            active = steps[i];
+            activeIndex = i;
+         }
+      }
+      return { steps, active: { step: active, index: activeIndex } };
+   }
+   wrapWithForm = () => {
+      const stpr = this.stepper;
+      if (!parentsUntil(stpr, 'form').length && this.options.autoFormCreation) {
+         const dataAttrs = stpr.dataset || {};
+         const method = dataAttrs || 'GET';
+         const action = dataAttrs || '?';
+         const wrapper = document.createElement('form');
+         wrapper.method = method;
+         wrapper.action = action;
+         // stpr.parentNode.insertBefore(wrapper, stpr);
+      }
+   }
 }
 
-$.fn.getActiveStep = function () {
-   var active = this.find('.step.active');
-   return $(this.children('.step:visible')).index($(active)) + 1;
-};
 
-$.fn.activateStep = function (callback) {
-   if ($(this).hasClass('step')) return;
-   var stepper = $(this).closest('ul.stepper');
-   stepper.find('>li').removeAttr("data-last");
-   if (window.innerWidth < 993 || !stepper.hasClass('horizontal')) {
-      $(this).addClass("step").stop().slideDown(400, function () {
-         $(this).css({ 'height': 'auto', 'margin-bottom': '', 'display': 'inherit' }); if (callback) callback();
-         stepper.find('>li.step').last().attr('data-last', 'true');
-      });
-   } else {
-      $(this).addClass("step").stop().css({ 'width': '0%', 'display': 'inherit' }).animate({ width: '100%' }, 400, function () {
-         $(this).css({ 'height': 'auto', 'margin-bottom': '', 'display': 'inherit' }); if (callback) callback();
-         stepper.find('>li.step').last().attr('data-last', 'true');
-      });
-   }
-};
-
-$.fn.deactivateStep = function (callback) {
-   if (!$(this).hasClass('step')) return;
-   var stepper = $(this).closest('ul.stepper');
-   stepper.find('>li').removeAttr("data-last");
-   if (window.innerWidth < 993 || !stepper.hasClass('horizontal')) {
-      $(this).stop().css({ 'transition': 'none', '-webkit-transition': 'margin-bottom none' }).slideUp(400, function () {
-         $(this).removeClass("step").css({ 'height': 'auto', 'margin-bottom': '', 'transition': 'margin-bottom .4s', '-webkit-transition': 'margin-bottom .4s' });
-         if (callback) callback();
-         stepper.find('>li').removeAttr("data-last");
-         stepper.find('>li.step').last().attr('data-last', 'true');
-      });
-   } else {
-      $(this).stop().animate({ width: '0%' }, 400, function () {
-         $(this).removeClass("step").hide().css({ 'height': 'auto', 'margin-bottom': '', 'display': 'none', 'width': '' });
-         if (callback) callback();
-         stepper.find('>li.step').last().attr('data-last', 'true');
-      });
-   }
-};
-
-$.fn.showError = function (error) {
-   if (validation) {
-      var name = this.attr('name');
-      var form = this.closest('form');
-      var obj = {};
-      obj[name] = error;
-      form.validate().showErrors(obj);
-      this.closest('li').addClass('wrong');
-   } else {
-      this.removeClass('valid').addClass('invalid');
-      this.next().attr('data-error', error);
-   }
-};
-
-$.fn.activateFeedback = function () {
-   var active = this.find('.step.active:not(.feedbacking)').addClass('feedbacking').find('.step-content');
-   active.prepend('<div class="wait-feedback"> <div class="preloader-wrapper active"> <div class="spinner-layer spinner-blue"> <div class="circle-clipper left"> <div class="circle"></div></div><div class="gap-patch"> <div class="circle"></div></div><div class="circle-clipper right"> <div class="circle"></div></div></div><div class="spinner-layer spinner-red"> <div class="circle-clipper left"> <div class="circle"></div></div><div class="gap-patch"> <div class="circle"></div></div><div class="circle-clipper right"> <div class="circle"></div></div></div><div class="spinner-layer spinner-yellow"> <div class="circle-clipper left"> <div class="circle"></div></div><div class="gap-patch"> <div class="circle"></div></div><div class="circle-clipper right"> <div class="circle"></div></div></div><div class="spinner-layer spinner-green"> <div class="circle-clipper left"> <div class="circle"></div></div><div class="gap-patch"> <div class="circle"></div></div><div class="circle-clipper right"> <div class="circle"></div></div></div></div></div>');
-};
-
-$.fn.destroyFeedback = function () {
-   var active = this.find('.step.active.feedbacking');
-   if (active) {
-      active.removeClass('feedbacking');
-      active.find('.wait-feedback').remove();
-   }
-   return true;
-};
-
-$.fn.resetStepper = function (step) {
-   if (!step) step = 1;
-   var form = $(this).closest('form');
-   $(form)[0].reset();
-   Materialize.updateTextFields();
-
-   if (validation) {
-      form.validate().resetForm();
-      $(this).find('li.step').removeClass('wrong');
-   }
-
-   return $(this).openStep(step);
-};
-
-$.fn.submitStepper = function (step) {
-   var form = this.closest('form');
-   if (form.isValid()) {
-      form.submit();
-   }
-};
-
-$.fn.nextStep = function (callback, activefb, e) {
-   var stepper = this;
-   var settings = $(stepper).data('settings');
-   var form = this.closest('form');
-   var active = this.find('.step.active');
-   var next = $(this.children('.step:visible')).index($(active)) + 2;
-   var feedback = active.find('.next-step').length > 1 ? (e ? $(e.target).data("feedback") : undefined) : active.find('.next-step').data("feedback");
-   if (form.isValid()) {
-      if (feedback && activefb) {
-         if (settings.showFeedbackLoader) stepper.activateFeedback();
-         return window[feedback].call();
-      }
-      active.removeClass('wrong').addClass('done');
-      this.openStep(next, callback);
-      return this.trigger('nextstep');
-   } else {
-      return active.removeClass('done').addClass('wrong');
-   }
-};
-
-$.fn.prevStep = function (callback) {
-   var active = this.find('.step.active');
-   if (active.hasClass('feedbacking')) return;
-   var prev = $(this.children('.step:visible')).index($(active));
-   active.removeClass('wrong');
-   this.openStep(prev, callback);
-   return this.trigger('prevstep');
-};
-
-$.fn.openStep = function (step, callback) {
-   var settings = $(this).closest('ul.stepper').data('settings');
-   var $this = this;
-   var step_num = step - 1;
-   step = this.find('.step:visible:eq(' + step_num + ')');
-   if (step.hasClass('active')) return;
-   var active = this.find('.step.active');
-   var next;
-   var prev_active = next = $(this.children('.step:visible')).index($(active));
-   var order = step_num > prev_active ? 1 : 0;
-   if (active.hasClass('feedbacking')) $this.destroyFeedback();
-   active.closeAction(order);
-   step.openAction(order, function () {
-      if (settings.autoFocusInput) step.find('input:enabled:visible:first').focus();
-      $this.trigger('stepchange').trigger('step' + (step_num + 1));
-      if (step.data('event')) $this.trigger(step.data('event'));
-      if (callback) callback();
-   });
-};
-
-$.fn.closeAction = function (order, callback) {
-   var closable = this.removeClass('active').find('.step-content');
-   if (window.innerWidth < 993 || !this.closest('ul').hasClass('horizontal')) {
-      closable.stop().slideUp(300, "easeOutQuad", callback);
-   } else {
-      if (order == 1) {
-         closable.animate({ left: '-100%' }, function () { closable.css({ display: 'none', left: '0%' }, callback); });
+/**
+ * Traverse parents until find the one (like jQuery's parents)
+ * @param {HTMLElement} el - Base element to start the search
+ * @param {string} selector - Selector to filter
+ * @param {string} filter - Filter
+ * @returns {HTMLElement}
+ */
+function parentsUntil(el, selector, filter) {
+   const result = [];
+   const matchesSelector = el.matches || el.webkitMatchesSelector || el.mozMatchesSelector || el.msMatchesSelector;
+   el = el.parentElement;
+   while (el && !matchesSelector.call(el, selector)) {
+      if (!filter) {
+         result.push(el);
       } else {
-         closable.animate({ left: '100%' }, function () { closable.css({ display: 'none', left: '0%' }, callback); });
-      }
-   }
-};
-
-$.fn.openAction = function (order, callback) {
-   var openable = this.removeClass('done').addClass('active').find('.step-content');
-   if (window.innerWidth < 993 || !this.closest('ul').hasClass('horizontal')) {
-      openable.slideDown(300, "easeOutQuad", callback);
-   } else {
-      if (order == 1) {
-         openable.css({ left: '100%', display: 'block' }).animate({ left: '0%' }, callback);
-      } else {
-         openable.css({ left: '-100%', display: 'block' }).animate({ left: '0%' }, callback);
-      }
-   }
-};
-
-$.fn.activateStepper = function (options) {
-   var settings = $.extend({
-      linearStepsNavigation: true,
-      autoFocusInput: true,
-      showFeedbackLoader: true,
-      autoFormCreation: true
-   }, options);
-   $(document).on('click', function (e) {
-      if (!$(e.target).parents(".stepper").length) {
-         $('.stepper.focused').removeClass('focused');
-      }
-   });
-
-   $(this).each(function () {
-      var $stepper = $(this);
-      if (!$stepper.parents("form").length && settings.autoFormCreation) {
-         var method = $stepper.data('method');
-         var action = $stepper.data('action');
-         var method = (method ? method : "GET");
-         action = (action ? action : "?");
-         $stepper.wrap('<form action="' + action + '" method="' + method + '"></form>');
-      }
-
-      $stepper.data('settings', settings);
-      $stepper.find('li.step.active').openAction(1);
-      $stepper.find('>li').removeAttr("data-last");
-      $stepper.find('>li.step').last().attr('data-last', 'true');
-
-      $stepper.on("click", '.step:not(.active)', function () {
-         var object = $($stepper.children('.step:visible')).index($(this));
-         if (!$stepper.hasClass('linear')) {
-            $stepper.openStep(object + 1);
-         } else if (settings.linearStepsNavigation) {
-            var active = $stepper.find('.step.active');
-            if ($($stepper.children('.step:visible')).index($(active)) + 1 == object) {
-               $stepper.nextStep(undefined, true, undefined);
-            } else if ($($stepper.children('.step:visible')).index($(active)) - 1 == object) {
-               $stepper.prevStep(undefined);
-            }
+         if (matchesSelector.call(el, filter)) {
+            result.push(el);
          }
-      }).on("click", '.next-step', function (e) {
-         e.preventDefault();
-         $stepper.nextStep(undefined, true, e);
-      }).on("click", '.previous-step', function (e) {
-         e.preventDefault();
-         $stepper.prevStep(undefined);
-      }).on("click", "button:submit:not(.next-step, .previous-step)", function (e) {
-         e.preventDefault();
-         feedback = e ? $(e.target).data("feedback") : undefined;
-         var form = $stepper.closest('form');
-         if (form.isValid()) {
-            if (feedback) {
-               stepper.activateFeedback();
-               return window[feedback].call();
-            }
-            form.submit();
-         }
-      }).on("click", function () {
-         $('.stepper.focused').removeClass('focused');
-         $(this).addClass('focused');
-      });
-   });
-};
+      }
+      el = el.parentElement;
+   }
+   return result;
+}

@@ -1,5 +1,49 @@
 .step {
    position: relative;
+   .step-title {
+      margin: 0 -24px;
+      cursor: pointer;
+      padding: 15.5px 44px 24px 64px;
+      display: block;
+      &:hover {
+         background-color: $step-hover-bgcolor;
+      }
+      &::after {
+         content: attr(data-step-label);
+         display: block;
+         position: absolute;
+         font-size: 12.8px;
+         font-size: 0.8rem;
+         color: #424242;
+         font-weight: 400;
+      }
+   }
+   .step-content {
+      position: relative;
+      display: none;
+      height: 0;
+      transition: height 400ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+      width: inherit;
+      overflow: visible;
+      margin-left: 41px;
+      margin-right: 24px;
+      .step-actions {
+         padding-top: 16px;
+         padding-bottom: 4px;
+         display: flex;
+         justify-content: flex-start;
+         .btn,
+         .btn-flat,
+         .btn-large {
+            &:not(:last-child) {
+               margin-right: 5px;
+            }
+         }
+      }
+      .row {
+         margin-bottom: 7px;
+      }
+   }
    &::before {
       @include step-counter;
       top: 12px;
@@ -13,11 +57,14 @@
    }
    &.active {
       &:not(:last-child):after {
-         height: 93%;
          height: calc(100% - 12px);
       }
       .step-title {
          font-weight: 500;
+      }
+      .step-content {
+         height: auto;
+         display: block;
       }
    }
    &.active,
@@ -49,50 +96,8 @@
          background-color: $step-divider-bgcolor;
          transition: all 0.4s;
       }
-      .active {
+      &.active {
          margin-bottom: 36px;
-      }
-   }
-   .step-title {
-      margin: 0 -24px;
-      cursor: pointer;
-      padding: 15.5px 44px 24px 64px;
-      display: block;
-      &:hover {
-         background-color: $step-hover-bgcolor;
-      }
-      &::after {
-         content: attr(data-step-label);
-         display: block;
-         position: absolute;
-         font-size: 12.8px;
-         font-size: 0.8rem;
-         color: #424242;
-         font-weight: 400;
-      }
-   }
-   .step-content {
-      position: relative;
-      display: none;
-      height: calc(100% - 132px);
-      width: inherit;
-      overflow: visible;
-      margin-left: 41px;
-      margin-right: 24px;
-      .step-actions {
-         padding-top: 16px;
-         display: flex;
-         justify-content: flex-start;
-         .btn,
-         .btn-flat,
-         .btn-large {
-            &:not(:last-child) {
-               margin-right: 5px;
-            }
-         }
-      }
-      .row {
-         margin-bottom: 7px;
       }
    }
 }
