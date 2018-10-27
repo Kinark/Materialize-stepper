@@ -94,7 +94,7 @@
          height: 40%;
          height: calc(100% - 38px);
          background-color: $step-divider-bgcolor;
-         transition: all 0.4s;
+         transition: height 0.4s;
       }
       &.active {
          margin-bottom: 36px;

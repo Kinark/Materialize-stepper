@@ -10,6 +10,9 @@
    text-align: center;
    line-height: $counter-size;
    font-weight: 400;
+   transition: background-color 0.4s;
+   font-size: $counter-font-size;
+   left: (28px - $counter-size)/2;
 }
 
 @mixin step-counter-active-done {
