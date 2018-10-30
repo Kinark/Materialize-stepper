@@ -173,62 +173,77 @@ class MStepper {
    }
 
    /**
-    * Animation function.
-    * @param {HTMLElement} step - Step to open.
+    * Slide Down function (almost like jQuery's one).
+    * @param {HTMLElement} element - Element to be slided.
+    * @param {string} [className] - Class to be added to the element.
+    * @param {string} [classElement=element] - Element to add the class to. Otherwise, the first element will be used.
     * @returns {HTMLElement} - The original received step.
     */
-   _openAction = step => {
-      const content = step.getElementsByClassName(this.classes.STEPCONTENT)[0];
-      const height = `${MStepper.getUnknownHeight(content)}px`;
+   _slideDown = (element, className, classElement = element) => {
+      const height = `${MStepper.getUnknownHeight(element)}px`;
 
       const endSlideDown = e => {
          if (e.propertyName !== 'height') return;
-         this.smartListenerUnbind(content, 'transitionend', endSlideDown);
-         MStepper.removeMultipleProperties(content, 'visibility overflow height display');
+         this.smartListenerUnbind(element, 'transitionend', endSlideDown);
+         MStepper.removeMultipleProperties(element, 'visibility overflow height display');
       };
 
       requestAnimationFrame(() => {
          // Prepare the element for animation
-         content.style.overflow = 'hidden';
-         content.style.visibility = 'unset';
-         content.style.display = 'block';
+         element.style.overflow = 'hidden';
+         element.style.visibility = 'unset';
+         element.style.display = 'block';
+         element.style.height = '0';
          requestAnimationFrame(() => {
-            this.smartListenerBind(content, 'transitionend', endSlideDown, true);
-            content.style.height = height;
-            step.classList.add(this.classes.ACTIVESTEP);
+            this.smartListenerBind(element, 'transitionend', endSlideDown, true);
+            element.style.height = height;
+            if (className) classElement.classList.add(className);
          });
       });
-      return step;
+      return element;
    }
 
    /**
-    * Animation function.
-    * @param {HTMLElement} step - Step to close.
+    * Slide up function (almost like jQuery's one).
+    * @param {HTMLElement} element - Element to be slided.
+    * @param {string} [className] - Class to be removed from the element.
+    * @param {string} [classElement=element] - Element to removed the class from. Otherwise, the first element will be used.
     * @returns {HTMLElement} - The original received step.
     */
-   _closeAction = step => {
-      const content = step.getElementsByClassName(this.classes.STEPCONTENT)[0];
-      const height = `${content.offsetHeight}px`;
+   _slideUp = (element, className, classElement = element) => {
+      const height = `${element.offsetHeight}px`;
 
       const endSlideUp = e => {
          if (e.propertyName !== 'height') return;
-         this.smartListenerUnbind(content, 'transitionend', endSlideUp);
-         MStepper.removeMultipleProperties(content, 'visibility overflow height display');
+         this.smartListenerUnbind(element, 'transitionend', endSlideUp);
+         MStepper.removeMultipleProperties(element, 'visibility overflow height display');
       };
 
       requestAnimationFrame(() => {
          // Prepare the element for animation
-         content.style.overflow = 'hidden';
-         content.style.visibility = 'unset';
-         content.style.display = 'block';
-         content.style.height = height;
+         element.style.overflow = 'hidden';
+         element.style.visibility = 'unset';
+         element.style.display = 'block';
+         element.style.height = height;
          requestAnimationFrame(() => {
-            this.smartListenerBind(content, 'transitionend', endSlideUp, true);
-            content.style.height = '0';
-            step.classList.remove(this.classes.ACTIVESTEP);
+            this.smartListenerBind(element, 'transitionend', endSlideUp, true);
+            element.style.height = '0';
+            if (className) classElement.classList.remove(className);
          });
       });
 
+      return element;
+   }
+
+   _closeAction = step => {
+      const { _slideUp, classes } = this;
+      _slideUp(step.getElementsByClassName(classes.STEPCONTENT)[0], classes.ACTIVESTEP, step);
+      return step;
+   }
+
+   _openAction = step => {
+      const { _slideDown, classes } = this;
+      _slideDown(step.getElementsByClassName(classes.STEPCONTENT)[0], classes.ACTIVESTEP, step);
       return step;
    }
 
@@ -323,15 +338,37 @@ class MStepper {
    getSteps = () => {
       const { stepper, classes } = this;
       const steps = stepper.querySelectorAll(`li.${classes.STEP}`);
-      let activeStep, activeStepIndex;
-      for (let i = 0; i < steps.length; i++) {
-         if (steps[i].classList.contains(this.classes.ACTIVESTEP)) {
-            activeStep = steps[i];
-            activeStepIndex = i;
-            break;
-         }
-      }
+      const activeStep = stepper.querySelector(`li.${classes.ACTIVESTEP}`);
+      const activeStepIndex = Array.prototype.indexOf.call(steps, activeStep);
       return { steps, active: { step: activeStep, index: activeStepIndex } };
+   }
+   activateStep = (elements, index) => {
+      const { getSteps, _slideDown, stepper } = this;
+      const currentSteps = getSteps();
+      const nextStep = currentSteps.steps[index];
+      let returnElement = null;
+      if (typeof elements === 'string') {
+         nextStep.insertAdjacentHTML('beforeBegin', elements);
+         returnElement = nextStep.previousSibling;
+         _slideDown(returnElement);
+      } else if (Array.isArray(elements)) {
+         returnElement = [];
+         elements.forEach(element => {
+            nextStep.insertAdjacentHTML('beforeBegin', element);
+            returnElement.push(nextStep.previousSibling);
+            _slideDown(nextStep.previousSibling);
+         });
+      } else if (elements instanceof Element || elements instanceof HTMLCollection) {
+         returnElement = stepper.appendChild(elements, nextStep);
+         if (elements instanceof Element) _slideDown(returnElement); else returnElement.forEach(appendedElement => _slideDown(appendedElement));
+      }
+      return returnElement;
+   }
+   deactivateStep = elements => {
+      const { _slideUp, stepper } = this;
+      if (!stepper.contains(elements) || !(elements instanceof Element) || !(elements instanceof HTMLCollection)) return null;
+      if (elements instanceof Element) _slideUp(elements); else elements.forEach(element => _slideUp(element));
+      return elements;
    }
    _formWrapperManager = () => {
       const { stepper, options } = this;
