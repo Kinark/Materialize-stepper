@@ -93,14 +93,17 @@ ul.stepper {
       position: absolute;
       counter-increment: section;
       content: counter(section);
-      height: 28px;
-      width: 28px;
+      height: 26px;
+      width: 26px;
       color: white;
       background-color: #B2B2B2;
       border-radius: 50%;
       text-align: center;
-      line-height: 28px;
+      line-height: 26px;
       font-weight: 400;
+      transition: background-color 0.4s;
+      font-size: 14px;
+      left: 1px;
       top: 12px; }
     ul.stepper .step[data-last="true"] {
       margin-bottom: 0; }
@@ -136,7 +139,7 @@ ul.stepper {
       height: 40%;
       height: calc(100% - 38px);
       background-color: rgba(0, 0, 0, 0.1);
-      transition: all 0.4s; }
+      transition: height 0.4s; }
     ul.stepper .step:not(:last-of-type).active {
       margin-bottom: 36px; }
   ul.stepper > li:not(:last-of-type) {
@@ -188,14 +191,17 @@ ul.stepper {
             position: absolute;
             counter-increment: section;
             content: counter(section);
-            height: 28px;
-            width: 28px;
+            height: 26px;
+            width: 26px;
             color: white;
             background-color: #B2B2B2;
             border-radius: 50%;
             text-align: center;
-            line-height: 28px;
+            line-height: 26px;
             font-weight: 400;
+            transition: background-color 0.4s;
+            font-size: 14px;
+            left: 1px;
             top: 28.5px;
             left: 19px; }
           ul.stepper.horizontal .step .step-title::after {
