@@ -4,6 +4,7 @@
       display: flex;
       justify-content: space-between;
       min-height: 458px;
+      overflow: hidden;
       &::before {
          content: '';
          background-color: transparent;
@@ -15,7 +16,7 @@
       }
       .step {
          position: static;
-         margin: 0;
+         padding: 0 !important;
          width: 100%;
          display: flex;
          align-items: center;
@@ -23,8 +24,7 @@
          &::before {
             content: none;
          }
-         &:last-of-type,
-         &[data-last="true"] {
+         &:last-of-type {
             width: auto !important;
          }
          &:not(:last-of-type)::after,
@@ -55,6 +55,12 @@
                top: 15px;
             }
          }
+         &.active~.step .step-content {
+            left: 100%;
+         }
+         &.active .step-content {
+            left: 0 !important;
+         }
          &.active,
          &.done {
             .step-title {
@@ -75,14 +81,16 @@
          }
          .step-content {
             position: absolute;
-            height: calc(100% - $horizontal-stepper-stepsbar-height);
+            height: calc(100% - #{$horizontal-stepper-stepsbar-height});
             top: $horizontal-stepper-stepsbar-height;
-            left: 0;
+            display: block;
+            left: -100%;
             width: 100%;
             overflow-y: auto;
             overflow-x: hidden;
             margin: 0;
             padding: 20px 20px 76px 20px;
+            transition: left $default-transition-time $default-transition-ease;
             .step-actions {
                position: absolute;
                bottom: 0;

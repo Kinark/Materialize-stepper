@@ -4,6 +4,13 @@ $inactive-counter-color: white;
 $wrong-counter-bgcolor: red;
 $counter-size: 26px;
 $counter-font-size: 14px;
+$counter-offset: 13px;
+
+$step-padding-bottom: 10px;
+$step-active-padding-bottom: 36px;
+
+$default-transition-time: 400ms;
+$default-transition-ease: cubic-bezier(0.4, 0, 0.2, 1);
 
 $step-divider-bgcolor: rgba(0, 0, 0, 0.1);
 

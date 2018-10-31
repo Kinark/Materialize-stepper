@@ -1,5 +1,6 @@
 .step {
    position: relative;
+   transition: height $default-transition-time $default-transition-ease, padding-bottom $default-transition-time $default-transition-ease;
    .step-title {
       margin: 0 -24px;
       cursor: pointer;
@@ -22,7 +23,7 @@
       position: relative;
       display: none;
       height: 0;
-      transition: height 400ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+      transition: height $default-transition-time $default-transition-ease;
       width: inherit;
       overflow: visible;
       margin-left: 41px;
@@ -46,19 +47,9 @@
    }
    &::before {
       @include step-counter;
-      top: 12px;
-   }
-   &[data-last="true"] {
-      margin-bottom: 0;
-      &::after {
-         height: 0;
-         width: 0;
-      }
+      top: $counter-offset;
    }
    &.active {
-      &:not(:last-child):after {
-         height: calc(100% - 12px);
-      }
       .step-title {
          font-weight: 500;
       }
@@ -88,21 +79,20 @@
       &::after {
          content: '';
          position: absolute;
-         top: 50px;
+         top: $counter-size + $counter-offset * 2;
          left: 13.5px;
          width: 1px;
          height: 40%;
-         height: calc(100% - 38px);
+         height: calc(100% - #{$counter-size + $counter-offset * 2});
          background-color: $step-divider-bgcolor;
-         transition: height 0.4s;
+         transition: height $default-transition-time $default-transition-ease;
       }
       &.active {
-         margin-bottom: 36px;
+         padding-bottom: 36px;
       }
    }
 }
 
 &>li:not(:last-of-type) {
-   margin-bottom: 10px;
-   transition: margin-bottom 0.4s;
+   padding-bottom: 10px;
 }

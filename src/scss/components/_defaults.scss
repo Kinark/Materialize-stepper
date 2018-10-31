@@ -10,7 +10,7 @@
    text-align: center;
    line-height: $counter-size;
    font-weight: 400;
-   transition: background-color 0.4s;
+   transition: background-color $default-transition-time $default-transition-ease;
    font-size: $counter-font-size;
    left: (28px - $counter-size)/2;
 }
