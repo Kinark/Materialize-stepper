@@ -300,10 +300,11 @@ class MStepper {
       const { active } = getSteps();
       const nextStep = getSteps().steps[active.index + 1];
       const nextStepInputs = nextStep.querySelector('input, select');
+      const feedbackFunction = e && e.target ? e.target.dataset.feedback : null;
 
-      if (active.step.dataset.feedback && !skipFeedback) {
+      if (feedbackFunction && !skipFeedback) {
          if (showFeedbackPreloader && !active.step.dataset.nopreloader) activateFeedback();
-         window[active.step.dataset.feedback](form, active.step);
+         window[feedbackFunction](form, active.step);
          return;
       } else if (validationFunction && !validationFunction(form, active.step)) {
          return wrongStep();
