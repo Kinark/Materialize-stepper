@@ -54,12 +54,12 @@
             If you want, for example, to check if an e-mail exists in your DB, you can define a feedback function with data-feedback attribute in your next button.
          </p>
          <p>
-            When the user try to move forward, a loading screen will overlay the active step until you trigger .nextStep manually.
+            When the user try to move forward, a loading screen will overlay the active step until you run destroyFeedback(true) in the stepper instance with "true" in the first parameter to also skip the step (instead of just destroy the feedback preloader).
          </p>
          <p><b>Example:</b></p>
          <pre class="language-markup"><code class=" language-markup">
 &lt;script&gt;
-$(selector).nextStep();
+stepperInstance.destroyFeedback(true);
 &lt;/script&gt;
                         </code></pre>
       </div>
