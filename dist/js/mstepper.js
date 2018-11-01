@@ -107,7 +107,7 @@ function () {
       clone.style.opacity = '0';
       clone.style.zIndex = '-999999';
       clone.style.pointerEvents = 'none';
-      var insertedElement = el.parentNode.appendChild(clone);
+      var insertedElement = el.parentNode.insertBefore(clone, el);
       var height = insertedElement.offsetHeight;
       el.parentNode.removeChild(insertedElement);
       return height;
@@ -184,6 +184,7 @@ function () {
 
     _defineProperty(this, "_slideDown", function (element, className) {
       var classElement = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : element;
+      var cb = arguments.length > 3 ? arguments[3] : undefined;
       var height = "".concat(MStepper.getUnknownHeight(element), "px");
 
       var endSlideDown = function endSlideDown(e) {
@@ -192,18 +193,21 @@ function () {
         _this.smartListenerUnbind(element, 'transitionend', endSlideDown);
 
         MStepper.removeMultipleProperties(element, 'visibility overflow height display');
+        if (cb) cb();
       };
 
       requestAnimationFrame(function () {
         // Prepare the element for animation
         element.style.overflow = 'hidden';
+        element.style.paddingBottom = '0';
+        element.style.height = '0';
         element.style.visibility = 'unset';
         element.style.display = 'block';
-        element.style.height = '0';
         requestAnimationFrame(function () {
           _this.smartListenerBind(element, 'transitionend', endSlideDown, true);
 
           element.style.height = height;
+          element.style.removeProperty('padding-bottom');
           if (className) classElement.classList.add(className);
         });
       });
@@ -212,6 +216,7 @@ function () {
 
     _defineProperty(this, "_slideUp", function (element, className) {
       var classElement = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : element;
+      var cb = arguments.length > 3 ? arguments[3] : undefined;
       var height = "".concat(element.offsetHeight, "px");
 
       var endSlideUp = function endSlideUp(e) {
@@ -219,7 +224,9 @@ function () {
 
         _this.smartListenerUnbind(element, 'transitionend', endSlideUp);
 
-        MStepper.removeMultipleProperties(element, 'visibility overflow height display');
+        element.style.display = 'none';
+        MStepper.removeMultipleProperties(element, 'visibility overflow height padding-bottom');
+        if (cb) cb();
       };
 
       requestAnimationFrame(function () {
@@ -232,6 +239,7 @@ function () {
           _this.smartListenerBind(element, 'transitionend', endSlideUp, true);
 
           element.style.height = '0';
+          element.style.paddingBottom = '0';
           if (className) classElement.classList.remove(className);
         });
       });
@@ -240,18 +248,39 @@ function () {
 
     _defineProperty(this, "_closeAction", function (step) {
       var _slideUp = _this._slideUp,
-          classes = _this.classes;
+          classes = _this.classes,
+          stepper = _this.stepper;
+      var stepContent = step.getElementsByClassName(classes.STEPCONTENT)[0];
 
-      _slideUp(step.getElementsByClassName(classes.STEPCONTENT)[0], classes.ACTIVESTEP, step);
+      if (window.innerWidth < 993 || !stepper.classList.contains(classes.HORIZONTALSTEPPER)) {
+        _slideUp(stepContent, classes.ACTIVESTEP, step);
+      } else {
+        step.classList.remove('active');
+      }
 
       return step;
     });
 
     _defineProperty(this, "_openAction", function (step) {
+      var closeActiveStep = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
       var _slideDown = _this._slideDown,
-          classes = _this.classes;
+          classes = _this.classes,
+          getSteps = _this.getSteps,
+          _closeAction = _this._closeAction,
+          stepper = _this.stepper;
+      var activeStep = getSteps().active.step;
+      if (activeStep && activeStep.isSameNode(step)) return step;
+      var stepContent = step.getElementsByClassName(classes.STEPCONTENT)[0];
+      step.classList.remove(classes.DONESTEP);
 
-      _slideDown(step.getElementsByClassName(classes.STEPCONTENT)[0], classes.ACTIVESTEP, step);
+      if (window.innerWidth < 993 || !stepper.classList.contains(classes.HORIZONTALSTEPPER)) {
+        if (activeStep && closeActiveStep) _closeAction(activeStep);
+
+        _slideDown(stepContent, classes.ACTIVESTEP, step);
+      } else {
+        step.classList.add('active');
+        if (activeStep && closeActiveStep) _closeAction(activeStep);
+      }
 
       return step;
     });
@@ -287,7 +316,6 @@ function () {
           form = _this.form,
           wrongStep = _this.wrongStep,
           classes = _this.classes,
-          _closeAction = _this._closeAction,
           _openAction = _this._openAction,
           stepper = _this.stepper,
           events = _this.events;
@@ -297,12 +325,13 @@ function () {
       var _getSteps = getSteps(),
           active = _getSteps.active;
 
-      var nextStep = getSteps().steps[active.index + 1];
-      var nextStepInputs = nextStep.querySelector('input, select');
+      var nextStep = getSteps().steps[active.index + 1]; // const nextStepInputs = nextStep.querySelector('input, select');
 
-      if (active.step.dataset.feedback && !skipFeedback) {
+      var feedbackFunction = e && e.target ? e.target.dataset.feedback : null;
+
+      if (feedbackFunction && !skipFeedback) {
         if (showFeedbackPreloader && !active.step.dataset.nopreloader) activateFeedback();
-        window[active.step.dataset.feedback](form, active.step);
+        window[feedbackFunction](form, active.step);
         return;
       } else if (validationFunction && !validationFunction(form, active.step)) {
         return wrongStep();
@@ -310,11 +339,9 @@ function () {
 
       active.step.classList.add(classes.DONESTEP);
 
-      _closeAction(active.step);
+      _openAction(nextStep); // if (options.autoFocusInput && nextStepInputs) nextStepInputs.focus();
 
-      _openAction(nextStep);
 
-      if (options.autoFocusInput && nextStepInputs) nextStepInputs.focus();
       stepper.dispatchEvent(events.STEPCHANGE);
       stepper.dispatchEvent(events.NEXTSTEP);
     });
@@ -323,15 +350,11 @@ function () {
       if (e && e.preventDefault) e.preventDefault();
       var getSteps = _this.getSteps,
           classes = _this.classes,
-          _closeAction = _this._closeAction,
           _openAction = _this._openAction,
           stepper = _this.stepper,
           events = _this.events;
       var activeStep = getSteps().active;
       var prevStep = getSteps().steps[activeStep.index + -1];
-      prevStep.classList.remove(classes.DONESTEP);
-
-      _closeAction(activeStep.step);
 
       _openAction(prevStep);
 
@@ -343,15 +366,22 @@ function () {
       var getSteps = _this.getSteps,
           classes = _this.classes,
           nextStep = _this.nextStep,
-          prevStep = _this.prevStep;
+          prevStep = _this.prevStep,
+          stepper = _this.stepper,
+          _openAction = _this._openAction;
 
       var _getSteps2 = getSteps(),
           steps = _getSteps2.steps,
           active = _getSteps2.active;
 
       var clickedStep = MStepper.parents(e.target, ".".concat(classes.STEP));
-      var clickedStepIndex = Array.prototype.indexOf.call(steps, clickedStep);
-      if (clickedStepIndex == active.index + 1) nextStep();else if (clickedStepIndex == active.index - 1) prevStep();
+
+      if (stepper.classList.contains(classes.LINEAR)) {
+        var clickedStepIndex = Array.prototype.indexOf.call(steps, clickedStep);
+        if (clickedStepIndex == active.index + 1) nextStep();else if (clickedStepIndex == active.index - 1) prevStep();
+      } else {
+        _openAction(clickedStep);
+      }
     });
 
     _defineProperty(this, "activateFeedback", function () {
@@ -413,16 +443,51 @@ function () {
       };
     });
 
-    _defineProperty(this, "activateStep", function (element) {
-      var _slideDown = _this._slideDown;
+    _defineProperty(this, "activateStep", function (elements, index) {
+      var getSteps = _this.getSteps,
+          _slideDown = _this._slideDown,
+          stepper = _this.stepper;
+      var currentSteps = getSteps();
+      var nextStep = currentSteps.steps[index];
+      var returnElement = null;
 
-      _slideDown(element);
+      if (typeof elements === 'string') {
+        nextStep.insertAdjacentHTML('beforeBegin', elements);
+        returnElement = nextStep.previousSibling;
+
+        _slideDown(returnElement);
+      } else if (Array.isArray(elements)) {
+        returnElement = [];
+        elements.forEach(function (element) {
+          nextStep.insertAdjacentHTML('beforeBegin', element);
+          returnElement.push(nextStep.previousSibling);
+
+          _slideDown(nextStep.previousSibling);
+        });
+      } else if (elements instanceof Element || elements instanceof HTMLCollection) {
+        returnElement = stepper.insertBefore(elements, nextStep);
+        if (elements instanceof Element) _slideDown(returnElement);else returnElement.forEach(function (appendedElement) {
+          return _slideDown(appendedElement);
+        });
+      }
+
+      return returnElement;
     });
 
-    _defineProperty(this, "deactivateStep", function (element) {
-      var _slideUp = _this._slideUp;
+    _defineProperty(this, "deactivateStep", function (elements) {
+      var _slideUp = _this._slideUp,
+          stepper = _this.stepper;
 
-      _slideUp(element);
+      var doIt = function doIt(element) {
+        if (stepper.contains(elements)) _slideUp(element, undefined, undefined, function () {
+          return stepper.removeChild(element);
+        });
+      };
+
+      if (elements instanceof Element) doIt(elements);else if (elements instanceof HTMLCollection) elements.forEach(function (element) {
+        return doIt(element);
+      });
+      return elements;
     });
 
     _defineProperty(this, "_formWrapperManager", function () {
@@ -458,6 +523,8 @@ function () {
       feedbackPreloader: _options.feedbackPreloader || '<div class="preloader-wrapper active"> <div class="spinner-layer spinner-blue-only"> <div class="circle-clipper left"> <div class="circle"></div></div><div class="gap-patch"> <div class="circle"></div></div><div class="circle-clipper right"> <div class="circle"></div></div></div></div>'
     };
     this.classes = {
+      HORIZONTALSTEPPER: 'horizontal',
+      LINEAR: 'linear',
       NEXTSTEPBTN: 'next-step',
       PREVSTEPBTN: 'previous-step',
       STEPTITLE: 'step-title',

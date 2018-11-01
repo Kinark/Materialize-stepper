@@ -7,16 +7,6 @@
  * Licensed under the MIT License (https://github.com/Kinark/Materialize-stepper/blob/master/LICENSE).
  */
 
-label.invalid {
-  font-size: 12.8px;
-  font-size: 0.8rem;
-  font-weight: 500;
-  color: red !important;
-  top: 50px !important; }
-  label.invalid.active {
-    -webkit-transform: translateY(0%) !important;
-            transform: translateY(0%) !important; }
-
 .card-content ul.stepper {
   margin: 1em -24px;
   padding: 0 24px; }
@@ -25,8 +15,7 @@ label.invalid {
       margin-left: -24px;
       margin-right: -24px;
       padding-left: 24px;
-      padding-right: 24px;
-      overflow: hidden; }
+      padding-right: 24px; }
       .card-content ul.stepper.horizontal:first-child {
         margin-top: -24px; }
       .card-content ul.stepper.horizontal .step.step-content {
@@ -53,7 +42,8 @@ ul.stepper {
     justify-content: center;
     align-items: center; }
   ul.stepper .step {
-    position: relative; }
+    position: relative;
+    transition: height 400ms cubic-bezier(0.4, 0, 0.2, 1), padding-bottom 400ms cubic-bezier(0.4, 0, 0.2, 1); }
     ul.stepper .step .step-title {
       margin: 0 -24px;
       cursor: pointer;
@@ -73,7 +63,7 @@ ul.stepper {
       position: relative;
       display: none;
       height: 0;
-      transition: height 400ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+      transition: height 400ms cubic-bezier(0.4, 0, 0.2, 1);
       width: inherit;
       overflow: visible;
       margin-left: 41px;
@@ -93,22 +83,18 @@ ul.stepper {
       position: absolute;
       counter-increment: section;
       content: counter(section);
-      height: 28px;
-      width: 28px;
+      height: 26px;
+      width: 26px;
       color: white;
       background-color: #B2B2B2;
       border-radius: 50%;
       text-align: center;
-      line-height: 28px;
+      line-height: 26px;
       font-weight: 400;
-      top: 12px; }
-    ul.stepper .step[data-last="true"] {
-      margin-bottom: 0; }
-      ul.stepper .step[data-last="true"]::after {
-        height: 0;
-        width: 0; }
-    ul.stepper .step.active:not(:last-child):after {
-      height: calc(100% - 12px); }
+      transition: background-color 400ms cubic-bezier(0.4, 0, 0.2, 1);
+      font-size: 14px;
+      left: 1px;
+      top: 13px; }
     ul.stepper .step.active .step-title {
       font-weight: 500; }
     ul.stepper .step.active .step-content {
@@ -130,24 +116,24 @@ ul.stepper {
     ul.stepper .step:not(:last-of-type)::after {
       content: '';
       position: absolute;
-      top: 50px;
+      top: 52px;
       left: 13.5px;
       width: 1px;
       height: 40%;
-      height: calc(100% - 38px);
+      height: calc(100% - 52px);
       background-color: rgba(0, 0, 0, 0.1);
-      transition: all 0.4s; }
+      transition: height 400ms cubic-bezier(0.4, 0, 0.2, 1); }
     ul.stepper .step:not(:last-of-type).active {
-      margin-bottom: 36px; }
+      padding-bottom: 36px; }
   ul.stepper > li:not(:last-of-type) {
-    margin-bottom: 10px;
-    transition: margin-bottom 0.4s; }
+    padding-bottom: 10px; }
   @media only screen and (min-width: 993px) {
     ul.stepper.horizontal {
       position: relative;
       display: flex;
       justify-content: space-between;
-      min-height: 458px; }
+      min-height: 458px;
+      overflow: hidden; }
       ul.stepper.horizontal::before {
         content: '';
         background-color: transparent;
@@ -158,14 +144,14 @@ ul.stepper {
         left: 0; }
       ul.stepper.horizontal .step {
         position: static;
-        margin: 0;
+        padding: 0 !important;
         width: 100%;
         display: flex;
         align-items: center;
         height: 84px; }
         ul.stepper.horizontal .step::before {
           content: none; }
-        ul.stepper.horizontal .step:last-of-type, ul.stepper.horizontal .step[data-last="true"] {
+        ul.stepper.horizontal .step:last-of-type {
           width: auto !important; }
         ul.stepper.horizontal .step:not(:last-of-type)::after, ul.stepper.horizontal .step.active:not(:last-of-type)::after {
           content: '';
@@ -188,18 +174,25 @@ ul.stepper {
             position: absolute;
             counter-increment: section;
             content: counter(section);
-            height: 28px;
-            width: 28px;
+            height: 26px;
+            width: 26px;
             color: white;
             background-color: #B2B2B2;
             border-radius: 50%;
             text-align: center;
-            line-height: 28px;
+            line-height: 26px;
             font-weight: 400;
+            transition: background-color 400ms cubic-bezier(0.4, 0, 0.2, 1);
+            font-size: 14px;
+            left: 1px;
             top: 28.5px;
             left: 19px; }
           ul.stepper.horizontal .step .step-title::after {
             top: 15px; }
+        ul.stepper.horizontal .step.active ~ .step .step-content {
+          left: 100%; }
+        ul.stepper.horizontal .step.active .step-content {
+          left: 0 !important; }
         ul.stepper.horizontal .step.active .step-title::before, ul.stepper.horizontal .step.done .step-title::before {
           background-color: #2196f3; }
         ul.stepper.horizontal .step.done .step-title::before {
@@ -213,14 +206,16 @@ ul.stepper {
           background-color: red; }
         ul.stepper.horizontal .step .step-content {
           position: absolute;
-          height: calc(100% - $horizontal-stepper-stepsbar-height);
+          height: calc(100% - 84px);
           top: 84px;
-          left: 0;
+          display: block;
+          left: -100%;
           width: 100%;
           overflow-y: auto;
           overflow-x: hidden;
           margin: 0;
-          padding: 20px 20px 76px 20px; }
+          padding: 20px 20px 76px 20px;
+          transition: left 400ms cubic-bezier(0.4, 0, 0.2, 1); }
           ul.stepper.horizontal .step .step-content .step-actions {
             position: absolute;
             bottom: 0;

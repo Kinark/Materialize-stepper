@@ -95,16 +95,14 @@
                <div class="section scrollspy" id="prerequisites">
    <h5>PREREQUISITES</h5>
    <p>
-      Since it's an implementation to <a href="http://materializecss.com/">Materializecss framework</a>, you'll need it. If you want the stepper to verify required inputs, you'll need <a href="https://jqueryvalidation.org/">jQuery Validation Plugin</a>, but it's optional since 2.0.1:
+      Since it's an implementation to <a href="http://materializecss.com/">Materializecss framework</a>, you'll need it:
    </p>
    <div class="card">
       <div class="card-content">
          <blockquote>
             <ul>
-               <li>jQuery (obviously)</li>
                <li>Materializecss framework</li>
                <li>Google Material Icons</li>
-               <li>jQuery Validation Plugin (optional)</li>
             </ul>
          </blockquote>
       </div>
@@ -120,20 +118,16 @@
       <div class="card-content code">
          <pre class="language-markup"><code class=" language-markup">
  &lt;!-- Materializecss compiled and minified CSS --&gt;
- &lt;link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.0/css/materialize.min.css"&gt;
+ &lt;link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css"&gt;
  &lt;!--Import Google Icon Font--&gt;
  &lt;link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"&gt;
  &lt;!--Import Materialize-Stepper CSS --&gt;
- &lt;link rel="stylesheet" href="materialize-stepper.min.css"&gt;
+ &lt;link rel="stylesheet" href="mstepper.min.css"&gt;
 
- &lt;!-- jQuery --&gt;
- &lt;script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"&gt;&lt;/script&gt;
  &lt;!-- Materializecss compiled and minified JavaScript --&gt;
- &lt;script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.0/js/materialize.min.js"&gt;&lt;/script&gt;
- &lt;!-- jQueryValidation Plugin (optional) --&gt;
- &lt;script src="https://ajax.aspnetcdn.com/ajax/jquery.validate/1.15.0/jquery.validate.min.js"&gt;&lt;/script&gt;
+ &lt;script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"&gt;&lt;/script&gt;
  &lt;!--Import Materialize-Stepper JavaScript --&gt;
- &lt;script src="materialize-stepper.min.js"&gt;&lt;/script&gt;
+ &lt;script src="mstepper.min.js"&gt;&lt;/script&gt;
          </code></pre>
       </div>
    </div>
@@ -148,7 +142,7 @@
       <div class="col l6 m12 s12">
          <div class="card">
             <div class="card-content">
-               <ul class="stepper linear" id="linearstepper">
+               <ul class="normal stepper linear">
                   <li class="step">
                      <div data-step-label="There's labels too!" class="step-title waves-effect waves-dark">Step 1</div>
                      <div class="step-content">
@@ -193,7 +187,7 @@
       </div>
       <div class="col l6 m12 s12">
          <p>
-            Linear Stepper is the most common one. In it, you can't navigate freely between steps. It's step by step, obeying the validation ruled by the required inputs (if you're using jQuery Validation Plugin).
+            Linear Stepper is the most common one. In it, you can't navigate freely between steps. It's step by step, obeying the validation function.
          </p>
          <p><b>Example:</b></p>
          <pre class="language-markup"><code class=" language-markup">
@@ -211,7 +205,7 @@
       <div class="col l6 m12 s12">
          <div class="card">
             <div class="card-content">
-               <ul class="stepper">
+               <ul class="normal stepper">
                   <li class="step">
                      <div data-step-label="Just add a data-step-label!" class="step-title waves-effect waves-dark">Step 1</div>
                      <div class="step-content">
@@ -256,7 +250,7 @@
       </div>
       <div class="col l6 m12 s12">
          <p>
-            In the Non-Linear Stepper you can navigate freely between steps. You can also use the buttons for validation (if you're using jQuery Validation Plugin), but if the user wants to move arbitrarily around the steps, it's allowed by clicking on the steps instead of the buttons.
+            In the Non-Linear Stepper you can navigate freely between steps. You can also use the buttons for validation, but if the user wants to move arbitrarily around the steps, it's allowed by clicking on the steps instead of the buttons.
          </p>
          <p><b>Example:</b></p>
          <pre class="language-markup"><code class=" language-markup">
@@ -289,7 +283,7 @@
       <div class="col s12">
          <div class="card">
             <div class="card-content">
-               <ul class="stepper horizontal" id="horizontal">
+               <ul class="normal stepper horizontal" id="horizontal" >
                   <li class="step">
                      <div data-step-label="To step-title!" class="step-title waves-effect waves-dark">Step 1</div>
                      <div class="step-content">
@@ -391,92 +385,19 @@
             If you want, for example, to check if an e-mail exists in your DB, you can define a feedback function with data-feedback attribute in your next button.
          </p>
          <p>
-            When the user try to move forward, a loading screen will overlay the active step until you trigger .nextStep manually.
+            When the user try to move forward, a loading screen will overlay the active step until you run destroyFeedback(true) in the stepper instance with "true" in the first parameter to also skip the step (instead of just destroy the feedback preloader).
          </p>
          <p><b>Example:</b></p>
          <pre class="language-markup"><code class=" language-markup">
 &lt;script&gt;
-$(selector).nextStep();
+stepperInstance.destroyFeedback(true);
 &lt;/script&gt;
                         </code></pre>
       </div>
    </div>
 </div>
 
-               <div class="section scrollspy" id="custom-validate-step">
-   <div class="row">
-      <div class="col s12">
-         <h5>Custom Validation Step</h5>
-      </div>
-      <div class="col l6 m12 s12">
-         <div class="card">
-            <div class="card-content">
-               <ul class="stepper parallel" id="custom-validation">
-                  <li class="step">
-                     <div class="step-title waves-effect waves-dark">Step 1</div>
-                     <div class="step-content">
-                        <div class="row">
-                           <div class="input-field col s12">
-                              <input name="email" type="email" class="validate" placeholder="This field is not required">
-                              <label for="email">Your e-mail</label>
-                           </div>
-                        </div>
-                        <div class="step-actions">
-                           <button class="waves-effect waves-dark btn blue next-step" data-feedback="someOtherFunction">CONTINUE</button>
-                        </div>
-                     </div>
-                  </li>
-                  <li class="step">
-                     <div class="step-title waves-effect waves-dark">Step 2</div>
-                     <div class="step-content">
-                        <div class="row">
-                           <div class="input-field col s12">
-                              <input id name="password" type="password" class="validate" required>
-                              <label for="password">Your password</label>
-                           </div>
-                        </div>
-                        <div class="step-actions">
-                           <button class="waves-effect waves-dark btn blue next-step" data-feedback="someOtherFunction">CONTINUE</button>
-                           <button class="waves-effect waves-dark btn-flat previous-step">BACK</button>
-                        </div>
-                     </div>
-                  </li>
-                  <li class="step">
-                     <div class="step-title waves-effect waves-dark">Step 3</div>
-                     <div class="step-content">
-                        Finish!
-                        <div class="step-actions">
-                           <button class="waves-effect waves-dark btn blue" type="submit">SUBMIT</button>
-                        </div>
-                     </div>
-                  </li>
-               </ul>
-            </div>
-         </div>
-      </div>
-      <div class="col l6 m12 s12">
-         <p>
-            This functionality is mainly focused when using the Parallel Stepper. When previous steps are validated you might want to add your own custom validation if jQuery Validation doesn´t suffice.
-         </p>
-         <p>
-            By adding the 'data-validator' HTML tag the given function will be executed and is expected to return a boolean value. If the value is not boolean, unexpected behaviour is most likely to occur.
-         </p>
-         <p>
-            Tip: If you are planning on using both the Custom Validation and Feedback, use the Custom Validation function to validate and the Feedback function to invoke the nextStep behaviour.
-         </p>
-         <p>
-            For a more elaborate example please refer to <a href="https://codepen.io/anon/pen/rYZome">Parallel Stepper Example</a>
-         </p>
-         <p><b>Example:</b></p>
-         <pre class="language-markup"><code class=" language-markup">
-&lt;button class="waves-effect waves-dark btn blue next-step" data-validator="someOtherFunction"&gt;
-   CONTINUE
-&lt;/button&gt;
-                        </code></pre>
-      </div>
-   </div>
-</div>
-
+               
 
                <div class="section scrollspy" id="changelog">
    <div class="row">
@@ -559,29 +480,30 @@ $(selector).nextStep();
 <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 <script src="js/mstepper.js"></script>
 <script>
+
+   document.addEventListener('DOMContentLoaded', function () {
+      var elems;
+      elems = document.querySelector('.toc-wrapper');
+      M.Pushpin.init(elems, { top: elems.offsetTop, offset: 77 });
+      elems = document.querySelectorAll('.scrollspy');
+      M.ScrollSpy.init(elems);
+   });
+
+   var galleryElems = document.querySelectorAll('.normal.stepper');
+   for (var i = 0, len = galleryElems.length; i < len; i++) {
+      var galleryElem = galleryElems[i];
+      new MStepper(galleryElem);
+   }
+
+
+   var feedbackStepper = new MStepper(document.getElementById('feedbacker'));
+
    function someFunction() {
-      setTimeout(function () { $('#feedbacker').nextStep(); }, 1000);
+      setTimeout(() => {
+         feedbackStepper.destroyFeedback(true);
+      }, 1000);
    }
 
-   function someOtherFunction() {
-      return true;
-   }
-
-   // $(document).ready(function () {
-   //    $('.toc-wrapper').pushpin({ top: $('.toc-wrapper').offset().top, offset: 77 });
-   //    $('.scrollspy').scrollSpy();
-   //    $('.stepper').activateStepper();
-   // });
-   // (function() {
-   var stepperElement = document.getElementById('linearstepper');
-   var stepper = new MStepper(stepperElement);
-   // });
-
-   // var steppers = document.getElementsByClassName('stepper');
-   // for (var i = 0, len = steppers.length; i < len; i++) {
-   //    var stepper = steppers[i];
-   //    new MStepper(stepper);
-   // }
 </script>
 
 <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script> -->
