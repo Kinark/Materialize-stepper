@@ -299,7 +299,7 @@ class MStepper {
       const { showFeedbackPreloader, validationFunction } = options;
       const { active } = getSteps();
       const nextStep = getSteps().steps[active.index + 1];
-      const nextStepInputs = nextStep.querySelector('input, select');
+      // const nextStepInputs = nextStep.querySelector('input, select');
       const feedbackFunction = e && e.target ? e.target.dataset.feedback : null;
 
       if (feedbackFunction && !skipFeedback) {
