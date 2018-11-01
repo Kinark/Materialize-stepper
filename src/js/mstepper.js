@@ -68,7 +68,7 @@ class MStepper {
       clone.style.opacity = '0';
       clone.style.zIndex = '-999999';
       clone.style.pointerEvents = 'none';
-      const insertedElement = el.parentNode.appendChild(clone);
+      const insertedElement = el.parentNode.insertBefore(clone, el);
       const height = insertedElement.offsetHeight;
       el.parentNode.removeChild(insertedElement);
       return height;
@@ -99,6 +99,8 @@ class MStepper {
          feedbackPreloader: options.feedbackPreloader || '<div class="preloader-wrapper active"> <div class="spinner-layer spinner-blue-only"> <div class="circle-clipper left"> <div class="circle"></div></div><div class="gap-patch"> <div class="circle"></div></div><div class="circle-clipper right"> <div class="circle"></div></div></div></div>'
       };
       this.classes = {
+         HORIZONTALSTEPPER: 'horizontal',
+         LINEAR: 'linear',
          NEXTSTEPBTN: 'next-step',
          PREVSTEPBTN: 'previous-step',
          STEPTITLE: 'step-title',
@@ -177,26 +179,30 @@ class MStepper {
     * @param {HTMLElement} element - Element to be slided.
     * @param {string} [className] - Class to be added to the element.
     * @param {string} [classElement=element] - Element to add the class to. Otherwise, the first element will be used.
+    * @param {string} [cb] - Callback to be executed after animation ends.
     * @returns {HTMLElement} - The original received step.
     */
-   _slideDown = (element, className, classElement = element) => {
+   _slideDown = (element, className, classElement = element, cb) => {
       const height = `${MStepper.getUnknownHeight(element)}px`;
 
       const endSlideDown = e => {
          if (e.propertyName !== 'height') return;
          this.smartListenerUnbind(element, 'transitionend', endSlideDown);
          MStepper.removeMultipleProperties(element, 'visibility overflow height display');
+         if (cb) cb();
       };
 
       requestAnimationFrame(() => {
          // Prepare the element for animation
          element.style.overflow = 'hidden';
+         element.style.paddingBottom = '0';
+         element.style.height = '0';
          element.style.visibility = 'unset';
          element.style.display = 'block';
-         element.style.height = '0';
          requestAnimationFrame(() => {
             this.smartListenerBind(element, 'transitionend', endSlideDown, true);
             element.style.height = height;
+            element.style.removeProperty('padding-bottom');
             if (className) classElement.classList.add(className);
          });
       });
@@ -208,15 +214,18 @@ class MStepper {
     * @param {HTMLElement} element - Element to be slided.
     * @param {string} [className] - Class to be removed from the element.
     * @param {string} [classElement=element] - Element to removed the class from. Otherwise, the first element will be used.
+    * @param {string} [cb] - Callback to be executed after animation ends.
     * @returns {HTMLElement} - The original received step.
     */
-   _slideUp = (element, className, classElement = element) => {
+   _slideUp = (element, className, classElement = element, cb) => {
       const height = `${element.offsetHeight}px`;
 
       const endSlideUp = e => {
          if (e.propertyName !== 'height') return;
          this.smartListenerUnbind(element, 'transitionend', endSlideUp);
-         MStepper.removeMultipleProperties(element, 'visibility overflow height display');
+         element.style.display = 'none';
+         MStepper.removeMultipleProperties(element, 'visibility overflow height padding-bottom');
+         if (cb) cb();
       };
 
       requestAnimationFrame(() => {
@@ -228,6 +237,7 @@ class MStepper {
          requestAnimationFrame(() => {
             this.smartListenerBind(element, 'transitionend', endSlideUp, true);
             element.style.height = '0';
+            element.style.paddingBottom = '0';
             if (className) classElement.classList.remove(className);
          });
       });
@@ -235,15 +245,33 @@ class MStepper {
       return element;
    }
 
-   _closeAction = step => {
-      const { _slideUp, classes } = this;
-      _slideUp(step.getElementsByClassName(classes.STEPCONTENT)[0], classes.ACTIVESTEP, step);
+   _closeAction = (step) => {
+      const { _slideUp, classes, stepper } = this;
+      const stepContent = step.getElementsByClassName(classes.STEPCONTENT)[0];
+
+      if (window.innerWidth < 993 || !stepper.classList.contains(classes.HORIZONTALSTEPPER)) {
+         _slideUp(stepContent, classes.ACTIVESTEP, step);
+      } else {
+            step.classList.remove('active');
+      }
       return step;
    }
 
-   _openAction = step => {
-      const { _slideDown, classes } = this;
-      _slideDown(step.getElementsByClassName(classes.STEPCONTENT)[0], classes.ACTIVESTEP, step);
+   _openAction = (step, closeActiveStep = true) => {
+      const { _slideDown, classes, getSteps, _closeAction, stepper } = this;
+      const activeStep = getSteps().active.step;
+      if (activeStep && activeStep.isSameNode(step)) return step;
+      const stepContent = step.getElementsByClassName(classes.STEPCONTENT)[0];
+      step.classList.remove(classes.DONESTEP);
+      
+      if (window.innerWidth < 993 || !stepper.classList.contains(classes.HORIZONTALSTEPPER)) {
+         if (activeStep && closeActiveStep) _closeAction(activeStep);
+         _slideDown(stepContent, classes.ACTIVESTEP, step);
+      } else {
+         step.classList.add('active');
+         if (activeStep && closeActiveStep) _closeAction(activeStep);
+      }
+
       return step;
    }
 
@@ -267,7 +295,7 @@ class MStepper {
     */
    nextStep = (e, skipFeedback) => {
       if (e && e.preventDefault) e.preventDefault();
-      const { options, getSteps, activateFeedback, form, wrongStep, classes, _closeAction, _openAction, stepper, events } = this;
+      const { options, getSteps, activateFeedback, form, wrongStep, classes, _openAction, stepper, events } = this;
       const { showFeedbackPreloader, validationFunction } = options;
       const { active } = getSteps();
       const nextStep = getSteps().steps[active.index + 1];
@@ -282,30 +310,31 @@ class MStepper {
       }
 
       active.step.classList.add(classes.DONESTEP);
-      _closeAction(active.step);
       _openAction(nextStep);
-      if (options.autoFocusInput && nextStepInputs) nextStepInputs.focus();
+      // if (options.autoFocusInput && nextStepInputs) nextStepInputs.focus();
       stepper.dispatchEvent(events.STEPCHANGE);
       stepper.dispatchEvent(events.NEXTSTEP);
    }
    prevStep = e => {
       if (e && e.preventDefault) e.preventDefault();
-      const { getSteps, classes, _closeAction, _openAction, stepper, events } = this;
+      const { getSteps, classes, _openAction, stepper, events } = this;
       const activeStep = getSteps().active;
       const prevStep = getSteps().steps[activeStep.index + -1];
 
-      prevStep.classList.remove(classes.DONESTEP);
-      _closeAction(activeStep.step);
       _openAction(prevStep);
       stepper.dispatchEvent(events.STEPCHANGE);
       stepper.dispatchEvent(events.PREVSTEP);
    }
    _stepTitleClickHandler = e => {
-      const { getSteps, classes, nextStep, prevStep } = this;
+      const { getSteps, classes, nextStep, prevStep, stepper, _openAction } = this;
       const { steps, active } = getSteps();
       const clickedStep = MStepper.parents(e.target, `.${classes.STEP}`);
-      const clickedStepIndex = Array.prototype.indexOf.call(steps, clickedStep);
-      if (clickedStepIndex == active.index + 1) nextStep(); else if (clickedStepIndex == active.index - 1) prevStep();
+      if (stepper.classList.contains(classes.LINEAR)) {
+         const clickedStepIndex = Array.prototype.indexOf.call(steps, clickedStep);
+         if (clickedStepIndex == active.index + 1) nextStep(); else if (clickedStepIndex == active.index - 1) prevStep();
+      } else {
+         _openAction(clickedStep);
+      }
    }
    activateFeedback = () => {
       const { getSteps, classes, options, stepper, events } = this;
@@ -359,15 +388,15 @@ class MStepper {
             _slideDown(nextStep.previousSibling);
          });
       } else if (elements instanceof Element || elements instanceof HTMLCollection) {
-         returnElement = stepper.appendChild(elements, nextStep);
+         returnElement = stepper.insertBefore(elements, nextStep);
          if (elements instanceof Element) _slideDown(returnElement); else returnElement.forEach(appendedElement => _slideDown(appendedElement));
       }
       return returnElement;
    }
    deactivateStep = elements => {
       const { _slideUp, stepper } = this;
-      if (!stepper.contains(elements) || !(elements instanceof Element) || !(elements instanceof HTMLCollection)) return null;
-      if (elements instanceof Element) _slideUp(elements); else elements.forEach(element => _slideUp(element));
+      const doIt = element => { if (stepper.contains(elements)) _slideUp(element, undefined, undefined, () => stepper.removeChild(element)); };
+      if (elements instanceof Element) doIt(elements); else if (elements instanceof HTMLCollection) elements.forEach(element => doIt(element));
       return elements;
    }
    _formWrapperManager = () => {
