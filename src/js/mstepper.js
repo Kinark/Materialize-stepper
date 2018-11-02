@@ -295,7 +295,7 @@ class MStepper {
     */
    nextStep = (e, skipFeedback) => {
       if (e && e.preventDefault) e.preventDefault();
-      const { options, getSteps, activateFeedback, form, wrongStep, classes, _openAction, stepper, events } = this;
+      const { options, getSteps, activateFeedback, form, wrongStep, classes, _openAction, stepper, events, destroyFeedback } = this;
       const { showFeedbackPreloader, validationFunction } = options;
       const { active } = getSteps();
       const nextStep = getSteps().steps[active.index + 1];
@@ -304,7 +304,7 @@ class MStepper {
 
       if (feedbackFunction && !skipFeedback) {
          if (showFeedbackPreloader && !active.step.dataset.nopreloader) activateFeedback();
-         window[feedbackFunction](form, active.step);
+         window[feedbackFunction](destroyFeedback, form, active.step);
          return;
       } else if (validationFunction && !validationFunction(form, active.step)) {
          return wrongStep();
