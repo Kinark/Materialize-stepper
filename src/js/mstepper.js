@@ -334,6 +334,13 @@ class MStepper {
       stepper.dispatchEvent(events.STEPCHANGE);
       stepper.dispatchEvent(events.PREVSTEP);
    }
+   openStep = (index, cb) => {
+      const { getSteps, _openAction, stepper, events } = this;
+      const stepToOpen = getSteps().steps[index];
+
+      _openAction(stepToOpen, cb);
+      stepper.dispatchEvent(events.STEPCHANGE);
+   }
    _stepTitleClickHandler = e => {
       const { getSteps, classes, nextStep, prevStep, stepper, _openAction } = this;
       const { steps, active } = getSteps();
