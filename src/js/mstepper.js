@@ -330,7 +330,7 @@ class MStepper {
       const activeStep = getSteps().active;
       const prevStep = getSteps().steps[activeStep.index + -1];
 
-      _openAction(prevStep);
+      _openAction(prevStep, cb);
       stepper.dispatchEvent(events.STEPCHANGE);
       stepper.dispatchEvent(events.PREVSTEP);
    }
