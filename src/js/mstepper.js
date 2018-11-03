@@ -1,5 +1,4 @@
 class MStepper {
-   /* exported MStepper */
    /**
     * Util function to simplify the binding of functions to nodelists.
     * @param {HTMLElement} elements - Elements to bind a listener to.
@@ -23,22 +22,6 @@ class MStepper {
       for (var i = 0, len = elements.length; i < len; i++) {
          elements[i].removeEventListener(event, fn, passive);
       }
-   }
-
-   static parents(elem, selector) {
-      var elements = [];
-      var ishaveselector = selector !== undefined;
-
-      while ((elem = elem.parentElement) !== null) {
-         if (elem.nodeType !== Node.ELEMENT_NODE) {
-            continue;
-         }
-
-         if (!ishaveselector || elem.matches(selector)) {
-            elements.push(elem);
-         }
-      }
-      return elements[0] || false;
    }
 
    /**
@@ -344,7 +327,7 @@ class MStepper {
    _stepTitleClickHandler = e => {
       const { getSteps, classes, nextStep, prevStep, stepper, _openAction } = this;
       const { steps, active } = getSteps();
-      const clickedStep = MStepper.parents(e.target, `.${classes.STEP}`);
+      const clickedStep = e.target.closest(`.${classes.STEP}`);
       if (stepper.classList.contains(classes.LINEAR)) {
          const clickedStepIndex = Array.prototype.indexOf.call(steps, clickedStep);
          if (clickedStepIndex == active.index + 1) nextStep(); else if (clickedStepIndex == active.index - 1) prevStep();
@@ -417,8 +400,8 @@ class MStepper {
    }
    _formWrapperManager = () => {
       const { stepper, options } = this;
-      const form = MStepper.parents(stepper, 'form');
-      if (!form.length && options.autoFormCreation) {
+      const form = stepper.closest('form');
+      if (!form && options.autoFormCreation) {
          const dataAttrs = stepper.dataset || {};
          const method = dataAttrs.method || 'GET';
          const action = dataAttrs.action || '?';
