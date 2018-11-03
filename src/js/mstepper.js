@@ -146,7 +146,7 @@ class MStepper {
     * @param {boolean} [similar=false] - Unbind other listeners binded to the same event.
     * @param {boolean} [callFn=false] - If there's the same listener, will the function be executed before the removal?
     */
-   smartListenerBind = (el, event, fn, similar = false, callFn = false) => {
+   smartListenerBind = (el, event, fn, similar = true, callFn = false) => {
       const { listenerStore } = this;
       // Builds an object with the element, event and function.
       const newListener = { el, event, fn };
@@ -200,7 +200,7 @@ class MStepper {
          element.style.visibility = 'unset';
          element.style.display = 'block';
          requestAnimationFrame(() => {
-            this.smartListenerBind(element, 'transitionend', endSlideDown, true);
+            this.smartListenerBind(element, 'transitionend', endSlideDown);
             element.style.height = height;
             element.style.removeProperty('padding-bottom');
             if (className) classElement.classList.add(className);
@@ -235,7 +235,7 @@ class MStepper {
          element.style.display = 'block';
          element.style.height = height;
          requestAnimationFrame(() => {
-            this.smartListenerBind(element, 'transitionend', endSlideUp, true);
+            this.smartListenerBind(element, 'transitionend', endSlideUp, );
             element.style.height = '0';
             element.style.paddingBottom = '0';
             if (className) classElement.classList.remove(className);
@@ -245,19 +245,27 @@ class MStepper {
       return element;
    }
 
-   _closeAction = (step) => {
-      const { _slideUp, classes, stepper } = this;
+   _closeAction = (step, cb) => {
+      const { _slideUp, classes, stepper, smartListenerUnbind, smartListenerBind } = this;
       const stepContent = step.getElementsByClassName(classes.STEPCONTENT)[0];
 
       if (window.innerWidth < 993 || !stepper.classList.contains(classes.HORIZONTALSTEPPER)) {
-         _slideUp(stepContent, classes.ACTIVESTEP, step);
+         _slideUp(stepContent, classes.ACTIVESTEP, step, cb);
       } else {
+         if(cb) {
+            const waitForTransitionToCb = e => {
+               if (e.propertyName !== 'left') return;
+               smartListenerUnbind(stepContent, 'transitionend', waitForTransitionToCb);
+               cb();
+            };
+            smartListenerBind(stepContent, 'transitionend', waitForTransitionToCb);
+         }
             step.classList.remove('active');
       }
       return step;
    }
 
-   _openAction = (step, closeActiveStep = true) => {
+   _openAction = (step, cb, closeActiveStep = true) => {
       const { _slideDown, classes, getSteps, _closeAction, stepper } = this;
       const activeStep = getSteps().active.step;
       if (activeStep && activeStep.isSameNode(step)) return step;
@@ -266,10 +274,10 @@ class MStepper {
       
       if (window.innerWidth < 993 || !stepper.classList.contains(classes.HORIZONTALSTEPPER)) {
          if (activeStep && closeActiveStep) _closeAction(activeStep);
-         _slideDown(stepContent, classes.ACTIVESTEP, step);
+         _slideDown(stepContent, classes.ACTIVESTEP, step, cb);
       } else {
          step.classList.add('active');
-         if (activeStep && closeActiveStep) _closeAction(activeStep);
+         if (activeStep && closeActiveStep) _closeAction(activeStep, cb);
       }
 
       return step;
@@ -293,7 +301,7 @@ class MStepper {
     * @returns {boolean} e - Event.
     * @returns {boolean} skipFeedback - Destroys active feedback preloader (if any) and triggers nextStep.
     */
-   nextStep = (e, skipFeedback) => {
+   nextStep = (e, cb, skipFeedback) => {
       if (e && e.preventDefault) e.preventDefault();
       const { options, getSteps, activateFeedback, form, wrongStep, classes, _openAction, stepper, events, destroyFeedback } = this;
       const { showFeedbackPreloader, validationFunction } = options;
@@ -311,14 +319,14 @@ class MStepper {
       }
 
       active.step.classList.add(classes.DONESTEP);
-      _openAction(nextStep);
+      _openAction(nextStep, cb);
       // if (options.autoFocusInput && nextStepInputs) nextStepInputs.focus();
       stepper.dispatchEvent(events.STEPCHANGE);
       stepper.dispatchEvent(events.NEXTSTEP);
    }
-   prevStep = e => {
+   prevStep = (e, cb) => {
       if (e && e.preventDefault) e.preventDefault();
-      const { getSteps, classes, _openAction, stepper, events } = this;
+      const { getSteps, _openAction, stepper, events } = this;
       const activeStep = getSteps().active;
       const prevStep = getSteps().steps[activeStep.index + -1];
 
@@ -351,7 +359,7 @@ class MStepper {
       activeStep.classList.remove(classes.FEEDBACKINGSTEP);
       const fbDiv = activeStep.getElementsByClassName(classes.PRELOADERWRAPPER)[0];
       fbDiv.parentNode.removeChild(fbDiv);
-      if (triggerNextStep) nextStep(undefined, true);
+      if (triggerNextStep) nextStep(undefined, undefined, true);
       stepper.dispatchEvent(events.FEEDBACKDESTROYED);
    }
    wrongStep = () => {
