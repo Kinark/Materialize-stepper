@@ -222,7 +222,7 @@ class MStepper {
     * @param {boolean} e - Event.
     * @returns {void}
     */
-   prevStep = (e, cb) => {
+   prevStep = (cb, e) => {
       if (e && e.preventDefault) e.preventDefault();
       const { getSteps, _openAction, stepper, events, destroyFeedback } = this;
       const activeStep = getSteps().active;
