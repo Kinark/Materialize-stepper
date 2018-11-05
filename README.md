@@ -13,7 +13,7 @@
 A little plugin, inspired by [MDL-Stepper](https://ahlechandre.github.io/mdl-stepper/), that implements a stepper to [Materializecss framework](http://materializecss.com/).
 
 Demo: https://kinark.github.io/Materialize-stepper/  
-Codepen Playground (outdated): http://codepen.io/Kinark/pen/VKrjJp
+Codepen Playground: https://codepen.io/Kinark/pen/VKrjJp
 
 ## [Documentation](https://kinark.github.io/Materialize-stepper/)
 
@@ -51,7 +51,6 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 * THANK YOU [Materializecss framework](http://materializecss.com/) FOR EVERYTHING!
 * THANK YOU [MDL-Stepper](https://ahlechandre.github.io/mdl-stepper/) FOR IDEAS AND A LITTLE OF CSS!
-
 
 <p align="center">
 <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=RZYQNQ394RE3S"><img src="https://coperni.design/files/coffe.svg" width="48" ></a>
