@@ -1,0 +1,98 @@
+.step {
+   position: relative;
+   transition: height $default-transition-time $default-transition-ease, padding-bottom $default-transition-time $default-transition-ease;
+   .step-title {
+      margin: 0 -24px;
+      cursor: pointer;
+      padding: 15.5px 44px 24px 64px;
+      display: block;
+      &:hover {
+         background-color: $step-hover-bgcolor;
+      }
+      &::after {
+         content: attr(data-step-label);
+         display: block;
+         position: absolute;
+         font-size: 12.8px;
+         font-size: 0.8rem;
+         color: #424242;
+         font-weight: 400;
+      }
+   }
+   .step-content {
+      position: relative;
+      display: none;
+      height: 0;
+      transition: height $default-transition-time $default-transition-ease;
+      width: inherit;
+      overflow: visible;
+      margin-left: 41px;
+      margin-right: 24px;
+      .step-actions {
+         padding-top: 16px;
+         padding-bottom: 4px;
+         display: flex;
+         justify-content: flex-start;
+         .btn,
+         .btn-flat,
+         .btn-large {
+            &:not(:last-child) {
+               margin-right: 5px;
+            }
+         }
+      }
+      .row {
+         margin-bottom: 7px;
+      }
+   }
+   &::before {
+      @include step-counter;
+      top: $counter-offset;
+   }
+   &.active {
+      .step-title {
+         font-weight: 500;
+      }
+      .step-content {
+         height: auto;
+         display: block;
+      }
+   }
+   &.active,
+   &.done {
+      &::before {
+         @include step-counter-active-done;
+      }
+   }
+   &.done::before {
+      @include step-counter-done;
+   }
+   &.wrong::before {
+      @include step-counter-wrong
+   }
+   &.feedbacking {
+      .step-content>*:not(.wait-feedback) {
+         opacity: 0.1;
+      }
+   }
+   &:not(:last-of-type) {
+      &::after {
+         content: '';
+         position: absolute;
+         top: $counter-size + $counter-offset * 2;
+         left: 13.5px;
+         width: 1px;
+         height: 40%;
+         height: calc(100% - #{$counter-size + $counter-offset * 2});
+         background-color: $step-divider-bgcolor;
+         transition: height $default-transition-time $default-transition-ease;
+      }
+      &.active {
+         padding-bottom: 36px;
+      }
+   }
+}
+
+&>li:not(:last-of-type) {
+   padding-bottom: 10px;
+}

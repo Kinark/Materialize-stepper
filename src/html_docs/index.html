@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+   @@include('./components/head.html')
+</head>
+
+<body>
+   @@include('./components/navbar.html')
+
+   <main>
+      <div class="container grey-text text-darken-2">
+
+         @@include('./components/hero.html')
+
+         <div class="row">
+            <div class="section col s12 m9 l10">
+
+               @@include('./components/sections/index.html')
+
+            </div>
+
+            <div class="col hide-on-small-only m3 l2">
+
+               @@include('./components/sidenav.html')
+
+            </div>
+
+         </div>
+      </div>
+   </main>
+
+   @@include('./components/footer.html')
+
+   @@include('./components/scripts.html')
+
+</body>
+
+</html>

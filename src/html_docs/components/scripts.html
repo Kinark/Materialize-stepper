@@ -1,0 +1,27 @@
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+<script src="js/mstepper.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js"></script>
+<script src="js/prism.js"></script>
+<script>
+
+   document.addEventListener('DOMContentLoaded', function () {
+      var elems;
+      elems = document.querySelector('.toc-wrapper');
+      M.Pushpin.init(elems, { top: elems.offsetTop, offset: 77 });
+      elems = document.querySelectorAll('.scrollspy');
+      M.ScrollSpy.init(elems);
+   });
+
+   var galleryElems = document.querySelectorAll('.stepper');
+   for (var i = 0, len = galleryElems.length; i < len; i++) {
+      var galleryElem = galleryElems[i];
+      new MStepper(galleryElem);
+   }
+
+   function someFunction(destroyFeedback) {
+      setTimeout(() => {
+         destroyFeedback(true);
+      }, 1000);
+   }
+
+</script>

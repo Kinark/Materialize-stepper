@@ -1,0 +1,24 @@
+$active-done-counter-bgcolor: #2196f3;
+$inactive-counter-bgcolor: #B2B2B2;
+$inactive-counter-color: white;
+$wrong-counter-bgcolor: red;
+$counter-size: 26px;
+$counter-font-size: 14px;
+$counter-offset: 13px;
+
+$step-padding-bottom: 10px;
+$step-active-padding-bottom: 36px;
+
+$default-transition-time: 400ms;
+$default-transition-ease: cubic-bezier(0.4, 0, 0.2, 1);
+
+$step-divider-bgcolor: rgba(0, 0, 0, 0.1);
+
+$step-hover-bgcolor: rgba(0, 0, 0, 0.06);
+
+$horizontal-stepper-stepsbar-height: 84px;
+$horizontal-stepper-stepsbar-shadow: 0px 2px 1px -1px rgba(0, 0, 0, 0.2),
+0px 1px 1px 0px rgba(0, 0, 0, 0.14),
+0px 1px 3px 0px rgba(0, 0, 0, 0.12);
+$horizontal-stepper-actions-bgcolor: transparent;
+$horizontal-vetical-pagebreak: 993px;

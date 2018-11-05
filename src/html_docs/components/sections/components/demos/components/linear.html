@@ -1,0 +1,62 @@
+<div id="demos_linear">
+   <div class="row">
+      <div class="col s12">
+         <h6>Linear Stepper</h6>
+      </div>
+      <div class="col xl7 l6 m12 s12">
+         <p>
+            Linear Stepper is the most common one. In it, you can't navigate freely between steps. It's step by step, obeying the validation function.
+         </p>
+         <p><b>Example:</b></p>
+         <pre><code class="language-html">
+&lt;ul class="stepper linear"&gt;...&lt;/ul&gt;
+         </code></pre>
+      </div>
+      <div class="col xl5 l6 m12 s12">
+         <div class="card">
+            <div class="card-content">
+               <ul class="stepper linear">
+                  <li class="step">
+                     <div data-step-label="There's labels too!" class="step-title waves-effect waves-dark">Step 1</div>
+                     <div class="step-content">
+                        <div class="row">
+                           <div class="input-field col s12">
+                              <input id="linear_email" name="linear_email" type="email" class="validate" required>
+                              <label for="linear_email">Your e-mail</label>
+                           </div>
+                        </div>
+                        <div class="step-actions">
+                           <button class="waves-effect waves-dark btn blue next-step">CONTINUE</button>
+                        </div>
+                     </div>
+                  </li>
+                  <li class="step">
+                     <div class="step-title waves-effect waves-dark">Step 2</div>
+                     <div class="step-content">
+                        <div class="row">
+                           <div class="input-field col s12">
+                              <input id="linear_password" name="linear_password" type="password" class="validate" required>
+                              <label for="linear_password">Your password</label>
+                           </div>
+                        </div>
+                        <div class="step-actions">
+                           <button class="waves-effect waves-dark btn blue next-step">CONTINUE</button>
+                           <button class="waves-effect waves-dark btn-flat previous-step">BACK</button>
+                        </div>
+                     </div>
+                  </li>
+                  <li class="step">
+                     <div class="step-title waves-effect waves-dark">Step 3</div>
+                     <div class="step-content">
+                        Finish!
+                        <div class="step-actions">
+                           <button class="waves-effect waves-dark btn blue" type="submit">SUBMIT</button>
+                        </div>
+                     </div>
+                  </li>
+               </ul>
+            </div>
+         </div>
+      </div>
+   </div>
+</div>

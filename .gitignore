@@ -1,2 +1,4 @@
-old-mstepper/
 node_modules/
+old-mstepper/
+src/js/mstepper.old.js
+src/js/_mstepper.old.js

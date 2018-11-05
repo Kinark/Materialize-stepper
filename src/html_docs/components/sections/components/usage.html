@@ -1,0 +1,25 @@
+<div class="section scrollspy" id="usage">
+   <h5>USAGE</h5>
+   <p>The HTML base is like this:</p>
+   <pre><code class="language-html">
+&lt;ul class="stepper linear">
+   &lt;li class="step active">
+      &lt;div class="step-title waves-effect">E-mail&lt;/div>
+      &lt;div class="step-content">
+         &lt;!-- Your step content goes here (like inputs or so) -->
+         &lt;div class="step-actions">
+            &lt;!-- Here goes your actions buttons -->
+            &lt;button class="waves-effect waves-dark btn next-step">CONTINUE&lt;/button>
+         &lt;/div>
+      &lt;/div>
+   &lt;/li>
+&lt;/ul>
+   </code></pre>
+   <p>After that you'll need to initialize it through:</p>
+      <pre><code class="language-html">
+&lt;script>
+   var steppers = document.querySelector('.stepper');
+   var stepperInstace = new MStepper(elems, options)
+&lt;/script>
+   </code></pre>
+</div>

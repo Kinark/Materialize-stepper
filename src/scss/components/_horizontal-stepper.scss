@@ -1,0 +1,114 @@
+&.horizontal {
+   @media only screen and (min-width: $horizontal-vetical-pagebreak) {
+      position: relative;
+      display: flex;
+      justify-content: space-between;
+      min-height: 458px;
+      overflow: hidden;
+      &::before {
+         content: '';
+         background-color: transparent;
+         width: 100%;
+         min-height: $horizontal-stepper-stepsbar-height;
+         box-shadow: $horizontal-stepper-stepsbar-shadow;
+         position: absolute;
+         left: 0;
+      }
+      .step {
+         position: static;
+         padding: 0 !important;
+         width: 100%;
+         display: flex;
+         align-items: center;
+         height: $horizontal-stepper-stepsbar-height;
+         &::before {
+            content: none;
+         }
+         &:last-of-type {
+            width: auto !important;
+         }
+         &:not(:last-of-type)::after,
+         &.active:not(:last-of-type)::after {
+            content: '';
+            position: static;
+            display: inline-block;
+            width: 100%;
+            height: 1px;
+         }
+         .step-title {
+            line-height: $horizontal-stepper-stepsbar-height;
+            height: $horizontal-stepper-stepsbar-height;
+            margin: 0;
+            padding: 0 25px 0 65px;
+            display: inline-block;
+            max-width: 220px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            flex-shrink: 0;
+            &::before {
+               @include step-counter;
+               top: 28.5px;
+               left: 19px;
+            }
+            &::after {
+               top: 15px;
+            }
+         }
+         &.active~.step .step-content {
+            left: 100%;
+         }
+         &.active .step-content {
+            left: 0 !important;
+         }
+         &.active,
+         &.done {
+            .step-title {
+               &::before {
+                  @include step-counter-active-done;
+               }
+            }
+         }
+         &.done {
+            .step-title::before {
+               @include step-counter-done;
+            }
+         }
+         &.wrong {
+            .step-title::before {
+               @include step-counter-wrong;
+            }
+         }
+         .step-content {
+            position: absolute;
+            height: calc(100% - #{$horizontal-stepper-stepsbar-height});
+            top: $horizontal-stepper-stepsbar-height;
+            display: block;
+            left: -100%;
+            width: 100%;
+            overflow-y: auto;
+            overflow-x: hidden;
+            margin: 0;
+            padding: 20px 20px 76px 20px;
+            transition: left $default-transition-time $default-transition-ease;
+            .step-actions {
+               position: absolute;
+               bottom: 0;
+               left: 0;
+               width: 100%;
+               padding: 20px;
+               background-color: $horizontal-stepper-actions-bgcolor;
+               flex-direction: row-reverse;
+               .btn,
+               .btn-flat,
+               .btn-large {
+                  &:not(:last-child) {
+                     margin-left: 5px;
+                     margin-right: 0;
+                  }
+               }
+            }
+         }
+      }
+   }
+}

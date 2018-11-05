@@ -1,0 +1,67 @@
+<div class="section" id="demos_horizontal">
+   <div class="row">
+      <div class="col s12">
+         <h6>Horizontal Stepper</h6>
+      </div>
+      <div class="col s12">
+         <p>
+            There is a horizontal version now (since 2.0). All the options above listed is working with it. And since version 2.1 horizontal steppers are responsive and turns to vertical from <b>992px</b> (width) down:
+         </p>
+         <p>
+            To use it, you just need to add a "<b>.horizontal</b>" class to your primary "<b>ul</b>" tag:
+         </p>
+         <p><b>Example:</b></p>
+         <pre><code class="language-html">
+&lt;ul class="stepper horizontal"&gt;
+   ...
+&lt;/ul&gt;
+         </code></pre>
+      </div>
+      <div class="col s12">
+         <div class="card">
+            <div class="card-content">
+               <ul class="stepper horizontal" id="horizontal" >
+                  <li class="step">
+                     <div data-step-label="To step-title!" class="step-title waves-effect waves-dark">Step 1</div>
+                     <div class="step-content">
+                        <div class="row">
+                           <div class="input-field col s12">
+                              <input id="horizontal_email" name="horizontal_email" type="email" class="validate" required>
+                              <label for="horizontal_email">Your e-mail</label>
+                           </div>
+                        </div>
+                        <div class="step-actions">
+                           <button class="waves-effect waves-dark btn blue next-step">CONTINUE</button>
+                        </div>
+                     </div>
+                  </li>
+                  <li class="step">
+                     <div class="step-title waves-effect waves-dark">Step 2</div>
+                     <div class="step-content">
+                        <div class="row">
+                           <div class="input-field col s12">
+                              <input id="horizontal_password" name="horizontal_password" type="password" class="validate" required>
+                              <label for="horizontal_password">Your password</label>
+                           </div>
+                        </div>
+                        <div class="step-actions">
+                           <button class="waves-effect waves-dark btn blue next-step" data-feedback="someFunction">CONTINUE</button>
+                           <button class="waves-effect waves-dark btn-flat previous-step">BACK</button>
+                        </div>
+                     </div>
+                  </li>
+                  <li class="step">
+                     <div class="step-title waves-effect waves-dark">Step 3</div>
+                     <div class="step-content">
+                        Finish!
+                        <div class="step-actions">
+                           <button class="waves-effect waves-dark btn blue" type="submit">SUBMIT</button>
+                        </div>
+                     </div>
+                  </li>
+               </ul>
+            </div>
+         </div>
+      </div>
+   </div>
+</div>

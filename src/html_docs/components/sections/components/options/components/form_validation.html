@@ -1,0 +1,13 @@
+<h6 id="options_form_validation">Form validation</h6>
+<p>As described in the previous topic, you can define a validation function to be called on every nextStep() in the stepper init options.</p>
+<p>This function will be called with two parameters:</p>
+<pre><code class="language-js">
+function validationFunction(stepperForm, activeStepContent) {
+   // You can use the 'stepperForm' to valide the whole form around the stepper:
+   someValidationPlugin(stepperForm);
+   // Or you can do something with just the activeStepContent
+   someValidationPlugin(activeStepContent);
+   // Return true or false to proceed or show an error
+   return true;
+}
+</code></pre>

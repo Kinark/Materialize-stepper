@@ -1,0 +1,33 @@
+@mixin step-counter {
+   position: absolute;
+   counter-increment: section;
+   content: counter(section);
+   height: $counter-size;
+   width: $counter-size;
+   color: $inactive-counter-color;
+   background-color: $inactive-counter-bgcolor;
+   border-radius: 50%;
+   text-align: center;
+   line-height: $counter-size;
+   font-weight: 400;
+   transition: background-color $default-transition-time $default-transition-ease;
+   font-size: $counter-font-size;
+   left: (28px - $counter-size)/2;
+}
+
+@mixin step-counter-active-done {
+   background-color: $active-done-counter-bgcolor;
+}
+
+@mixin step-counter-done {
+   content: '\e5ca';
+   font-size: 16px;
+   font-family: 'Material Icons';
+}
+
+@mixin step-counter-wrong {
+   content: '\e001';
+   font-size: 24px;
+   font-family: 'Material Icons';
+   background-color: $wrong-counter-bgcolor;
+}

@@ -1,0 +1,62 @@
+<div class="section" id="demos_non_linear">
+   <div class="row">
+      <div class="col s12">
+         <h6>Non-linear Stepper</h6>
+      </div>
+      <div class="col xl7 l6 m12 s12">
+         <p>
+            In the Non-Linear Stepper you can navigate freely between steps. You can also use the buttons for validation, but if the user wants to move arbitrarily around the steps, it's allowed by clicking on the steps instead of the buttons.
+         </p>
+         <p><b>Example:</b></p>
+         <pre><code class="language-html">
+&lt;ul class="stepper"&gt;...&lt;/ul&gt;
+                        </code></pre>
+      </div>
+      <div class="col xl5 l6 m12 s12">
+         <div class="card">
+            <div class="card-content">
+               <ul class="stepper">
+                  <li class="step">
+                     <div data-step-label="Just add a data-step-label!" class="step-title waves-effect waves-dark">Step 1</div>
+                     <div class="step-content">
+                        <div class="row">
+                           <div class="input-field col s12">
+                              <input id="non_linear_email" name="non_linear_email" type="email" class="validate" required>
+                              <label for="non_linear_email">Your e-mail</label>
+                           </div>
+                        </div>
+                        <div class="step-actions">
+                           <button class="waves-effect waves-dark btn blue next-step">CONTINUE</button>
+                        </div>
+                     </div>
+                  </li>
+                  <li class="step">
+                     <div class="step-title waves-effect waves-dark">Step 2</div>
+                     <div class="step-content">
+                        <div class="row">
+                           <div class="input-field col s12">
+                              <input id="non_linear_password" name="non_linear_password" type="password" class="validate" required>
+                              <label for="non_linear_password">Your password</label>
+                           </div>
+                        </div>
+                        <div class="step-actions">
+                           <button class="waves-effect waves-dark btn blue next-step">CONTINUE</button>
+                           <button class="waves-effect waves-dark btn-flat previous-step">BACK</button>
+                        </div>
+                     </div>
+                  </li>
+                  <li class="step">
+                     <div class="step-title waves-effect waves-dark">Step 3</div>
+                     <div class="step-content">
+                        Finish!
+                        <div class="step-actions">
+                           <button class="waves-effect waves-dark btn blue" type="submit">SUBMIT</button>
+                        </div>
+                     </div>
+                  </li>
+               </ul>
+            </div>
+         </div>
+      </div>
+   </div>
+</div>

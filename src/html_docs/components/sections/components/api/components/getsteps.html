@@ -1,0 +1,15 @@
+<h6 id="api_get_steps">Get Steps</h6>
+<p>You can get information about the steps by running:</p>
+<pre><code class="language-js">
+var currentSteps = instace.getSteps()
+   </code></pre>
+<p>And you'll get an object like this on var currentSteps:</p>
+<pre><code class="language-js">
+{
+   steps: HTMLCollection, // The current steps in the DOM
+   active: {
+      step: HTMLElement, // The current active step in the DOM
+      index: number // The index of the active step
+   }
+}
+</code></pre>
