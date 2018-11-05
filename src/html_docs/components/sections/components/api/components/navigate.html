@@ -1,0 +1,39 @@
+<h6 id="api_navigate">Navigate</h6>
+<p>There is three ways to navigate through steps.</p>
+<ol class="browser-default">
+   <li>By clicking on them, if you are not using the ".linear" class. If you are, clicking on the next and the previous step will work just like the buttons (what you can disable with the JS initialization setting(s) listed above).</li>
+   <li>By the buttons inside the steps:
+      <pre><code class="language-html">
+&lt;!-- If you want the button to proceed, give it a .next-step class -->
+&lt;button class="waves-effect waves-dark btn next-step">CONTINUE&lt;/button>
+&lt;!-- If you want the button to return, give it a .previous-step class -->
+&lt;button class="waves-effect waves-dark btn-flat previous-step">BACK&lt;/button>
+&lt;!-- If you want the button to submit the form, give it no additional classes and define type="submit" -->
+&lt;button class="waves-effect waves-dark btn" type="submit">SUBMIT&lt;/button>
+         </code></pre>
+   </li>
+   <li>
+      By navigating programatically and, for that, there is three methods:
+      <ul>
+         <li>
+            To proceed one step:
+            <pre><code class="language-js">
+instace.nextStep(cb);
+            </code></pre>
+         </li>
+         <li>
+            To go back one step:
+            <pre><code class="language-js">
+instace.prevStep(cb);
+            </code></pre>
+         </li>
+         <li>
+            To open arbitrarily a step:
+            <pre><code class="language-js">
+// The index is zero-based, so the first step is 0, not 1
+instace.openStep(index, cb);
+            </code></pre>
+         </li>
+      </ul>
+   </li>
+</ol>

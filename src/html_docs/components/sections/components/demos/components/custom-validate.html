@@ -1,9 +1,29 @@
-<div class="section scrollspy" id="custom-validate-step">
+<div class="section" id="demos_custom_validation">
    <div class="row">
       <div class="col s12">
-         <h5>Custom Validation Step</h5>
+         <h6>Custom Validation Stepper</h6>
       </div>
-      <div class="col l6 m12 s12">
+      <div class="col xl7 l6 m12 s12">
+         <p>
+            This functionality is mainly focused when using the Parallel Stepper. When previous steps are validated you might want to add your own custom validation if jQuery Validation doesn´t suffice.
+         </p>
+         <p>
+            By adding the 'data-validator' HTML tag the given function will be executed and is expected to return a boolean value. If the value is not boolean, unexpected behaviour is most likely to occur.
+         </p>
+         <p>
+            Tip: If you are planning on using both the Custom Validation and Feedback, use the Custom Validation function to validate and the Feedback function to invoke the nextStep behaviour.
+         </p>
+         <p>
+            For a more elaborate example please refer to <a href="https://codepen.io/anon/pen/rYZome">Parallel Stepper Example</a>
+         </p>
+         <p><b>Example:</b></p>
+         <pre><code class="language-html">
+&lt;button class="waves-effect waves-dark btn blue next-step" data-validator="someOtherFunction"&gt;
+   CONTINUE
+&lt;/button&gt;
+         </code></pre>
+      </div>
+      <div class="col xl5 l6 m12 s12">
          <div class="card">
             <div class="card-content">
                <ul class="stepper parallel" id="custom-validation">
@@ -48,26 +68,6 @@
                </ul>
             </div>
          </div>
-      </div>
-      <div class="col l6 m12 s12">
-         <p>
-            This functionality is mainly focused when using the Parallel Stepper. When previous steps are validated you might want to add your own custom validation if jQuery Validation doesn´t suffice.
-         </p>
-         <p>
-            By adding the 'data-validator' HTML tag the given function will be executed and is expected to return a boolean value. If the value is not boolean, unexpected behaviour is most likely to occur.
-         </p>
-         <p>
-            Tip: If you are planning on using both the Custom Validation and Feedback, use the Custom Validation function to validate and the Feedback function to invoke the nextStep behaviour.
-         </p>
-         <p>
-            For a more elaborate example please refer to <a href="https://codepen.io/anon/pen/rYZome">Parallel Stepper Example</a>
-         </p>
-         <p><b>Example:</b></p>
-         <pre class="language-markup"><code class=" language-markup">
-&lt;button class="waves-effect waves-dark btn blue next-step" data-validator="someOtherFunction"&gt;
-   CONTINUE
-&lt;/button&gt;
-                        </code></pre>
       </div>
    </div>
 </div>

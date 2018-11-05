@@ -1,6 +1,7 @@
-<!-- <script src="https://cdn.jsdelivr.net/npm/cash-dom@2.3.7/dist/cash.min.js"></script> -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 <script src="js/mstepper.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js"></script>
+<script src="js/prism.js"></script>
 <script>
 
    document.addEventListener('DOMContentLoaded', function () {
@@ -11,23 +12,16 @@
       M.ScrollSpy.init(elems);
    });
 
-   var galleryElems = document.querySelectorAll('.normal.stepper');
+   var galleryElems = document.querySelectorAll('.stepper');
    for (var i = 0, len = galleryElems.length; i < len; i++) {
       var galleryElem = galleryElems[i];
       new MStepper(galleryElem);
    }
 
-
-   var feedbackStepper = new MStepper(document.getElementById('feedbacker'));
-
-   function someFunction() {
+   function someFunction(destroyFeedback) {
       setTimeout(() => {
-         feedbackStepper.destroyFeedback(true);
+         destroyFeedback(true);
       }, 1000);
    }
 
 </script>
-
-<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script> -->
-<!-- <script src="https://ajax.aspnetcdn.com/ajax/jquery.validate/1.15.0/jquery.validate.min.js"></script> -->
-<script src="js/prism.js"></script>

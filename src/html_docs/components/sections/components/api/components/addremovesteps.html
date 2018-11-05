@@ -1,0 +1,22 @@
+<h6 id="api_dyn_add_rem_steps">Dynamically adding/removing steps</h6>
+<p>If you want to dinamically add and activate/remove steps, you can do this:</p>
+<pre><code class="language-html">
+&lt;script>
+   var elements;
+   // The element can be a string:
+   elements = '&lt;div class="step">(...your step goes here...)&lt;/div>';
+   // An array of strings:
+   elements = ['&lt;div class="step">(...your step goes here...)&lt;/div>', '&lt;div class="step">(...your step goes here...)&lt;/div>'];
+   // An HTMLCollection:
+   elements = document.querySelectorAll('.steps-to-add');
+   // Or an HTMLElement:
+   elements = document.querySelector('.step-to-add');
+
+   // Then you just need to run
+   var addedSteps = instance.activateStep(elements);
+   // And if you want, you can remove them afterwards:
+   var removedSteps = instance.deactivateStep(addedSteps);
+   // Or add them again :P
+   var readdedSteps = instance.activateStep(removedSteps);
+&lt;/script>
+</code></pre>

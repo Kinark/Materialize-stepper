@@ -1,0 +1,13 @@
+<h6 id="api_feedback">Feedback function</h6>
+<p>There's a way to make the buttons run a function instead of proceeding, just add a data-feedback attribute with the function name to a ".next-step" classified button. Just like that:</p>
+<pre><code class="language-html">
+&lt;button class="waves-effect waves-dark btn next-step" data-feedback="checkEmailDB">CONTINUE&lt;/button>
+&lt;script>
+   function checkEmailDB(destroyFeedback, form, activeStepContent) {
+      // Do your stuff here
+      // Call destroyFeedback() function when you're done
+      // The true parameter will proceed to the next step besides destroying the preloader
+      destroyFeedback(true);
+   }
+&lt;/script>
+</code></pre>
