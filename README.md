@@ -53,7 +53,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 * THANK YOU [MDL-Stepper](https://ahlechandre.github.io/mdl-stepper/) FOR IDEAS AND A LITTLE OF CSS!
 
 <p align="center">
-<a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=RZYQNQ394RE3S"><img src="https://coperni.design/files/coffe.svg" width="48" ></a>
+<a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xlick&hosted_button_id=RZYQNQ394RE3S"><img src="https://coperni.design/files/coffe.svg" width="48" ></a>
 </p>
 <p align="center">
 Hey!<br />Did you like the stepper? I hope you did!<br />If you did, why not buy me a coffe? :D
