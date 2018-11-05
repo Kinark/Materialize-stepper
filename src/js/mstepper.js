@@ -110,7 +110,7 @@ class MStepper {
          FEEDBACKING: new Event('feedbacking'),
          FEEDBACKDESTROYED: new Event('feedbackdestroyed')
       };
-      // Creates an empty array to power the methods smartListenerBind/Unbind
+      // Creates an empty array to power the methods _smartListenerBind/Unbind
       this.listenerStore = [];
       // Creates an empty variable to store the form (or not) afterwards
       this.form = null;
@@ -119,14 +119,14 @@ class MStepper {
    }
 
    /**
-    * An util method to manage binded eventListeners and avoid duplicates. This is the opposite of "smartListenerUnbind".
+    * An util method to manage binded eventListeners and avoid duplicates. This is the opposite of "_smartListenerUnbind".
     * @param {HTMLElement} el - Target element in which the listener will be binded.
     * @param {string} event - Event to be listened like 'click'.
     * @param {function} fn - Function to be executed.
     * @param {boolean} [similar=false] - Unbind other listeners binded to the same event.
     * @param {boolean} [callFn=false] - If there's the same listener, will the function be executed before the removal?
     */
-   smartListenerBind = (el, event, fn, similar = true, callFn = false) => {
+   _smartListenerBind = (el, event, fn, similar = true, callFn = false) => {
       const { listenerStore } = this;
       // Builds an object with the element, event and function.
       const newListener = { el, event, fn };
@@ -155,12 +155,12 @@ class MStepper {
    }
 
    /**
-    * An util method to manage binded eventListeners and avoid duplicates. This is the opposite of "smartListenerBind".
+    * An util method to manage binded eventListeners and avoid duplicates. This is the opposite of "_smartListenerBind".
     * @param {HTMLElement} el - Target element in which the listener will be unbinded.
     * @param {string} listener - Event to unlisten like 'click'.
     * @param {function} fn - Function to be unbinded.
     */
-   smartListenerUnbind = (el, event, fn) => {
+   _smartListenerUnbind = (el, event, fn) => {
       const { listenerStore } = this;
       // Gets the index of the listener in the stepper listenerStore
       var existentOneIndex = listenerStore.indexOf({ el, event, fn });
@@ -187,7 +187,7 @@ class MStepper {
          // If the transition is not 'height', returns
          if (e.propertyName !== 'height') return;
          // Unbinds the listener from the element
-         this.smartListenerUnbind(element, 'transitionend', endSlideDown);
+         this._smartListenerUnbind(element, 'transitionend', endSlideDown);
          // Removes properties needed for the transition to occur
          MStepper.removeMultipleProperties(element, 'visibility overflow height display');
          // Calls the callback() if any
@@ -205,7 +205,7 @@ class MStepper {
          // Calls another animation frame to wait for the previous changes to take effect
          requestAnimationFrame(() => {
             // Binds the "conclusion" function to the event 'transitionend'
-            this.smartListenerBind(element, 'transitionend', endSlideDown);
+            this._smartListenerBind(element, 'transitionend', endSlideDown);
             // Sets the final height to the element to trigger the transition
             element.style.height = height;
             // Removes the 'padding-bottom: 0' setted previously to trigger it too
@@ -235,7 +235,7 @@ class MStepper {
          // If the transition is not 'height', returns
          if (e.propertyName !== 'height') return;
          // Unbinds the listener from the element
-         this.smartListenerUnbind(element, 'transitionend', endSlideUp);
+         this._smartListenerUnbind(element, 'transitionend', endSlideUp);
          // Sets display none for the slided element
          element.style.display = 'none';
          // Removes properties needed for the transition to occur
@@ -254,7 +254,7 @@ class MStepper {
          // Calls another animation frame to wait for the previous changes to take effect
          requestAnimationFrame(() => {
             // Binds the "conclusion" function to the event 'transitionend'
-            this.smartListenerBind(element, 'transitionend', endSlideUp);
+            this._smartListenerBind(element, 'transitionend', endSlideUp);
             // Sets the height to 0 the element to trigger the transition
             element.style.height = '0';
             // Sets the 'padding-bottom: 0' to transition the padding
@@ -274,7 +274,7 @@ class MStepper {
     * @returns {HTMLElement} - The original received step.
     */
    _closeAction = (step, cb) => {
-      const { _slideUp, classes, stepper, smartListenerUnbind, smartListenerBind } = this;
+      const { _slideUp, classes, stepper, _smartListenerUnbind, _smartListenerBind } = this;
       // Gets the step content div inside the step
       const stepContent = step.getElementsByClassName(classes.STEPCONTENT)[0];
 
@@ -292,12 +292,12 @@ class MStepper {
                // If the transition is not 'left', returns
                if (e.propertyName !== 'left') return;
                // Unbinds the listener from the element
-               smartListenerUnbind(stepContent, 'transitionend', waitForTransitionToCb);
+               _smartListenerUnbind(stepContent, 'transitionend', waitForTransitionToCb);
                // Calls the callback
                cb();
             };
             // Binds the callback caller function to the event 'transitionend'
-            smartListenerBind(stepContent, 'transitionend', waitForTransitionToCb);
+            _smartListenerBind(stepContent, 'transitionend', waitForTransitionToCb);
          }
          // Removes the class 'active' from the step, since all the animation is made by the CSS
          step.classList.remove('active');
