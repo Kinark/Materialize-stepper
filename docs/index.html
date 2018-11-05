@@ -472,8 +472,11 @@
    <p>After that you'll need to initialize it through:</p>
       <pre><code class="language-html">
 &lt;script>
-   var steppers = document.querySelector('.stepper');
-   var stepperInstace = new MStepper(elems, options)
+   var stepper = document.querySelector('.stepper');
+   var stepperInstace = new MStepper(stepper, {
+      // options
+      firstActive: 0 // this is the default
+   })
 &lt;/script>
    </code></pre>
 </div>
@@ -519,14 +522,12 @@
    <h6 id="options_initialization">JS initialization setting(s)</h6>
 <p>If you are using linear stepper, clicking on the next and the previous step will work just like the buttons. Since 2.1 you can adjust some options. Here they are, with their respective defaults:</p>
 <pre><code class="language-js">
-var steppers = document.querySelector('.stepper');
-var stepperInstace = new MStepper(elems, {
+var stepper = document.querySelector('.stepper');
+var stepperInstace = new MStepper(stepper, {
    // Default active step.
    firstActive: 0,
    // Allow navigation by clicking on the next and previous steps on linear steppers.
    linearStepsNavigation: true,
-   // Auto focus on first input of each step.
-   autoFocusInput: true,
    // Set if a loading screen will appear while feedbacks functions are running.
    showFeedbackPreloader: true,
    // Auto generation of a form around the stepper.

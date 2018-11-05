@@ -18,8 +18,11 @@
    <p>After that you'll need to initialize it through:</p>
       <pre><code class="language-html">
 &lt;script>
-   var steppers = document.querySelector('.stepper');
-   var stepperInstace = new MStepper(elems, options)
+   var stepper = document.querySelector('.stepper');
+   var stepperInstace = new MStepper(stepper, {
+      // options
+      firstActive: 0 // this is the default
+   })
 &lt;/script>
    </code></pre>
 </div>
