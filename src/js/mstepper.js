@@ -324,17 +324,15 @@ class MStepper {
       // Checks if the step is currently horizontal or vertical
       if (window.innerWidth < 993 || !stepper.classList.contains(classes.HORIZONTALSTEPPER)) {
          // The stepper is running in vertical mode
-         // If it was requested to close the active step as well, does it (default=true)
-         if (activeStep && closeActiveStep) _closeAction(activeStep);
          // Calls the slideDown private method if the stepper is vertical
          _slideDown(stepContent, classes.ACTIVESTEP, step, cb);
       } else {
          // The stepper is running in horizontal mode
          // Adds the class 'active' from the step, since all the animation is made by the CSS
          step.classList.add('active');
-         // If it was requested to close the active step as well, does it (default=true)
-         if (activeStep && closeActiveStep) _closeAction(activeStep, cb);
       }
+      // If it was requested to close the active step as well, does it (default=true)
+      if (activeStep && closeActiveStep) _closeAction(activeStep);
       return step;
    }
 
@@ -510,7 +508,7 @@ class MStepper {
       // Removes the preloader div
       fbDiv.parentNode.removeChild(fbDiv);
       // Calls nextStep if requested (default=false)
-      if (triggerNextStep) nextStep(undefined, undefined, true);
+      if (triggerNextStep) nextStep(undefined, true);
 
       // Dispatches the event
       stepper.dispatchEvent(events.FEEDBACKDESTROYED);
@@ -573,38 +571,38 @@ class MStepper {
       const nextStep = currentSteps.steps[index];
 
       // Stores a let variable to return the right element after the activation
-      let returnElement = null;
+      let returnableElement = null;
       // Starts the checking of the elements parameter
       if (typeof elements === 'string') {
          // The element is in string format
          // Insert it with the insertAdjacentHTML function
          nextStep.insertAdjacentHTML('beforeBegin', elements);
-         // Defines the inserted element as the returnElement
-         returnElement = nextStep.previousSibling;
+         // Defines the inserted element as the returnableElement
+         returnableElement = nextStep.previousSibling;
          // Activates (slideDown) the step
-         _slideDown(returnElement);
+         _slideDown(returnableElement);
       } else if (Array.isArray(elements)) {
          // The element is in array format, probably an array of strings
-         // Sets the returnElement to be an empty array
-         returnElement = [];
+         // Sets the returnableElement to be an empty array
+         returnableElement = [];
          // Loops through the array
          elements.forEach(element => {
             // Inserts each element with the insertAdjacentHTML function
             nextStep.insertAdjacentHTML('beforeBegin', element);
-            // Adds each element to the returnElement array
-            returnElement.push(nextStep.previousSibling);
+            // Adds each element to the returnableElement array
+            returnableElement.push(nextStep.previousSibling);
             // Activates (slideDown) each element
             _slideDown(nextStep.previousSibling);
          });
       } else if (elements instanceof Element || elements instanceof HTMLCollection) {
          // The element is an HTMLElement or an HTMLCollection
-         // Insert it/them with the insertBefore function and sets the returnElement
-         returnElement = stepper.insertBefore(elements, nextStep);
+         // Insert it/them with the insertBefore function and sets the returnableElement
+         returnableElement = stepper.insertBefore(elements, nextStep);
          // If it's and HTMLElement, activates (slideDown) it, if it's an HTMLCollection, activates (slideDown) each of them
-         if (elements instanceof Element) _slideDown(returnElement); else returnElement.forEach(appendedElement => _slideDown(appendedElement));
+         if (elements instanceof Element) _slideDown(returnableElement); else returnableElement.forEach(appendedElement => _slideDown(appendedElement));
       }
       // Returns the added/activated elements
-      return returnElement;
+      return returnableElement;
    }
 
    /**
