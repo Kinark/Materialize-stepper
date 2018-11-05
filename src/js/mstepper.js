@@ -17,7 +17,7 @@ class MStepper {
       this.options = {
          firstActive: options.firstActive || 0,
          linearStepsNavigation: options.linearStepsNavigation || true,
-         autoFocusInput: options.autoFocusInput || true,
+         // autoFocusInput: options.autoFocusInput || true,
          showFeedbackPreloader: options.showFeedbackPreloader || true,
          autoFormCreation: options.autoFormCreation || true,
          validationFunction: options.validationFunction || null,
@@ -80,7 +80,7 @@ class MStepper {
     * @returns {HTMLElement} - The original received step.
     */
    _openAction = (step, cb, closeActiveStep = true) => {
-      const { _slideDown, classes, getSteps, _closeAction, stepper } = this;
+      const { _slideDown, classes, getSteps, _closeAction, stepper, options } = this;
       // Gets the active step element
       const activeStep = getSteps().active.step;
       // If the active step is the same as the one that has been asked to be opened, returns the step
@@ -94,6 +94,17 @@ class MStepper {
          // The stepper is running in vertical mode
          // Calls the slideDown private method if the stepper is vertical
          _slideDown(stepContent, classes.ACTIVESTEP, step, cb);
+
+         // Beginning of disabled autoFocusInput function due to issues with scroll
+         // _slideDown(stepContent, classes.ACTIVESTEP, step, () => {
+         //    // Gets the inputs from the nextStep to focus on the first one (temporarily disabled)
+         //    const nextStepInputs = stepContent.querySelector('input, select');
+         //    // Focus on the first input of the next step (temporarily disabled)
+         //    if (options.autoFocusInput && nextStepInputs) nextStepInputs.focus();
+         //    if(cb && typeof cb === 'function') cb();
+         // });
+         // Enf of disabled autoFocusInput function due to issues with scroll
+
       } else {
          // The stepper is running in horizontal mode
          // Adds the class 'active' from the step, since all the animation is made by the CSS
@@ -184,8 +195,6 @@ class MStepper {
       const { active } = getSteps();
       const nextStep = getSteps().steps[active.index + 1];
 
-      // Gets the inputs from the nextStep to focus on the first one afterwards (temporarily disabled)
-      // const nextStepInputs = nextStep.querySelector('input, select');
       // Gets the feedback function (if any) from the button
       const feedbackFunction = e && e.target ? e.target.dataset.feedback : null;
 
@@ -208,8 +217,6 @@ class MStepper {
       active.step.classList.add(classes.DONESTEP);
       // Opens the next one
       _openAction(nextStep, cb);
-      // Focus on the first input of the next step (temporarily disabled)
-      // if (options.autoFocusInput && nextStepInputs) nextStepInputs.focus();
 
       // Dispatches the events
       stepper.dispatchEvent(events.STEPCHANGE);
