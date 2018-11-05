@@ -16,6 +16,7 @@ In this version a master refactoring was made. Total modularization of CSS (with
   * Some methods/options such as `resetStepper` and `autoFocusInput` are still missing;
   * Custom events and `showError` function were removed;
   * Added more events and removed some other ones. Check the [docs](https://kinark.github.io/Materialize-stepper/) for more information;
+  * prevStep() now destroyes feedback preloader;
 * Adding of gulp to make the development easier;
 * Moved docs to the gh-pages, instead of the readme.
 
