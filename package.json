@@ -1,6 +1,6 @@
 {
    "name": "materialize-stepper",
-   "version": "3.0.0",
+   "version": "3.0.0-beta.1",
    "description": "A little plugin, inspired by MDL-Stepper, that implements a stepper to Materializecss framework.",
    "main": "dist/js/mstepper.js",
    "style": "dist/css/mstepper.css",
