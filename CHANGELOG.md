@@ -2,8 +2,22 @@ Date format: d/m/y
 
 ### 3.0.0-beta1 (?/?/?)
 In this version a master refactoring was made. Total modularization of CSS (with SASS), refacoring of all the javascript,
-* Total modularization of CSS (with SASS);
-* Refactoring of the JS code, which no longer requires jQuery or any other dependency;
+* Total modularization and partial refactoring of CSS:
+  * Everything in SASS;
+  * Everything modularized;
+  * Now all the transitions are CSS powered!
+  * The horizontal transition is triggered by just adding/removing the class `active` on the step;
+  * Now the steps use padding-bottom instead of margin-bottom to make the height calculation easier;
+* Refactoring of the JS code:
+  * No longer requires jQuery or any other dependency;
+  * Now it requires you to create an instance with `new`;
+  * Removal of the integration with jQuery Validate, since there's A LOT of plugins and you may want to use some other one. To validate the steps, just define a `validationFunction` in the options and return a boolean (more in the [docs](https://kinark.github.io/Materialize-stepper/));
+  * Removal of parallel stepper due to the adding of the validation function;
+  * Some methods/options such as `resetStepper` and `autoFocusInput` are still missing;
+  * Custom events and `showError` function were removed;
+  * Added more events and removed some other ones. Check the [docs](https://kinark.github.io/Materialize-stepper/) for more information;
+* Adding of gulp to make the development easier;
+* Moved docs to the gh-pages, instead of the readme.
 
 ### 2.1.5 (only on github for now) (01/12/17)
 * Bug fixes.
