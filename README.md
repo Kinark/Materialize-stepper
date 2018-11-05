@@ -13,13 +13,13 @@
 A little plugin, inspired by [MDL-Stepper](https://ahlechandre.github.io/mdl-stepper/), that implements a stepper to [Materializecss framework](http://materializecss.com/).
 
 Demo: https://kinark.github.io/Materialize-stepper/  
-Codepen Playground: http://codepen.io/Kinark/pen/VKrjJp
+Codepen Playground (outdated): http://codepen.io/Kinark/pen/VKrjJp
 
-## [Documentation](https://github.com/Kinark/Materialize-stepper)
+## [Documentation](https://kinark.github.io/Materialize-stepper/)
 
 The documentation once belonged to this readme, before the force's sleep. However, it's awaken once more, in the gh-pages this time.
 
-[Go check it out!](https://github.com/Kinark/Materialize-stepper)
+[Go check it out!](https://kinark.github.io/Materialize-stepper/)
 
 
 ## Limitations
@@ -29,8 +29,6 @@ None, I think :)
 ## Final observations
 
 * Every command works like an accordion collapsible. If you trigger "openStep(step)" or "nextStep()", it'll close the active step, remove any feedback screen and execute their functions.
-
-* "prevStep()" won't close the feedback loading screen.
 
 ## Changelog
 
