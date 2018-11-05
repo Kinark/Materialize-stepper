@@ -1,3 +1,21 @@
+h6 {
+   color: #2196f3;
+   margin-top: 1.766667rem;
+   font-weight: 400;
+}
+
+pre[class*="language-"] {
+   border-radius: 15px;
+}
+
+.btn,
+.btn-large,
+.btn-small,
+.btn-flat {
+   border-radius: 4px;
+   font-weight: 500;
+}
+
 .card:hover {
    -webkit-box-shadow: 0px 10px 35px 0px rgba(0, 0, 0, 0.18);
    -moz-box-shadow: 0px 10px 35px 0px rgba(0, 0, 0, 0.18);
@@ -30,6 +48,10 @@ blockquote {
    border-left: 5px solid #2196F3;
 }
 
+html {
+   font-family: Roboto, "Segoe UI", Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+}
+
 body {
    background-color: #fafafa;
 }
@@ -37,10 +59,6 @@ body {
 nav .brand-logo {
    font-size: 1.4rem;
    margin-left: 1rem;
-}
-
-.container {
-   /*max-width: 1024px;*/
 }
 
 .introduction {
