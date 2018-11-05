@@ -204,10 +204,10 @@ class MStepper {
          // If showFeedbackPreloader is true (default=true), activates it
          if (showFeedbackPreloader && !active.step.dataset.nopreloader) activateFeedback();
          // Calls the feedbackFunction
-         window[feedbackFunction](destroyFeedback, form, active.step);
+         window[feedbackFunction](destroyFeedback, form, active.step.querySelector('.step-content'));
          // Returns to prevent the nextStep method from being called
          return;
-      } else if (validationFunction && !validationFunction(form, active.step)) {
+      } else if (validationFunction && !validationFunction(form, active.step.querySelector('.step-content'))) {
          // There's a validation function and no feedback function
          // The validation function was already called in the if statement and it retuerned false, so returns the calling of the wrongStep method
          return wrongStep();
