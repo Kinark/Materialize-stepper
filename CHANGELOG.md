@@ -1,6 +1,6 @@
 Date format: d/m/y
 
-### 3.0.0-beta1 (?/?/?)
+### 3.0.0-beta.1 (?/?/?)
 In this version a master refactoring was made. Total modularization of CSS (with SASS), refacoring of all the javascript,
 * Total modularization and partial refactoring of CSS:
   * Everything in SASS;
