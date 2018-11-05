@@ -91,6 +91,7 @@ gulp.task('js', function (cb) {
 ////////HTML/////////
 /////////////////////
 var fileInclude = require('gulp-file-include');
+var replace = require('gulp-replace');
 
 gulp.task('html', function (cb) {
    pump([
@@ -99,6 +100,7 @@ gulp.task('html', function (cb) {
          prefix: '@@',
          basepath: '@file'
       }),
+      replace('{version}', version),
       gulp.dest(docsOutput)
    ], cb);
 });
