@@ -90,6 +90,28 @@ class MStepper {
    }
 
    /**
+    * A private function that manages the unbinding of the methods into the correct elements inside the stepper.
+    * @param {(HTMLElement|HTMLCollection|NodeList)} steps - The steps to find the bindable elements.
+    * @returns {void}
+    */
+   _methodsUnbinder = steps => {
+      const { classes, _nextStepProxy, _prevStepProxy, _stepTitleClickHandler } = this;
+      const { removeMultipleEventListeners, nodesIterator } = MStepper;
+      // Sets the binder function
+      const bindEvents = step => {
+         const nextBtns = step.getElementsByClassName(classes.NEXTSTEPBTN);
+         const prevBtns = step.getElementsByClassName(classes.PREVSTEPBTN);
+         const stepsTitle = step.getElementsByClassName(classes.STEPTITLE);
+         removeMultipleEventListeners(nextBtns, 'click', _nextStepProxy, false);
+         removeMultipleEventListeners(prevBtns, 'click', _prevStepProxy, false);
+         removeMultipleEventListeners(stepsTitle, 'click', _stepTitleClickHandler);
+         return step;
+      };
+      // Calls the binder function in the right way (if it's a unique step or multiple ones)
+      if (steps instanceof Element) bindEvents(steps); else nodesIterator(steps, step => bindEvents(step));
+   }
+
+   /**
     * A private method to handle the opening of the steps.
     * @param {HTMLElement} step - Step which will be opened.
     * @param {function} cb - Callback to be executed after the transition ends.
