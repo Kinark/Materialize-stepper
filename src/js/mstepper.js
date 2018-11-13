@@ -58,53 +58,34 @@ class MStepper {
     * @returns {void}
     */
    _init = () => {
-      const { _formWrapperManager, getSteps, options, stepper, classes, _methodsBinder, _openAction } = this;
+      const { _formWrapperManager, getSteps, options, stepper, classes, _methodsBindingManager, _openAction } = this;
       // Calls the _formWrapperManager
       this.form = _formWrapperManager();
       // Opens the first step (or other specified in the constructor)
       _openAction(getSteps().steps[options.firstActive]);
       // Gathers the steps and send them to the methodsBinder
-      _methodsBinder(stepper.querySelectorAll(`.${classes.STEP}`));
+      _methodsBindingManager(stepper.querySelectorAll(`.${classes.STEP}`));
    }
 
    /**
     * A private function that manages the binding of the methods into the correct elements inside the stepper.
     * @param {(HTMLElement|HTMLCollection|NodeList)} steps - The steps to find the bindable elements.
+    * @param {boolean} [unbind=false] - Should it unbind instead of bind?
     * @returns {void}
     */
-   _methodsBinder = steps => {
+   _methodsBindingManager = (steps, unbind = false) => {
       const { classes, _nextStepProxy, _prevStepProxy, _stepTitleClickHandler } = this;
-      const { addMultipleEventListeners, nodesIterator } = MStepper;
-      // Sets the binder function
-      const bindEvents = step => {
-         const nextBtns = step.getElementsByClassName(classes.NEXTSTEPBTN);
-         const prevBtns = step.getElementsByClassName(classes.PREVSTEPBTN);
-         const stepsTitle = step.getElementsByClassName(classes.STEPTITLE);
-         addMultipleEventListeners(nextBtns, 'click', _nextStepProxy, false);
-         addMultipleEventListeners(prevBtns, 'click', _prevStepProxy, false);
-         addMultipleEventListeners(stepsTitle, 'click', _stepTitleClickHandler);
-         return step;
-      };
-      // Calls the binder function in the right way (if it's a unique step or multiple ones)
-      if (steps instanceof Element) bindEvents(steps); else nodesIterator(steps, step => bindEvents(step));
-   }
+      const { addMultipleEventListeners, removeMultipleEventListeners, nodesIterator } = MStepper;
+      const bindOrUnbind = unbind ? removeMultipleEventListeners : addMultipleEventListeners;
 
-   /**
-    * A private function that manages the unbinding of the methods into the correct elements inside the stepper.
-    * @param {(HTMLElement|HTMLCollection|NodeList)} steps - The steps to find the bindable elements.
-    * @returns {void}
-    */
-   _methodsUnbinder = steps => {
-      const { classes, _nextStepProxy, _prevStepProxy, _stepTitleClickHandler } = this;
-      const { removeMultipleEventListeners, nodesIterator } = MStepper;
-      // Sets the binder function
+      // Sets the binding function
       const bindEvents = step => {
          const nextBtns = step.getElementsByClassName(classes.NEXTSTEPBTN);
          const prevBtns = step.getElementsByClassName(classes.PREVSTEPBTN);
          const stepsTitle = step.getElementsByClassName(classes.STEPTITLE);
-         removeMultipleEventListeners(nextBtns, 'click', _nextStepProxy, false);
-         removeMultipleEventListeners(prevBtns, 'click', _prevStepProxy, false);
-         removeMultipleEventListeners(stepsTitle, 'click', _stepTitleClickHandler);
+         bindOrUnbind(nextBtns, 'click', _nextStepProxy, false);
+         bindOrUnbind(prevBtns, 'click', _prevStepProxy, false);
+         bindOrUnbind(stepsTitle, 'click', _stepTitleClickHandler);
          return step;
       };
       // Calls the binder function in the right way (if it's a unique step or multiple ones)
