@@ -229,7 +229,14 @@ class MStepper {
       // Gets the feedback function (if any) from the button
       const feedbackFunction = e && e.target ? e.target.dataset.feedback : null;
 
-      // Handles the feedback/validation functions. The former is more priority
+      // Checks if there's a validation function defined
+      if (validationFunction && _validationFunctionCaller()) {
+         // There's a validation function and no feedback function
+         // The validation function was already called in the if statement and it retuerned false, so returns the calling of the wrongStep method
+         return wrongStep();
+      }
+
+      // Checks if there's a feedback function
       if (feedbackFunction && !skipFeedback) {
          // There's a feedback function and it wasn't requested to skip it
          // If showFeedbackPreloader is true (default=true), activates it
@@ -238,10 +245,6 @@ class MStepper {
          window[feedbackFunction](destroyFeedback, form, active.step.querySelector(`.${classes.STEPCONTENT}`));
          // Returns to prevent the nextStep method from being called
          return;
-      } else if (validationFunction && _validationFunctionCaller()) {
-         // There's a validation function and no feedback function
-         // The validation function was already called in the if statement and it retuerned false, so returns the calling of the wrongStep method
-         return wrongStep();
       }
 
       // Adds the class 'done' to the current step
@@ -600,7 +603,7 @@ class MStepper {
     */
    _validationFunctionCaller = () => {
       const { options, getSteps, form, classes } = this;
-      return options.validationFunction(form, getSteps().active.step.querySelector(`.${classes.STEPCONTENT}`))
+      return options.validationFunction(form, getSteps().active.step.querySelector(`.${classes.STEPCONTENT}`));
    }
 
    /**
