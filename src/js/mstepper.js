@@ -392,12 +392,13 @@ class MStepper {
 
    /**
     * Add and activate one or more steps.
-    * @param {(string|string[]|HTMLElement|HTMLCollection|)} elements - The step/steps to be added.
+    * @param {(string|string[]|HTMLElement|HTMLCollection|NodeList)} elements - The step/steps to be added.
     * @param {number} index - The index in which the steps will be added (zero based, so the first one is 0, not 1).
-    * @returns {HTMLElement|HTMLCollection} - The new added/activated step/steps.
+    * @returns {(HTMLElement|HTMLCollection|NodeList)} - The new added/activated step/steps.
     */
    activateStep = (elements, index) => {
       const { getSteps, _slideDown, stepper } = this;
+      const { nodesIterator } = MStepper;
       const currentSteps = getSteps();
       const nextStep = currentSteps.steps[index];
 
@@ -425,12 +426,12 @@ class MStepper {
             // Activates (slideDown) each element
             _slideDown(nextStep.previousSibling);
          });
-      } else if (elements instanceof Element || elements instanceof HTMLCollection) {
+      } else if (elements instanceof Element || elements instanceof HTMLCollection || elements instanceof NodeList) {
          // The element is an HTMLElement or an HTMLCollection
          // Insert it/them with the insertBefore function and sets the returnableElement
          returnableElement = stepper.insertBefore(elements, nextStep);
          // If it's and HTMLElement, activates (slideDown) it, if it's an HTMLCollection, activates (slideDown) each of them
-         if (elements instanceof Element) _slideDown(returnableElement); else returnableElement.forEach(appendedElement => _slideDown(appendedElement));
+         if (elements instanceof Element) _slideDown(returnableElement); else nodesIterator(returnableElement, appendedElement => _slideDown(appendedElement));
       }
       // Returns the added/activated elements
       return returnableElement;
@@ -438,16 +439,20 @@ class MStepper {
 
    /**
     * Deactivate and remove one or more steps.
-    * @param {(HTMLElement|HTMLCollection)} elements - The step/steps to be removed.
-    * @returns {HTMLElement|HTMLCollection} - The step(s) that has been deactivated, in case you want to activate it again.
+    * @param {(HTMLElement|HTMLCollection|NodeList)} elements - The step/steps to be removed.
+    * @returns {(HTMLElement|HTMLCollection|NodeList)} - The step(s) that has been deactivated, in case you want to activate it again.
     */
    deactivateStep = elements => {
       const { _slideUp, stepper } = this;
+      const { nodesIterator } = MStepper;
 
       // Sets a function to group the orders to deactivate and remove the steps
       const doIt = element => { if (stepper.contains(elements)) _slideUp(element, undefined, undefined, () => stepper.removeChild(element)); };
       // Checks if the elements is an HTMLElement or an HTMLCollection and calls the function doIt in the right way
-      if (elements instanceof Element) doIt(elements); else if (elements instanceof HTMLCollection) elements.forEach(element => doIt(element));
+      if (elements instanceof Element)
+         doIt(elements);
+      else if (elements instanceof HTMLCollection || elements instanceof NodeList)
+         nodesIterator(elements, element => doIt(element));
       // Returns the step(s), in case you want to activate it/them again.
       return elements;
    }
