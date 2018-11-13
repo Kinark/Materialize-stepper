@@ -74,8 +74,8 @@ class MStepper {
     * @returns {void}
     */
    _methodsBindingManager = (steps, unbind = false) => {
-      const { classes, _tabbingDisabler, _formSubmitHandler, _nextStepProxy, _prevStepProxy, _stepTitleClickHandler, form, options } = this;
-      const { addMultipleEventListeners, removeMultipleEventListeners, nodesIterator } = MStepper;
+      const { classes, _formSubmitHandler, _nextStepProxy, _prevStepProxy, _stepTitleClickHandler, form, options } = this;
+      const { addMultipleEventListeners, removeMultipleEventListeners, nodesIterator, tabbingDisabler } = MStepper;
       const bindOrUnbind = unbind ? removeMultipleEventListeners : addMultipleEventListeners;
 
       // Sets the binding function
@@ -89,7 +89,7 @@ class MStepper {
          bindOrUnbind(prevBtns, 'click', _prevStepProxy, false);
          bindOrUnbind(stepsTitle, 'click', _stepTitleClickHandler);
          // Prevents the tabbing issue (https://github.com/Kinark/Materialize-stepper/issues/49)
-         if (inputs.length) bindOrUnbind(inputs[inputs.length - 1], 'keydown', _tabbingDisabler);
+         if (inputs.length) bindOrUnbind(inputs[inputs.length - 1], 'keydown', tabbingDisabler);
          // Binds to the submit button an internal handler to manage validation
          if (submitButtons && form && options.validationFunction) bindOrUnbind(submitButtons, 'keydown', _formSubmitHandler);
          return step;
@@ -103,9 +103,6 @@ class MStepper {
     * @returns {void}
     */
    _formSubmitHandler = e => { if (!this._validationFunctionCaller()) e.preventDefault(); }
-
-   // Disables the pressing of tab button
-   _tabbingDisabler = e => { if (e.keyCode === 9) e.preventDefault(); }
 
    /**
     * A private method to handle the opening of the steps.
@@ -733,4 +730,10 @@ class MStepper {
       // Returns the height (without 'px')
       return height;
    }
+
+   /**
+    * Util bindable tabbing disabler.
+    * @returns {void}
+    */
+   static tabbingDisabler(e) { if (e.keyCode === 9) e.preventDefault(); }
 }
