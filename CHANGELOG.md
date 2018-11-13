@@ -1,6 +1,13 @@
 Date format: d/m/y
 
-### 3.0.0-beta.1 (?/?/?)
+### 3.0.0-beta.1.0.1 (13/11/18)
+* Fixed the incorrect utilization of forEach in some cases (like in HTMLCollections, for example);
+* Fixed binding of added/removed steps through activate/deactivateStep functions;
+* Fixed the tabbing issue on horizontal steppers (https://github.com/Kinark/Materialize-stepper/issues/49);
+* Fixed the submitting, now it calls the formValidation (if any) before submitting the form;
+* Fixed some other code issues.
+
+### 3.0.0-beta.1 (05/11/18)
 In this version a master refactoring was made. Total modularization of CSS (with SASS), refacoring of all the javascript,
 * Total modularization and partial refactoring of CSS:
   * Everything in SASS;
