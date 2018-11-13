@@ -68,13 +68,13 @@ class MStepper {
    }
 
    /**
-    * A private function that manages the binding of the methods into the correct elements inside the stepper.
+    * A private method that manages the binding of the methods into the correct elements inside the stepper.
     * @param {(HTMLElement|HTMLCollection|NodeList)} steps - The steps to find the bindable elements.
     * @param {boolean} [unbind=false] - Should it unbind instead of bind?
     * @returns {void}
     */
    _methodsBindingManager = (steps, unbind = false) => {
-      const { classes, _tabbingDisabler, _nextStepProxy, _prevStepProxy, _stepTitleClickHandler } = this;
+      const { classes, _tabbingDisabler, _formSubmitHandler, _nextStepProxy, _prevStepProxy, _stepTitleClickHandler, form, options } = this;
       const { addMultipleEventListeners, removeMultipleEventListeners, nodesIterator } = MStepper;
       const bindOrUnbind = unbind ? removeMultipleEventListeners : addMultipleEventListeners;
 
@@ -84,16 +84,25 @@ class MStepper {
          const prevBtns = step.getElementsByClassName(classes.PREVSTEPBTN);
          const stepsTitle = step.getElementsByClassName(classes.STEPTITLE);
          const inputs = step.querySelectorAll('input, select, button');
-         // Prevents the tabbing issue (https://github.com/Kinark/Materialize-stepper/issues/49)
-         if (inputs.length) bindOrUnbind(inputs[inputs.length - 1], 'keydown', _tabbingDisabler);
+         const submitButtons = step.querySelectorAll('button[type="submit"]');
          bindOrUnbind(nextBtns, 'click', _nextStepProxy, false);
          bindOrUnbind(prevBtns, 'click', _prevStepProxy, false);
          bindOrUnbind(stepsTitle, 'click', _stepTitleClickHandler);
+         // Prevents the tabbing issue (https://github.com/Kinark/Materialize-stepper/issues/49)
+         if (inputs.length) bindOrUnbind(inputs[inputs.length - 1], 'keydown', _tabbingDisabler);
+         // Binds to the submit button an internal handler to manage validation
+         if (submitButtons && form && options.validationFunction) bindOrUnbind(submitButtons, 'keydown', _formSubmitHandler);
          return step;
       };
       // Calls the binder function in the right way (if it's a unique step or multiple ones)
       if (steps instanceof Element) bindEvents(steps); else nodesIterator(steps, step => bindEvents(step));
    }
+
+   /**
+    * A private method that manages submit of the form (sends to validationFunction before).
+    * @returns {void}
+    */
+   _formSubmitHandler = e => { if (!this._validationFunctionCaller()) e.preventDefault(); }
 
    // Disables the pressing of tab button
    _tabbingDisabler = e => { if (e.keyCode === 9) e.preventDefault(); }
@@ -215,7 +224,7 @@ class MStepper {
     */
    nextStep = (cb, skipFeedback, e) => {
       if (e && e.preventDefault) e.preventDefault();
-      const { options, getSteps, activateFeedback, form, wrongStep, classes, _openAction, stepper, events, destroyFeedback } = this;
+      const { options, getSteps, activateFeedback, form, wrongStep, classes, _openAction, stepper, events, destroyFeedback, _validationFunctionCaller } = this;
       const { showFeedbackPreloader, validationFunction } = options;
       const { active } = getSteps();
       const nextStep = getSteps().steps[active.index + 1];
@@ -229,10 +238,10 @@ class MStepper {
          // If showFeedbackPreloader is true (default=true), activates it
          if (showFeedbackPreloader && !active.step.dataset.nopreloader) activateFeedback();
          // Calls the feedbackFunction
-         window[feedbackFunction](destroyFeedback, form, active.step.querySelector('.step-content'));
+         window[feedbackFunction](destroyFeedback, form, active.step.querySelector(`.${classes.STEPCONTENT}`));
          // Returns to prevent the nextStep method from being called
          return;
-      } else if (validationFunction && !validationFunction(form, active.step.querySelector('.step-content'))) {
+      } else if (validationFunction && _validationFunctionCaller()) {
          // There's a validation function and no feedback function
          // The validation function was already called in the if statement and it retuerned false, so returns the calling of the wrongStep method
          return wrongStep();
@@ -586,6 +595,15 @@ class MStepper {
          // Returns null
          return null;
       }
+   }
+
+   /**
+    * An util method to make easy the task of calling the validationFunction.
+    * @returns {boolean} - The validation function result.
+    */
+   _validationFunctionCaller = () => {
+      const { options, getSteps, form, classes } = this;
+      return options.validationFunction(form, getSteps().active.step.querySelector(`.${classes.STEPCONTENT}`))
    }
 
    /**
