@@ -74,7 +74,7 @@ class MStepper {
     * @returns {void}
     */
    _methodsBindingManager = (steps, unbind = false) => {
-      const { classes, _nextStepProxy, _prevStepProxy, _stepTitleClickHandler } = this;
+      const { classes, _tabbingDisabler, _nextStepProxy, _prevStepProxy, _stepTitleClickHandler } = this;
       const { addMultipleEventListeners, removeMultipleEventListeners, nodesIterator } = MStepper;
       const bindOrUnbind = unbind ? removeMultipleEventListeners : addMultipleEventListeners;
 
@@ -83,6 +83,9 @@ class MStepper {
          const nextBtns = step.getElementsByClassName(classes.NEXTSTEPBTN);
          const prevBtns = step.getElementsByClassName(classes.PREVSTEPBTN);
          const stepsTitle = step.getElementsByClassName(classes.STEPTITLE);
+         const inputs = step.querySelectorAll('input, select, button');
+         // Prevents the tabbing issue (https://github.com/Kinark/Materialize-stepper/issues/49)
+         if (inputs.length) bindOrUnbind(inputs[inputs.length - 1], 'keydown', _tabbingDisabler);
          bindOrUnbind(nextBtns, 'click', _nextStepProxy, false);
          bindOrUnbind(prevBtns, 'click', _prevStepProxy, false);
          bindOrUnbind(stepsTitle, 'click', _stepTitleClickHandler);
@@ -91,6 +94,9 @@ class MStepper {
       // Calls the binder function in the right way (if it's a unique step or multiple ones)
       if (steps instanceof Element) bindEvents(steps); else nodesIterator(steps, step => bindEvents(step));
    }
+
+   // Disables the pressing of tab button
+   _tabbingDisabler = e => { if (e.keyCode === 9) e.preventDefault(); }
 
    /**
     * A private method to handle the opening of the steps.
@@ -637,12 +643,13 @@ class MStepper {
 
    /**
     * Util function to simplify the binding of functions to nodelists.
-    * @param {HTMLElement} elements - Elements to bind a listener to.
+    * @param {(HTMLCollection|NodeList|HTMLElement)} elements - Elements to bind a listener to.
     * @param {string} event - Event name, like 'click'.
     * @param {function} fn - Function to bind to elements.
     * @returns {void}
     */
    static addMultipleEventListeners(elements, event, fn, passive = false) {
+      if (elements instanceof Element) return elements.addEventListener(event, fn, passive);
       for (var i = 0, len = elements.length; i < len; i++) {
          elements[i].addEventListener(event, fn, passive);
       }
@@ -650,12 +657,13 @@ class MStepper {
 
    /**
     * Util function to simplify the unbinding of functions to nodelists.
-    * @param {HTMLElement} elements - Elements from which the listeners will be unbind.
+    * @param {(HTMLCollection|NodeList|HTMLElement)} elements - Elements from which the listeners will be unbind.
     * @param {string} event - Event name, like 'click'.
     * @param {function} fn - Function to unbind from elements.
     * @returns {void}
     */
    static removeMultipleEventListeners(elements, event, fn, passive = false) {
+      if (elements instanceof Element) return elements.removeEventListener(event, fn, passive);
       for (var i = 0, len = elements.length; i < len; i++) {
          elements[i].removeEventListener(event, fn, passive);
       }
