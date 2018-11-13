@@ -12,7 +12,7 @@
 &lt;/form>
    </code></pre>
 
-<p>If you want to submit your stepper, just create a submit button with "submit" type and no feedback or "next/previous-step" class:</p>
+<p>If you want to submit your stepper, just create a submit button with "submit" type and no feedback or "next/previous-step" class and if there's a wrapping form && a validation function, it'll call it before the submit (just return false to prevent it):</p>
 <pre><code class="language-html">
 &lt;button class="waves-effect waves-dark btn" type="submit">SUBMIT&lt;/button>
 </code></pre>
