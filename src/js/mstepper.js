@@ -58,19 +58,35 @@ class MStepper {
     * @returns {void}
     */
    _init = () => {
-      const { _formWrapperManager, getSteps, options, stepper, classes, _nextStepProxy, _prevStepProxy, _stepTitleClickHandler, _openAction } = this;
-      const { addMultipleEventListeners } = MStepper;
+      const { _formWrapperManager, getSteps, options, stepper, classes, _methodsBinder, _openAction } = this;
       // Calls the _formWrapperManager
       this.form = _formWrapperManager();
       // Opens the first step (or other specified in the constructor)
       _openAction(getSteps().steps[options.firstActive]);
-      // Gathers some divs and binds the right methods to them
-      const nextBtns = stepper.getElementsByClassName(classes.NEXTSTEPBTN);
-      const prevBtns = stepper.getElementsByClassName(classes.PREVSTEPBTN);
-      const stepsTitles = stepper.getElementsByClassName(classes.STEPTITLE);
-      addMultipleEventListeners(nextBtns, 'click', _nextStepProxy, false);
-      addMultipleEventListeners(prevBtns, 'click', _prevStepProxy, false);
-      addMultipleEventListeners(stepsTitles, 'click', _stepTitleClickHandler);
+      // Gathers the steps and send them to the methodsBinder
+      _methodsBinder(stepper.querySelectorAll(`.${classes.STEP}`));
+   }
+
+   /**
+    * A private function that manages the binding of the methods into the correct elements inside the stepper.
+    * @param {(HTMLElement|HTMLCollection|NodeList)} steps - The steps to find the bindable elements.
+    * @returns {void}
+    */
+   _methodsBinder = steps => {
+      const { classes, _nextStepProxy, _prevStepProxy, _stepTitleClickHandler } = this;
+      const { addMultipleEventListeners, nodesIterator } = MStepper;
+      // Sets the binder function
+      const bindEvents = step => {
+         const nextBtns = step.getElementsByClassName(classes.NEXTSTEPBTN);
+         const prevBtns = step.getElementsByClassName(classes.PREVSTEPBTN);
+         const stepsTitle = step.getElementsByClassName(classes.STEPTITLE);
+         addMultipleEventListeners(nextBtns, 'click', _nextStepProxy, false);
+         addMultipleEventListeners(prevBtns, 'click', _prevStepProxy, false);
+         addMultipleEventListeners(stepsTitle, 'click', _stepTitleClickHandler);
+         return step;
+      };
+      // Calls the binder function in the right way (if it's a unique step or multiple ones)
+      if (steps instanceof Element) bindEvents(steps); else nodesIterator(steps, step => bindEvents(step));
    }
 
    /**
@@ -637,6 +653,14 @@ class MStepper {
          el.style.removeProperty(propArray[i]);
       }
    }
+
+   /**
+    * Util function to itarate through HTMLCollections and NodeList using the same command.
+    * @param {(HTMLCollection | NodeList)} nodes - List of elements to loop through.
+    * @param {function} fn - Function to call for each element inside the nodes list.
+    * @returns {(HTMLCollection | NodeList)} - The original nodes to enable chain functions
+    */
+   static nodesIterator(nodes, fn) { for (let i = 0; i < nodes.length; i++) fn(nodes[i]); return nodes; }
 
    /**
     * Util function to find the height of a hidden DOM object.
