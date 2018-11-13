@@ -1,6 +1,6 @@
 /**
  * Materialize Stepper - A little plugin that implements a stepper to Materializecss framework.
- * @version v3.0.0-beta.1
+ * @version v3.0.0-beta.1.0.1
  * @author Igor Marcossi (Kinark) <igormarcossi@gmail.com>.
  * @link https://github.com/Kinark/Materialize-stepper
  * 
@@ -46,23 +46,56 @@ function () {
           options = _this.options,
           stepper = _this.stepper,
           classes = _this.classes,
-          _nextStepProxy = _this._nextStepProxy,
-          _prevStepProxy = _this._prevStepProxy,
-          _stepTitleClickHandler = _this._stepTitleClickHandler,
-          _openAction = _this._openAction;
-      var addMultipleEventListeners = MStepper.addMultipleEventListeners; // Calls the _formWrapperManager
+          _methodsBindingManager = _this._methodsBindingManager,
+          _openAction = _this._openAction; // Calls the _formWrapperManager
 
       _this.form = _formWrapperManager(); // Opens the first step (or other specified in the constructor)
 
-      _openAction(getSteps().steps[options.firstActive]); // Gathers some divs and binds the right methods to them
+      _openAction(getSteps().steps[options.firstActive]); // Gathers the steps and send them to the methodsBinder
 
 
-      var nextBtns = stepper.getElementsByClassName(classes.NEXTSTEPBTN);
-      var prevBtns = stepper.getElementsByClassName(classes.PREVSTEPBTN);
-      var stepsTitles = stepper.getElementsByClassName(classes.STEPTITLE);
-      addMultipleEventListeners(nextBtns, 'click', _nextStepProxy, false);
-      addMultipleEventListeners(prevBtns, 'click', _prevStepProxy, false);
-      addMultipleEventListeners(stepsTitles, 'click', _stepTitleClickHandler);
+      _methodsBindingManager(stepper.querySelectorAll(".".concat(classes.STEP)));
+    });
+
+    _defineProperty(this, "_methodsBindingManager", function (steps) {
+      var unbind = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
+      var classes = _this.classes,
+          _formSubmitHandler = _this._formSubmitHandler,
+          _nextStepProxy = _this._nextStepProxy,
+          _prevStepProxy = _this._prevStepProxy,
+          _stepTitleClickHandler = _this._stepTitleClickHandler,
+          form = _this.form,
+          options = _this.options;
+      var addMultipleEventListeners = MStepper.addMultipleEventListeners,
+          removeMultipleEventListeners = MStepper.removeMultipleEventListeners,
+          nodesIterator = MStepper.nodesIterator,
+          tabbingDisabler = MStepper.tabbingDisabler;
+      var bindOrUnbind = unbind ? removeMultipleEventListeners : addMultipleEventListeners; // Sets the binding function
+
+      var bindEvents = function bindEvents(step) {
+        var nextBtns = step.getElementsByClassName(classes.NEXTSTEPBTN);
+        var prevBtns = step.getElementsByClassName(classes.PREVSTEPBTN);
+        var stepsTitle = step.getElementsByClassName(classes.STEPTITLE);
+        var inputs = step.querySelectorAll('input, select, button');
+        var submitButtons = step.querySelectorAll('button[type="submit"]');
+        bindOrUnbind(nextBtns, 'click', _nextStepProxy, false);
+        bindOrUnbind(prevBtns, 'click', _prevStepProxy, false);
+        bindOrUnbind(stepsTitle, 'click', _stepTitleClickHandler); // Prevents the tabbing issue (https://github.com/Kinark/Materialize-stepper/issues/49)
+
+        if (inputs.length) bindOrUnbind(inputs[inputs.length - 1], 'keydown', tabbingDisabler); // Binds to the submit button an internal handler to manage validation
+
+        if (submitButtons && form && options.validationFunction) bindOrUnbind(submitButtons, 'keydown', _formSubmitHandler);
+        return step;
+      }; // Calls the binder function in the right way (if it's a unique step or multiple ones)
+
+
+      if (steps instanceof Element) bindEvents(steps);else nodesIterator(steps, function (step) {
+        return bindEvents(step);
+      });
+    });
+
+    _defineProperty(this, "_formSubmitHandler", function (e) {
+      if (!_this._validationFunctionCaller()) e.preventDefault();
     });
 
     _defineProperty(this, "_openAction", function (step, cb) {
@@ -190,7 +223,8 @@ function () {
           _openAction = _this._openAction,
           stepper = _this.stepper,
           events = _this.events,
-          destroyFeedback = _this.destroyFeedback;
+          destroyFeedback = _this.destroyFeedback,
+          _validationFunctionCaller = _this._validationFunctionCaller;
       var showFeedbackPreloader = options.showFeedbackPreloader,
           validationFunction = options.validationFunction;
 
@@ -206,10 +240,10 @@ function () {
         // If showFeedbackPreloader is true (default=true), activates it
         if (showFeedbackPreloader && !active.step.dataset.nopreloader) activateFeedback(); // Calls the feedbackFunction
 
-        window[feedbackFunction](destroyFeedback, form, active.step.querySelector('.step-content')); // Returns to prevent the nextStep method from being called
+        window[feedbackFunction](destroyFeedback, form, active.step.querySelector(".".concat(classes.STEPCONTENT))); // Returns to prevent the nextStep method from being called
 
         return;
-      } else if (validationFunction && !validationFunction(form, active.step.querySelector('.step-content'))) {
+      } else if (validationFunction && _validationFunctionCaller()) {
         // There's a validation function and no feedback function
         // The validation function was already called in the if statement and it retuerned false, so returns the calling of the wrongStep method
         return wrongStep();
@@ -339,7 +373,9 @@ function () {
     _defineProperty(this, "activateStep", function (elements, index) {
       var getSteps = _this.getSteps,
           _slideDown = _this._slideDown,
-          stepper = _this.stepper;
+          stepper = _this.stepper,
+          _methodsBindingManager = _this._methodsBindingManager;
+      var nodesIterator = MStepper.nodesIterator;
       var currentSteps = getSteps();
       var nextStep = currentSteps.steps[index]; // Stores a let variable to return the right element after the activation
 
@@ -366,32 +402,44 @@ function () {
 
           _slideDown(nextStep.previousSibling);
         });
-      } else if (elements instanceof Element || elements instanceof HTMLCollection) {
+      } else if (elements instanceof Element || elements instanceof HTMLCollection || elements instanceof NodeList) {
         // The element is an HTMLElement or an HTMLCollection
         // Insert it/them with the insertBefore function and sets the returnableElement
         returnableElement = stepper.insertBefore(elements, nextStep); // If it's and HTMLElement, activates (slideDown) it, if it's an HTMLCollection, activates (slideDown) each of them
 
-        if (elements instanceof Element) _slideDown(returnableElement);else returnableElement.forEach(function (appendedElement) {
+        if (elements instanceof Element) _slideDown(returnableElement);else nodesIterator(returnableElement, function (appendedElement) {
           return _slideDown(appendedElement);
         });
-      } // Returns the added/activated elements
+      } // Do the bidings to the new step(s)
 
+
+      if (returnableElement) _methodsBindingManager(returnableElement); // Returns the added/activated elements
 
       return returnableElement;
     });
 
     _defineProperty(this, "deactivateStep", function (elements) {
       var _slideUp = _this._slideUp,
-          stepper = _this.stepper; // Sets a function to group the orders to deactivate and remove the steps
+          stepper = _this.stepper,
+          _methodsBindingManager = _this._methodsBindingManager;
+      var nodesIterator = MStepper.nodesIterator; // Sets a function to group the orders to deactivate and remove the steps
 
       var doIt = function doIt(element) {
-        if (stepper.contains(elements)) _slideUp(element, undefined, undefined, function () {
-          return stepper.removeChild(element);
-        });
+        // Checks if the step really exists in the stepper
+        if (stepper.contains(elements)) {
+          // Yeah, it does exist
+          // Unbinds the listeners previously binded to the step
+          _methodsBindingManager(element); // Slides up and removes afterwards
+
+
+          _slideUp(element, undefined, undefined, function () {
+            return stepper.removeChild(element);
+          });
+        }
       }; // Checks if the elements is an HTMLElement or an HTMLCollection and calls the function doIt in the right way
 
 
-      if (elements instanceof Element) doIt(elements);else if (elements instanceof HTMLCollection) elements.forEach(function (element) {
+      if (elements instanceof Element) doIt(elements);else if (elements instanceof HTMLCollection || elements instanceof NodeList) nodesIterator(elements, function (element) {
         return doIt(element);
       }); // Returns the step(s), in case you want to activate it/them again.
 
@@ -518,6 +566,14 @@ function () {
       }
     });
 
+    _defineProperty(this, "_validationFunctionCaller", function () {
+      var options = _this.options,
+          getSteps = _this.getSteps,
+          form = _this.form,
+          classes = _this.classes;
+      return options.validationFunction(form, getSteps().active.step.querySelector(".".concat(classes.STEPCONTENT)));
+    });
+
     _defineProperty(this, "_smartListenerBind", function (el, event, fn) {
       var similar = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : true;
       var callFn = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : false;
@@ -618,13 +674,14 @@ function () {
 
     /**
      * Util function to simplify the binding of functions to nodelists.
-     * @param {HTMLElement} elements - Elements to bind a listener to.
+     * @param {(HTMLCollection|NodeList|HTMLElement)} elements - Elements to bind a listener to.
      * @param {string} event - Event name, like 'click'.
      * @param {function} fn - Function to bind to elements.
      * @returns {void}
      */
     value: function addMultipleEventListeners(elements, event, fn) {
       var passive = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : false;
+      if (elements instanceof Element) return elements.addEventListener(event, fn, passive);
 
       for (var i = 0, len = elements.length; i < len; i++) {
         elements[i].addEventListener(event, fn, passive);
@@ -632,7 +689,7 @@ function () {
     }
     /**
      * Util function to simplify the unbinding of functions to nodelists.
-     * @param {HTMLElement} elements - Elements from which the listeners will be unbind.
+     * @param {(HTMLCollection|NodeList|HTMLElement)} elements - Elements from which the listeners will be unbind.
      * @param {string} event - Event name, like 'click'.
      * @param {function} fn - Function to unbind from elements.
      * @returns {void}
@@ -642,6 +699,7 @@ function () {
     key: "removeMultipleEventListeners",
     value: function removeMultipleEventListeners(elements, event, fn) {
       var passive = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : false;
+      if (elements instanceof Element) return elements.removeEventListener(event, fn, passive);
 
       for (var i = 0, len = elements.length; i < len; i++) {
         elements[i].removeEventListener(event, fn, passive);
@@ -661,6 +719,22 @@ function () {
       for (var i = 0; i < propArray.length; i++) {
         el.style.removeProperty(propArray[i]);
       }
+    }
+    /**
+     * Util function to itarate through HTMLCollections and NodeList using the same command.
+     * @param {(HTMLCollection | NodeList)} nodes - List of elements to loop through.
+     * @param {function} fn - Function to call for each element inside the nodes list.
+     * @returns {(HTMLCollection | NodeList)} - The original nodes to enable chain functions
+     */
+
+  }, {
+    key: "nodesIterator",
+    value: function nodesIterator(nodes, fn) {
+      for (var i = 0; i < nodes.length; i++) {
+        fn(nodes[i]);
+      }
+
+      return nodes;
     }
     /**
      * Util function to find the height of a hidden DOM object.
@@ -690,6 +764,16 @@ function () {
       el.parentNode.removeChild(insertedElement); // Returns the height (without 'px')
 
       return height;
+    }
+    /**
+     * Util bindable tabbing disabler.
+     * @returns {void}
+     */
+
+  }, {
+    key: "tabbingDisabler",
+    value: function tabbingDisabler(e) {
+      if (e.keyCode === 9) e.preventDefault();
     }
   }]);
 
