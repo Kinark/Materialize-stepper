@@ -378,7 +378,7 @@ class MStepper {
     * @returns {(HTMLElement|HTMLCollection|NodeList)} - The new added/activated step/steps.
     */
    activateStep = (elements, index) => {
-      const { getSteps, _slideDown, stepper } = this;
+      const { getSteps, _slideDown, stepper, _methodsBindingManager } = this;
       const { nodesIterator } = MStepper;
       const currentSteps = getSteps();
       const nextStep = currentSteps.steps[index];
@@ -414,6 +414,8 @@ class MStepper {
          // If it's and HTMLElement, activates (slideDown) it, if it's an HTMLCollection, activates (slideDown) each of them
          if (elements instanceof Element) _slideDown(returnableElement); else nodesIterator(returnableElement, appendedElement => _slideDown(appendedElement));
       }
+      // Do the bidings to the new step(s)
+      if (returnableElement) _methodsBindingManager(returnableElement);
       // Returns the added/activated elements
       return returnableElement;
    }
@@ -424,11 +426,20 @@ class MStepper {
     * @returns {(HTMLElement|HTMLCollection|NodeList)} - The step(s) that has been deactivated, in case you want to activate it again.
     */
    deactivateStep = elements => {
-      const { _slideUp, stepper } = this;
+      const { _slideUp, stepper, _methodsBindingManager } = this;
       const { nodesIterator } = MStepper;
 
       // Sets a function to group the orders to deactivate and remove the steps
-      const doIt = element => { if (stepper.contains(elements)) _slideUp(element, undefined, undefined, () => stepper.removeChild(element)); };
+      const doIt = element => {
+         // Checks if the step really exists in the stepper
+         if (stepper.contains(elements)) {
+            // Yeah, it does exist
+            // Unbinds the listeners previously binded to the step
+            _methodsBindingManager(element);
+            // Slides up and removes afterwards
+            _slideUp(element, undefined, undefined, () => stepper.removeChild(element));
+         }
+      };
       // Checks if the elements is an HTMLElement or an HTMLCollection and calls the function doIt in the right way
       if (elements instanceof Element)
          doIt(elements);
