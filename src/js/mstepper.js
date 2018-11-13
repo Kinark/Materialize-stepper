@@ -230,7 +230,7 @@ class MStepper {
       const feedbackFunction = e && e.target ? e.target.dataset.feedback : null;
 
       // Checks if there's a validation function defined
-      if (validationFunction && _validationFunctionCaller()) {
+      if (validationFunction && !_validationFunctionCaller()) {
          // There's a validation function and no feedback function
          // The validation function was already called in the if statement and it retuerned false, so returns the calling of the wrongStep method
          return wrongStep();
