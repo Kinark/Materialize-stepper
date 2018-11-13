@@ -61,3 +61,4 @@ Hey!<br />Did you like the stepper? I hope you did!<br />If you did, why not buy
 <p align="center">
 <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=RZYQNQ394RE3S"><img src="https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif" ></a>
 </p>
+<p align="center">Bitcoin addres:<br />1AE21GBjtQf5f7X3f1T2qdckgqcAhzxPdz</p>

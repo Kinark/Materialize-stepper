@@ -58,20 +58,51 @@ class MStepper {
     * @returns {void}
     */
    _init = () => {
-      const { _formWrapperManager, getSteps, options, stepper, classes, _nextStepProxy, _prevStepProxy, _stepTitleClickHandler, _openAction } = this;
-      const { addMultipleEventListeners } = MStepper;
+      const { _formWrapperManager, getSteps, options, stepper, classes, _methodsBindingManager, _openAction } = this;
       // Calls the _formWrapperManager
       this.form = _formWrapperManager();
       // Opens the first step (or other specified in the constructor)
       _openAction(getSteps().steps[options.firstActive]);
-      // Gathers some divs and binds the right methods to them
-      const nextBtns = stepper.getElementsByClassName(classes.NEXTSTEPBTN);
-      const prevBtns = stepper.getElementsByClassName(classes.PREVSTEPBTN);
-      const stepsTitles = stepper.getElementsByClassName(classes.STEPTITLE);
-      addMultipleEventListeners(nextBtns, 'click', _nextStepProxy, false);
-      addMultipleEventListeners(prevBtns, 'click', _prevStepProxy, false);
-      addMultipleEventListeners(stepsTitles, 'click', _stepTitleClickHandler);
+      // Gathers the steps and send them to the methodsBinder
+      _methodsBindingManager(stepper.querySelectorAll(`.${classes.STEP}`));
    }
+
+   /**
+    * A private method that manages the binding of the methods into the correct elements inside the stepper.
+    * @param {(HTMLElement|HTMLCollection|NodeList)} steps - The steps to find the bindable elements.
+    * @param {boolean} [unbind=false] - Should it unbind instead of bind?
+    * @returns {void}
+    */
+   _methodsBindingManager = (steps, unbind = false) => {
+      const { classes, _formSubmitHandler, _nextStepProxy, _prevStepProxy, _stepTitleClickHandler, form, options } = this;
+      const { addMultipleEventListeners, removeMultipleEventListeners, nodesIterator, tabbingDisabler } = MStepper;
+      const bindOrUnbind = unbind ? removeMultipleEventListeners : addMultipleEventListeners;
+
+      // Sets the binding function
+      const bindEvents = step => {
+         const nextBtns = step.getElementsByClassName(classes.NEXTSTEPBTN);
+         const prevBtns = step.getElementsByClassName(classes.PREVSTEPBTN);
+         const stepsTitle = step.getElementsByClassName(classes.STEPTITLE);
+         const inputs = step.querySelectorAll('input, select, button');
+         const submitButtons = step.querySelectorAll('button[type="submit"]');
+         bindOrUnbind(nextBtns, 'click', _nextStepProxy, false);
+         bindOrUnbind(prevBtns, 'click', _prevStepProxy, false);
+         bindOrUnbind(stepsTitle, 'click', _stepTitleClickHandler);
+         // Prevents the tabbing issue (https://github.com/Kinark/Materialize-stepper/issues/49)
+         if (inputs.length) bindOrUnbind(inputs[inputs.length - 1], 'keydown', tabbingDisabler);
+         // Binds to the submit button an internal handler to manage validation
+         if (submitButtons && form && options.validationFunction) bindOrUnbind(submitButtons, 'keydown', _formSubmitHandler);
+         return step;
+      };
+      // Calls the binder function in the right way (if it's a unique step or multiple ones)
+      if (steps instanceof Element) bindEvents(steps); else nodesIterator(steps, step => bindEvents(step));
+   }
+
+   /**
+    * A private method that manages submit of the form (sends to validationFunction before).
+    * @returns {void}
+    */
+   _formSubmitHandler = e => { if (!this._validationFunctionCaller()) e.preventDefault(); }
 
    /**
     * A private method to handle the opening of the steps.
@@ -190,7 +221,7 @@ class MStepper {
     */
    nextStep = (cb, skipFeedback, e) => {
       if (e && e.preventDefault) e.preventDefault();
-      const { options, getSteps, activateFeedback, form, wrongStep, classes, _openAction, stepper, events, destroyFeedback } = this;
+      const { options, getSteps, activateFeedback, form, wrongStep, classes, _openAction, stepper, events, destroyFeedback, _validationFunctionCaller } = this;
       const { showFeedbackPreloader, validationFunction } = options;
       const { active } = getSteps();
       const nextStep = getSteps().steps[active.index + 1];
@@ -204,10 +235,10 @@ class MStepper {
          // If showFeedbackPreloader is true (default=true), activates it
          if (showFeedbackPreloader && !active.step.dataset.nopreloader) activateFeedback();
          // Calls the feedbackFunction
-         window[feedbackFunction](destroyFeedback, form, active.step.querySelector('.step-content'));
+         window[feedbackFunction](destroyFeedback, form, active.step.querySelector(`.${classes.STEPCONTENT}`));
          // Returns to prevent the nextStep method from being called
          return;
-      } else if (validationFunction && !validationFunction(form, active.step.querySelector('.step-content'))) {
+      } else if (validationFunction && _validationFunctionCaller()) {
          // There's a validation function and no feedback function
          // The validation function was already called in the if statement and it retuerned false, so returns the calling of the wrongStep method
          return wrongStep();
@@ -354,12 +385,13 @@ class MStepper {
 
    /**
     * Add and activate one or more steps.
-    * @param {(string|string[]|HTMLElement|HTMLCollection|)} elements - The step/steps to be added.
+    * @param {(string|string[]|HTMLElement|HTMLCollection|NodeList)} elements - The step/steps to be added.
     * @param {number} index - The index in which the steps will be added (zero based, so the first one is 0, not 1).
-    * @returns {HTMLElement|HTMLCollection} - The new added/activated step/steps.
+    * @returns {(HTMLElement|HTMLCollection|NodeList)} - The new added/activated step/steps.
     */
    activateStep = (elements, index) => {
-      const { getSteps, _slideDown, stepper } = this;
+      const { getSteps, _slideDown, stepper, _methodsBindingManager } = this;
+      const { nodesIterator } = MStepper;
       const currentSteps = getSteps();
       const nextStep = currentSteps.steps[index];
 
@@ -387,29 +419,44 @@ class MStepper {
             // Activates (slideDown) each element
             _slideDown(nextStep.previousSibling);
          });
-      } else if (elements instanceof Element || elements instanceof HTMLCollection) {
+      } else if (elements instanceof Element || elements instanceof HTMLCollection || elements instanceof NodeList) {
          // The element is an HTMLElement or an HTMLCollection
          // Insert it/them with the insertBefore function and sets the returnableElement
          returnableElement = stepper.insertBefore(elements, nextStep);
          // If it's and HTMLElement, activates (slideDown) it, if it's an HTMLCollection, activates (slideDown) each of them
-         if (elements instanceof Element) _slideDown(returnableElement); else returnableElement.forEach(appendedElement => _slideDown(appendedElement));
+         if (elements instanceof Element) _slideDown(returnableElement); else nodesIterator(returnableElement, appendedElement => _slideDown(appendedElement));
       }
+      // Do the bidings to the new step(s)
+      if (returnableElement) _methodsBindingManager(returnableElement);
       // Returns the added/activated elements
       return returnableElement;
    }
 
    /**
     * Deactivate and remove one or more steps.
-    * @param {(HTMLElement|HTMLCollection)} elements - The step/steps to be removed.
-    * @returns {HTMLElement|HTMLCollection} - The step(s) that has been deactivated, in case you want to activate it again.
+    * @param {(HTMLElement|HTMLCollection|NodeList)} elements - The step/steps to be removed.
+    * @returns {(HTMLElement|HTMLCollection|NodeList)} - The step(s) that has been deactivated, in case you want to activate it again.
     */
    deactivateStep = elements => {
-      const { _slideUp, stepper } = this;
+      const { _slideUp, stepper, _methodsBindingManager } = this;
+      const { nodesIterator } = MStepper;
 
       // Sets a function to group the orders to deactivate and remove the steps
-      const doIt = element => { if (stepper.contains(elements)) _slideUp(element, undefined, undefined, () => stepper.removeChild(element)); };
+      const doIt = element => {
+         // Checks if the step really exists in the stepper
+         if (stepper.contains(elements)) {
+            // Yeah, it does exist
+            // Unbinds the listeners previously binded to the step
+            _methodsBindingManager(element);
+            // Slides up and removes afterwards
+            _slideUp(element, undefined, undefined, () => stepper.removeChild(element));
+         }
+      };
       // Checks if the elements is an HTMLElement or an HTMLCollection and calls the function doIt in the right way
-      if (elements instanceof Element) doIt(elements); else if (elements instanceof HTMLCollection) elements.forEach(element => doIt(element));
+      if (elements instanceof Element)
+         doIt(elements);
+      else if (elements instanceof HTMLCollection || elements instanceof NodeList)
+         nodesIterator(elements, element => doIt(element));
       // Returns the step(s), in case you want to activate it/them again.
       return elements;
    }
@@ -548,6 +595,15 @@ class MStepper {
    }
 
    /**
+    * An util method to make easy the task of calling the validationFunction.
+    * @returns {boolean} - The validation function result.
+    */
+   _validationFunctionCaller = () => {
+      const { options, getSteps, form, classes } = this;
+      return options.validationFunction(form, getSteps().active.step.querySelector(`.${classes.STEPCONTENT}`))
+   }
+
+   /**
      * An util method to manage binded eventListeners and avoid duplicates. This is the opposite of "_smartListenerUnbind".
      * @param {HTMLElement} el - Target element in which the listener will be binded.
      * @param {string} event - Event to be listened like 'click'.
@@ -602,12 +658,13 @@ class MStepper {
 
    /**
     * Util function to simplify the binding of functions to nodelists.
-    * @param {HTMLElement} elements - Elements to bind a listener to.
+    * @param {(HTMLCollection|NodeList|HTMLElement)} elements - Elements to bind a listener to.
     * @param {string} event - Event name, like 'click'.
     * @param {function} fn - Function to bind to elements.
     * @returns {void}
     */
    static addMultipleEventListeners(elements, event, fn, passive = false) {
+      if (elements instanceof Element) return elements.addEventListener(event, fn, passive);
       for (var i = 0, len = elements.length; i < len; i++) {
          elements[i].addEventListener(event, fn, passive);
       }
@@ -615,12 +672,13 @@ class MStepper {
 
    /**
     * Util function to simplify the unbinding of functions to nodelists.
-    * @param {HTMLElement} elements - Elements from which the listeners will be unbind.
+    * @param {(HTMLCollection|NodeList|HTMLElement)} elements - Elements from which the listeners will be unbind.
     * @param {string} event - Event name, like 'click'.
     * @param {function} fn - Function to unbind from elements.
     * @returns {void}
     */
    static removeMultipleEventListeners(elements, event, fn, passive = false) {
+      if (elements instanceof Element) return elements.removeEventListener(event, fn, passive);
       for (var i = 0, len = elements.length; i < len; i++) {
          elements[i].removeEventListener(event, fn, passive);
       }
@@ -637,6 +695,14 @@ class MStepper {
          el.style.removeProperty(propArray[i]);
       }
    }
+
+   /**
+    * Util function to itarate through HTMLCollections and NodeList using the same command.
+    * @param {(HTMLCollection | NodeList)} nodes - List of elements to loop through.
+    * @param {function} fn - Function to call for each element inside the nodes list.
+    * @returns {(HTMLCollection | NodeList)} - The original nodes to enable chain functions
+    */
+   static nodesIterator(nodes, fn) { for (let i = 0; i < nodes.length; i++) fn(nodes[i]); return nodes; }
 
    /**
     * Util function to find the height of a hidden DOM object.
@@ -664,4 +730,10 @@ class MStepper {
       // Returns the height (without 'px')
       return height;
    }
+
+   /**
+    * Util bindable tabbing disabler.
+    * @returns {void}
+    */
+   static tabbingDisabler(e) { if (e.keyCode === 9) e.preventDefault(); }
 }
