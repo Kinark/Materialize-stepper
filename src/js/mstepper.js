@@ -724,6 +724,11 @@ class MStepper {
       clone.style.opacity = '0';
       clone.style.zIndex = '-999999';
       clone.style.pointerEvents = 'none';
+      // Rename the radio buttons in the cloned node as only 1 radio button is allowed to be selected with the same name in the DOM.
+      const radios = clone.querySelectorAll('[type="radio"]');
+      radios.forEach(radio => {
+         radio.name = "__" + radio.name + "__"; 
+      });
       // Inserts it before the hidden element
       const insertedElement = el.parentNode.insertBefore(clone, el);
       // Gets it's height
