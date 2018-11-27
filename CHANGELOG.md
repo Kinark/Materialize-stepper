@@ -1,5 +1,11 @@
 Date format: d/m/y
 
+### 3.0.0-beta.1.1 (26/11/18)
+* Validation function is now called before the feedback function;
+* Fixed inverted check of validation function's return;
+* Fixes #51, where the stepper would lose it's selected status of radio buttons when calculating height;
+* Added `resetStepper()` method.
+
 ### 3.0.0-beta.1.0.1 (13/11/18)
 * Fixed the incorrect utilization of forEach in some cases (like in HTMLCollections, for example);
 * Fixed binding of added/removed steps through activate/deactivateStep functions;
