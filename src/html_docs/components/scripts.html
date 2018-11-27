@@ -1,6 +1,6 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 <script src="js/mstepper.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js"></script>
+<!-- <script src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js"></script> -->
 <script src="js/prism.js"></script>
 <script>
 
@@ -12,10 +12,10 @@
       M.ScrollSpy.init(elems);
    });
 
-   var galleryElems = document.querySelectorAll('.stepper');
-   for (var i = 0, len = galleryElems.length; i < len; i++) {
-      var galleryElem = galleryElems[i];
-      new MStepper(galleryElem);
+   var domSteppers = document.querySelectorAll('.stepper');
+   for (var i = 0, len = domSteppers.length; i < len; i++) {
+      var domStepper = domSteppers[i];
+      new MStepper(domStepper);
    }
 
    function someFunction(destroyFeedback) {
