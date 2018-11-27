@@ -105,6 +105,12 @@ class MStepper {
    _formSubmitHandler = e => { if (!this._validationFunctionCaller()) e.preventDefault(); }
 
    /**
+    * An util method to reset stepper into it's original state (clear the form and open step 1). Can only be used with a form.
+    * @returns {void}
+    */
+   resetStepper = () => { if (this.form) { this.form.reset(); this.openStep(this.options.firstActive); } }
+
+   /**
     * A private method to handle the opening of the steps.
     * @param {HTMLElement} step - Step which will be opened.
     * @param {function} cb - Callback to be executed after the transition ends.
@@ -727,7 +733,7 @@ class MStepper {
       // Rename the radio buttons in the cloned node as only 1 radio button is allowed to be selected with the same name in the DOM.
       const radios = clone.querySelectorAll('[type="radio"]');
       radios.forEach(radio => {
-         radio.name = "__" + radio.name + "__"; 
+         radio.name = "__" + radio.name + "__";
       });
       // Inserts it before the hidden element
       const insertedElement = el.parentNode.insertBefore(clone, el);
