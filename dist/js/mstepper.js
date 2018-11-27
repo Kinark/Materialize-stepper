@@ -1,6 +1,6 @@
 /**
  * Materialize Stepper - A little plugin that implements a stepper to Materializecss framework.
- * @version v3.0.0-beta.1.0.1
+ * @version v3.0.0-beta.1.1
  * @author Igor Marcossi (Kinark) <igormarcossi@gmail.com>.
  * @link https://github.com/Kinark/Materialize-stepper
  * 
@@ -96,6 +96,14 @@ function () {
 
     _defineProperty(this, "_formSubmitHandler", function (e) {
       if (!_this._validationFunctionCaller()) e.preventDefault();
+    });
+
+    _defineProperty(this, "resetStepper", function () {
+      if (_this.form) {
+        _this.form.reset();
+
+        _this.openStep(_this.options.firstActive);
+      }
     });
 
     _defineProperty(this, "_openAction", function (step, cb) {
@@ -233,7 +241,14 @@ function () {
 
       var nextStep = getSteps().steps[active.index + 1]; // Gets the feedback function (if any) from the button
 
-      var feedbackFunction = e && e.target ? e.target.dataset.feedback : null; // Handles the feedback/validation functions. The former is more priority
+      var feedbackFunction = e && e.target ? e.target.dataset.feedback : null; // Checks if there's a validation function defined
+
+      if (validationFunction && !_validationFunctionCaller()) {
+        // There's a validation function and no feedback function
+        // The validation function was already called in the if statement and it retuerned false, so returns the calling of the wrongStep method
+        return wrongStep();
+      } // Checks if there's a feedback function
+
 
       if (feedbackFunction && !skipFeedback) {
         // There's a feedback function and it wasn't requested to skip it
@@ -243,10 +258,6 @@ function () {
         window[feedbackFunction](destroyFeedback, form, active.step.querySelector(".".concat(classes.STEPCONTENT))); // Returns to prevent the nextStep method from being called
 
         return;
-      } else if (validationFunction && _validationFunctionCaller()) {
-        // There's a validation function and no feedback function
-        // The validation function was already called in the if statement and it retuerned false, so returns the calling of the wrongStep method
-        return wrongStep();
       } // Adds the class 'done' to the current step
 
 
@@ -755,7 +766,12 @@ function () {
       clone.style.height = 'auto';
       clone.style.opacity = '0';
       clone.style.zIndex = '-999999';
-      clone.style.pointerEvents = 'none'; // Inserts it before the hidden element
+      clone.style.pointerEvents = 'none'; // Rename the radio buttons in the cloned node as only 1 radio button is allowed to be selected with the same name in the DOM.
+
+      var radios = clone.querySelectorAll('[type="radio"]');
+      radios.forEach(function (radio) {
+        radio.name = "__" + radio.name + "__";
+      }); // Inserts it before the hidden element
 
       var insertedElement = el.parentNode.insertBefore(clone, el); // Gets it's height
 
