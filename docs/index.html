@@ -12,15 +12,6 @@
    gtag('config', 'UA-128647381-2');
 </script>
 
-<!-- Google Adsense -->
-<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-<script>
-   (adsbygoogle = window.adsbygoogle || []).push({
-      google_ad_client: "ca-pub-4928953334879290",
-      enable_page_level_ads: true
-   });
-</script>
-
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <title>Materialize Stepper</title>
@@ -665,6 +656,12 @@ instace.openStep(index, cb);
 &lt;/script>
 </code></pre>
 
+   <h6 id="api_wrongstep">wrongStep method</h6>
+<p>If you want to the stepper to it's original state (empty fields and options.firstActive), you can use resetStepper() method on the active instance. However, it can only be used on steppers wrapped in a form:</p>
+<pre><code class="language-js">
+instance.resetStepper();
+</code></pre>
+
    <h6 id="api_get_steps">Get Steps</h6>
 <p>You can get information about the steps by running:</p>
 <pre><code class="language-js">
@@ -822,7 +819,7 @@ instance.wrongStep();
 
    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 <script src="js/mstepper.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js"></script>
+<!-- <script src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js"></script> -->
 <script src="js/prism.js"></script>
 <script>
 
@@ -834,10 +831,10 @@ instance.wrongStep();
       M.ScrollSpy.init(elems);
    });
 
-   var galleryElems = document.querySelectorAll('.stepper');
-   for (var i = 0, len = galleryElems.length; i < len; i++) {
-      var galleryElem = galleryElems[i];
-      new MStepper(galleryElem);
+   var domSteppers = document.querySelectorAll('.stepper');
+   for (var i = 0, len = domSteppers.length; i < len; i++) {
+      var domStepper = domSteppers[i];
+      new MStepper(domStepper);
    }
 
    function someFunction(destroyFeedback) {
