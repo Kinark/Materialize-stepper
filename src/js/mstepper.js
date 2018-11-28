@@ -83,7 +83,7 @@ class MStepper {
          const nextBtns = step.getElementsByClassName(classes.NEXTSTEPBTN);
          const prevBtns = step.getElementsByClassName(classes.PREVSTEPBTN);
          const stepsTitle = step.getElementsByClassName(classes.STEPTITLE);
-         const inputs = step.querySelectorAll('input, select, button');
+         const inputs = step.querySelectorAll('input, select, textarea, button');
          const submitButtons = step.querySelectorAll('button[type="submit"]');
          bindOrUnbind(nextBtns, 'click', _nextStepProxy, false);
          bindOrUnbind(prevBtns, 'click', _prevStepProxy, false);
@@ -135,7 +135,7 @@ class MStepper {
          // Beginning of disabled autoFocusInput function due to issues with scroll
          // _slideDown(stepContent, classes.ACTIVESTEP, step, () => {
          //    // Gets the inputs from the nextStep to focus on the first one (temporarily disabled)
-         //    const nextStepInputs = stepContent.querySelector('input, select');
+         //    const nextStepInputs = stepContent.querySelector('input, select, textarea');
          //    // Focus on the first input of the next step (temporarily disabled)
          //    if (options.autoFocusInput && nextStepInputs) nextStepInputs.focus();
          //    if(cb && typeof cb === 'function') cb();
@@ -314,7 +314,7 @@ class MStepper {
       // Add the WRONGSTEP class to the step
       getSteps().active.step.classList.add(classes.WRONGSTEP);
       // Gets all the inputs from the active step
-      const inputs = getSteps().active.step.querySelectorAll('input, select');
+      const inputs = getSteps().active.step.querySelectorAll('input, select, textarea');
       // Defines a function to be binded to any change in any input
       const removeWrongOnInput = () => {
          // If there's a change, removes the WRONGSTEP class
