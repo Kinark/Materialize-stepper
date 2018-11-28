@@ -456,7 +456,7 @@ class MStepper {
          if (stepper.contains(elements)) {
             // Yeah, it does exist
             // Unbinds the listeners previously binded to the step
-            _methodsBindingManager(element);
+            _methodsBindingManager(element, true);
             // Slides up and removes afterwards
             _slideUp(element, undefined, undefined, () => stepper.removeChild(element));
          }
