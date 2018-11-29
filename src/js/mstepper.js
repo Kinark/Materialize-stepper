@@ -6,7 +6,7 @@ class MStepper {
     * @param {object} [options] - Stepper options.
     * @param {number} [options.firstActive=0] - Default active step.
     * @param {boolean} [options.linearStepsNavigation=true] - Allow navigation by clicking on the next and previous steps on linear steppers.
-    * @param {boolean} [options.autoFocusInput=true] - Auto focus on first input of each step.
+    * @param {boolean} [options.autoFocusInput=false] - Auto focus on first input of each step.
     * @param {boolean} [options.showFeedbackPreloader=true] - Set if a loading screen will appear while feedbacks functions are running.
     * @param {boolean} [options.autoFormCreation=true] - Auto generation of a form around the stepper.
     * @param {function} [options.validationFunction=null] - Function to be called everytime a nextstep occurs. It receives 2 arguments, in this sequece: stepperForm, activeStep.
@@ -17,7 +17,7 @@ class MStepper {
       this.options = {
          firstActive: options.firstActive || 0,
          linearStepsNavigation: options.linearStepsNavigation || true,
-         // autoFocusInput: options.autoFocusInput || true,
+         autoFocusInput: options.autoFocusInput || true,
          showFeedbackPreloader: options.showFeedbackPreloader || true,
          autoFormCreation: options.autoFormCreation || true,
          validationFunction: options.validationFunction || null,
@@ -62,7 +62,7 @@ class MStepper {
       // Calls the _formWrapperManager
       this.form = _formWrapperManager();
       // Opens the first step (or other specified in the constructor)
-      _openAction(getSteps().steps[options.firstActive]);
+      _openAction(getSteps().steps[options.firstActive], undefined, undefined, true);
       // Gathers the steps and send them to the methodsBinder
       _methodsBindingManager(stepper.querySelectorAll(`.${classes.STEP}`));
    }
@@ -83,7 +83,7 @@ class MStepper {
          const nextBtns = step.getElementsByClassName(classes.NEXTSTEPBTN);
          const prevBtns = step.getElementsByClassName(classes.PREVSTEPBTN);
          const stepsTitle = step.getElementsByClassName(classes.STEPTITLE);
-         const inputs = step.querySelectorAll('input, select, button');
+         const inputs = step.querySelectorAll('input, select, textarea, button');
          const submitButtons = step.querySelectorAll('button[type="submit"]');
          bindOrUnbind(nextBtns, 'click', _nextStepProxy, false);
          bindOrUnbind(prevBtns, 'click', _prevStepProxy, false);
@@ -114,9 +114,11 @@ class MStepper {
     * A private method to handle the opening of the steps.
     * @param {HTMLElement} step - Step which will be opened.
     * @param {function} cb - Callback to be executed after the transition ends.
+    * @param {boolean} [closeActiveStep=true] - Should it close the active (open) step while opening the new one?
+    * @param {boolean} [skipAutoFocus] - Should it skip autofocus on the first input of the next step?
     * @returns {HTMLElement} - The original received step.
     */
-   _openAction = (step, cb, closeActiveStep = true) => {
+   _openAction = (step, cb, closeActiveStep = true, skipAutoFocus) => {
       const { _slideDown, classes, getSteps, _closeAction, stepper, options } = this;
       // Gets the active step element
       const activeStep = getSteps().active.step;
@@ -133,13 +135,15 @@ class MStepper {
          _slideDown(stepContent, classes.ACTIVESTEP, step, cb);
 
          // Beginning of disabled autoFocusInput function due to issues with scroll
-         // _slideDown(stepContent, classes.ACTIVESTEP, step, () => {
-         //    // Gets the inputs from the nextStep to focus on the first one (temporarily disabled)
-         //    const nextStepInputs = stepContent.querySelector('input, select');
-         //    // Focus on the first input of the next step (temporarily disabled)
-         //    if (options.autoFocusInput && nextStepInputs) nextStepInputs.focus();
-         //    if(cb && typeof cb === 'function') cb();
-         // });
+         if (!skipAutoFocus) {
+            _slideDown(stepContent, classes.ACTIVESTEP, step, () => {
+               // Gets the inputs from the nextStep to focus on the first one (temporarily disabled)
+               const nextStepInputs = stepContent.querySelector('input, select, textarea');
+               // Focus on the first input of the next step (temporarily disabled)
+               if (options.autoFocusInput && nextStepInputs) nextStepInputs.focus();
+               if (cb && typeof cb === 'function') cb();
+            });
+         }
          // Enf of disabled autoFocusInput function due to issues with scroll
 
       } else {
@@ -314,7 +318,7 @@ class MStepper {
       // Add the WRONGSTEP class to the step
       getSteps().active.step.classList.add(classes.WRONGSTEP);
       // Gets all the inputs from the active step
-      const inputs = getSteps().active.step.querySelectorAll('input, select');
+      const inputs = getSteps().active.step.querySelectorAll('input, select, textarea');
       // Defines a function to be binded to any change in any input
       const removeWrongOnInput = () => {
          // If there's a change, removes the WRONGSTEP class
@@ -456,7 +460,7 @@ class MStepper {
          if (stepper.contains(elements)) {
             // Yeah, it does exist
             // Unbinds the listeners previously binded to the step
-            _methodsBindingManager(element);
+            _methodsBindingManager(element, true);
             // Slides up and removes afterwards
             _slideUp(element, undefined, undefined, () => stepper.removeChild(element));
          }

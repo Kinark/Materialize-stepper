@@ -1,6 +1,6 @@
 /**
  * Materialize Stepper - A little plugin that implements a stepper to Materializecss framework.
- * @version v3.0.0-beta.1.1
+ * @version v3.0.0-beta.1.1.1
  * @author Igor Marcossi (Kinark) <igormarcossi@gmail.com>.
  * @link https://github.com/Kinark/Materialize-stepper
  * 
@@ -27,7 +27,7 @@ function () {
    * @param {object} [options] - Stepper options.
    * @param {number} [options.firstActive=0] - Default active step.
    * @param {boolean} [options.linearStepsNavigation=true] - Allow navigation by clicking on the next and previous steps on linear steppers.
-   * @param {boolean} [options.autoFocusInput=true] - Auto focus on first input of each step.
+   * @param {boolean} [options.autoFocusInput=false] - Auto focus on first input of each step.
    * @param {boolean} [options.showFeedbackPreloader=true] - Set if a loading screen will appear while feedbacks functions are running.
    * @param {boolean} [options.autoFormCreation=true] - Auto generation of a form around the stepper.
    * @param {function} [options.validationFunction=null] - Function to be called everytime a nextstep occurs. It receives 2 arguments, in this sequece: stepperForm, activeStep.
@@ -51,7 +51,7 @@ function () {
 
       _this.form = _formWrapperManager(); // Opens the first step (or other specified in the constructor)
 
-      _openAction(getSteps().steps[options.firstActive]); // Gathers the steps and send them to the methodsBinder
+      _openAction(getSteps().steps[options.firstActive], undefined, undefined, true); // Gathers the steps and send them to the methodsBinder
 
 
       _methodsBindingManager(stepper.querySelectorAll(".".concat(classes.STEP)));
@@ -76,7 +76,7 @@ function () {
         var nextBtns = step.getElementsByClassName(classes.NEXTSTEPBTN);
         var prevBtns = step.getElementsByClassName(classes.PREVSTEPBTN);
         var stepsTitle = step.getElementsByClassName(classes.STEPTITLE);
-        var inputs = step.querySelectorAll('input, select, button');
+        var inputs = step.querySelectorAll('input, select, textarea, button');
         var submitButtons = step.querySelectorAll('button[type="submit"]');
         bindOrUnbind(nextBtns, 'click', _nextStepProxy, false);
         bindOrUnbind(prevBtns, 'click', _prevStepProxy, false);
@@ -108,6 +108,7 @@ function () {
 
     _defineProperty(this, "_openAction", function (step, cb) {
       var closeActiveStep = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : true;
+      var skipAutoFocus = arguments.length > 3 ? arguments[3] : undefined;
       var _slideDown = _this._slideDown,
           classes = _this.classes,
           getSteps = _this.getSteps,
@@ -126,14 +127,17 @@ function () {
         // The stepper is running in vertical mode
         // Calls the slideDown private method if the stepper is vertical
         _slideDown(stepContent, classes.ACTIVESTEP, step, cb); // Beginning of disabled autoFocusInput function due to issues with scroll
-        // _slideDown(stepContent, classes.ACTIVESTEP, step, () => {
-        //    // Gets the inputs from the nextStep to focus on the first one (temporarily disabled)
-        //    const nextStepInputs = stepContent.querySelector('input, select');
-        //    // Focus on the first input of the next step (temporarily disabled)
-        //    if (options.autoFocusInput && nextStepInputs) nextStepInputs.focus();
-        //    if(cb && typeof cb === 'function') cb();
-        // });
-        // Enf of disabled autoFocusInput function due to issues with scroll
+
+
+        if (!skipAutoFocus) {
+          _slideDown(stepContent, classes.ACTIVESTEP, step, function () {
+            // Gets the inputs from the nextStep to focus on the first one (temporarily disabled)
+            var nextStepInputs = stepContent.querySelector('input, select, textarea'); // Focus on the first input of the next step (temporarily disabled)
+
+            if (options.autoFocusInput && nextStepInputs) nextStepInputs.focus();
+            if (cb && typeof cb === 'function') cb();
+          });
+        } // Enf of disabled autoFocusInput function due to issues with scroll
 
       } else {
         // The stepper is running in horizontal mode
@@ -313,7 +317,7 @@ function () {
 
       getSteps().active.step.classList.add(classes.WRONGSTEP); // Gets all the inputs from the active step
 
-      var inputs = getSteps().active.step.querySelectorAll('input, select'); // Defines a function to be binded to any change in any input
+      var inputs = getSteps().active.step.querySelectorAll('input, select, textarea'); // Defines a function to be binded to any change in any input
 
       var removeWrongOnInput = function removeWrongOnInput() {
         // If there's a change, removes the WRONGSTEP class
@@ -440,7 +444,7 @@ function () {
         if (stepper.contains(elements)) {
           // Yeah, it does exist
           // Unbinds the listeners previously binded to the step
-          _methodsBindingManager(element); // Slides up and removes afterwards
+          _methodsBindingManager(element, true); // Slides up and removes afterwards
 
 
           _slideUp(element, undefined, undefined, function () {
@@ -639,7 +643,7 @@ function () {
     this.options = {
       firstActive: _options.firstActive || 0,
       linearStepsNavigation: _options.linearStepsNavigation || true,
-      // autoFocusInput: options.autoFocusInput || true,
+      autoFocusInput: _options.autoFocusInput || true,
       showFeedbackPreloader: _options.showFeedbackPreloader || true,
       autoFormCreation: _options.autoFormCreation || true,
       validationFunction: _options.validationFunction || null,
