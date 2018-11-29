@@ -1,6 +1,6 @@
 Date format: d/m/y
 
-### 3.0.0-beta.1.1.1 (26/11/18)
+### 3.0.0-beta.1.1.1 (28/11/18)
 * Added textarea when inputs need to be queried (fixes some issues);
 * Fix the listeners unbinding of steps that are being removed;
 * Readded autoFocus option.
