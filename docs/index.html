@@ -701,7 +701,7 @@ instance.wrongStep();
    elements = document.querySelector('.step-to-add');
 
    // Then you just need to run
-   var addedSteps = instance.activateStep(elements);
+   var addedSteps = instance.activateStep(elements, newStepsIndex);
    // And if you want, you can remove them afterwards:
    var removedSteps = instance.deactivateStep(addedSteps);
    // Or add them again :P
