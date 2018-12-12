@@ -735,29 +735,19 @@ class MStepper {
     * @returns {number} - The height without "px".
     */
    static getUnknownHeight(el) {
-      // Clones the element to insert it invisible
-      const clone = el.cloneNode(true);
-      // Defines some styles for it to be 100% invisible and unnoticeable
-      clone.style.position = 'fixed';
-      clone.style.display = 'block';
-      clone.style.top = '-999999px';
-      clone.style.left = '-999999px';
-      clone.style.height = 'auto';
-      clone.style.opacity = '0';
-      clone.style.zIndex = '-999999';
-      clone.style.pointerEvents = 'none';
-      // Rename the radio buttons in the cloned node as only 1 radio button is allowed to be selected with the same name in the DOM.
-      const radios = clone.querySelectorAll('[type="radio"]');
-      radios.forEach(radio => {
-         radio.name = "__" + radio.name + "__";
-      });
-      // Inserts it before the hidden element
-      const insertedElement = el.parentNode.insertBefore(clone, el);
+      // Spawns the hidden element in stealth mode
+      el.style.position = 'fixed';
+      el.style.display = 'block';
+      el.style.top = '-999999px';
+      el.style.left = '-999999px';
+      el.style.height = 'auto';
+      el.style.opacity = '0';
+      el.style.zIndex = '-999999';
+      el.style.pointerEvents = 'none';
       // Gets it's height
-      const height = insertedElement.offsetHeight;
-      // Removes it
-      el.parentNode.removeChild(insertedElement);
-      // Returns the height (without 'px')
+      const height = el.offsetHeight;
+      // Removes the stealth mode and hides the element again
+      MStepper.removeMultipleProperties(el, 'position display top left height opacity z-index pointer-events');
       return height;
    }
 
