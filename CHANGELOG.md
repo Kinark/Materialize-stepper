@@ -1,5 +1,10 @@
 Date format: d/m/y
 
+### 3.0.0-beta.1.1.2 (12/12/18)
+* Fixed [#54](https://github.com/Kinark/Materialize-stepper/issues/54) where you couldn't add a step to the end of the stepper;
+* Refactoring getUnknownHeight method to fix some bugs and optimize stuff;
+* Fixed animations issues.
+
 ### 3.0.0-beta.1.1.1 (28/11/18)
 * Added textarea when inputs need to be queried (fixes some issues);
 * Fix the listeners unbinding of steps that are being removed;
