@@ -1,6 +1,8 @@
 <h6 id="api_dyn_add_rem_steps">Dynamically adding/removing steps</h6>
-<p>If you want to dinamically add and activate/remove steps, you can do this:</p>
-<pre><code class="language-html">
+<div class="row">
+   <div class="col xl7 l6 m12 s12">
+      <p>If you want to dinamically add and activate/remove steps, you can do this:</p>
+      <pre><code class="language-html">
 &lt;script>
    var elements;
    // The element can be a string:
@@ -20,3 +22,28 @@
    var readdedSteps = instance.activateStep(removedSteps);
 &lt;/script>
 </code></pre>
+   </div>
+   <div class="col xl5 l6 m12 s12">
+      @@include('./commonlinear.html', {"id": "api_addrem_demo"})
+      <button class="waves-effect waves-dark btn blue" id="controlled_add">ADD STEPS IN INDEX:</button>
+      <div class="input-field inline"><input id="controlled_add_input" type="number" max="2" min="0" value="1" class="validate"></div>
+      <br>
+      <button class="waves-effect waves-dark btn blue" id="controlled_rem">REMOVE LAST ADDED STEPS</button>
+   </div>
+</div>
+
+<script>
+   window.addEventListener('load', function () {
+      var apiAddremDemo = new MStepper(document.getElementById('api_addrem_demo'));
+
+      var cntrldAdd = document.getElementById('controlled_add')
+      var cntrldAddInput = document.getElementById('controlled_add_input')
+      var cntrldRem = document.getElementById('controlled_rem')
+
+      var stepToAdd = ' <li class="step"> <div class="step-title waves-effect waves-dark">I\'m a happy added step!</div><div class="step-content"> Nope, nothing in here... <div class="step-actions"> <button class="waves-effect waves-dark btn blue next-step">CONTINUE</button> </div></div></li>'
+      var addedSteps;
+
+      cntrldAdd.addEventListener('click', function () { addedSteps = apiAddremDemo.activateStep(stepToAdd, cntrldAddInput.value) })
+      cntrldRem.addEventListener('click', function () { apiAddremDemo.deactivateStep(addedSteps) })
+   });
+</script>

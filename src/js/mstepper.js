@@ -405,18 +405,22 @@ class MStepper {
    activateStep = (elements, index) => {
       const { getSteps, _slideDown, stepper, _methodsBindingManager } = this;
       const { nodesIterator } = MStepper;
-      const currentSteps = getSteps();
-      const nextStep = currentSteps.steps[index];
+      const currentSteps = getSteps().steps;
+
+      // Checks if the steps will be added at the end or in the middle of the stepper
+      const before = currentSteps.length > index;
+      // Based on the previous check, sets the reference step
+      const referenceStep = before ? currentSteps[index] : currentSteps[currentSteps.length - 1];
 
       // Stores a let variable to return the right element after the activation
       let returnableElement = null;
       // Starts the checking of the elements parameter
       if (typeof elements === 'string') {
          // The element is in string format
-         // Insert it with the insertAdjacentHTML function
-         nextStep.insertAdjacentHTML('beforeBegin', elements);
+         // Insert it with the insertAdjacentHTML function (and trim the string to avoid errors)
+         referenceStep.insertAdjacentHTML(before ? 'beforeBegin' : 'afterEnd', elements.trim());
          // Defines the inserted element as the returnableElement
-         returnableElement = nextStep.previousSibling;
+         returnableElement = before ? referenceStep.previousSibling : referenceStep.nextSibling;
          // Activates (slideDown) the step
          _slideDown(returnableElement);
       } else if (Array.isArray(elements)) {
@@ -425,17 +429,21 @@ class MStepper {
          returnableElement = [];
          // Loops through the array
          elements.forEach(element => {
-            // Inserts each element with the insertAdjacentHTML function
-            nextStep.insertAdjacentHTML('beforeBegin', element);
+            // Inserts each element with the insertAdjacentHTML function (and trim the string to avoid errors)
+            referenceStep.insertAdjacentHTML(before ? 'beforeBegin' : 'afterEnd', element.trim());
+            // Gets the new added element
+            const addedStep = before ? referenceStep.previousSibling : referenceStep.nextSibling;
             // Adds each element to the returnableElement array
-            returnableElement.push(nextStep.previousSibling);
+            returnableElement.push(addedStep);
             // Activates (slideDown) each element
-            _slideDown(nextStep.previousSibling);
+            _slideDown(addedStep);
          });
       } else if (elements instanceof Element || elements instanceof HTMLCollection || elements instanceof NodeList) {
          // The element is an HTMLElement or an HTMLCollection
-         // Insert it/them with the insertBefore function and sets the returnableElement
-         returnableElement = stepper.insertBefore(elements, nextStep);
+         // Sets the rigth function to add the new steps
+         const rigthFunction = before ? stepper.insertBefore : stepper.appendChild;
+         // Insert it/them with the rigthFunction and sets the returnableElement
+         returnableElement = rigthFunction(elements, referenceStep);
          // If it's and HTMLElement, activates (slideDown) it, if it's an HTMLCollection, activates (slideDown) each of them
          if (elements instanceof Element) _slideDown(returnableElement); else nodesIterator(returnableElement, appendedElement => _slideDown(appendedElement));
       }
@@ -500,22 +508,26 @@ class MStepper {
 
       // Calls an animation frame to avoid async weird stuff
       requestAnimationFrame(() => {
-         // Prepare the element for animation
-         element.style.overflow = 'hidden';
-         element.style.paddingBottom = '0';
-         element.style.height = '0';
-         element.style.visibility = 'unset';
-         element.style.display = 'block';
-         // Calls another animation frame to wait for the previous changes to take effect
+         element.style.display = 'none';
          requestAnimationFrame(() => {
-            // Binds the "conclusion" function to the event 'transitionend'
-            this._smartListenerBind(element, 'transitionend', endSlideDown);
-            // Sets the final height to the element to trigger the transition
-            element.style.height = height;
-            // Removes the 'padding-bottom: 0' setted previously to trigger it too
-            element.style.removeProperty('padding-bottom');
-            // If a className for the slided element is required, add it
-            if (className) classElement.classList.add(className);
+            // Prepare the element for animation
+            element.style.overflow = 'hidden';
+            element.style.height = '0';
+            element.style.paddingBottom = '0';
+            element.style.visibility = 'unset';
+            element.style.display = 'block';
+            // Calls another animation frame to wait for the previous changes to take effect
+            requestAnimationFrame(() => {
+               // Binds the "conclusion" function to the event 'transitionend'
+               this._smartListenerBind(element, 'transitionend', endSlideDown);
+               // Sets the final height to the element to trigger the transition
+               element.style.height = height;
+               // Removes the 'padding-bottom: 0' setted previously to trigger it too
+               element.style.removeProperty('padding-bottom');
+               // element.style.paddingBottom = '0';
+               // If a className for the slided element is required, add it
+               if (className) classElement.classList.add(className);
+            });
          });
       });
       // Returns the original element to enable chain functions
@@ -723,29 +735,19 @@ class MStepper {
     * @returns {number} - The height without "px".
     */
    static getUnknownHeight(el) {
-      // Clones the element to insert it invisible
-      const clone = el.cloneNode(true);
-      // Defines some styles for it to be 100% invisible and unnoticeable
-      clone.style.position = 'fixed';
-      clone.style.display = 'block';
-      clone.style.top = '-999999px';
-      clone.style.left = '-999999px';
-      clone.style.height = 'auto';
-      clone.style.opacity = '0';
-      clone.style.zIndex = '-999999';
-      clone.style.pointerEvents = 'none';
-      // Rename the radio buttons in the cloned node as only 1 radio button is allowed to be selected with the same name in the DOM.
-      const radios = clone.querySelectorAll('[type="radio"]');
-      radios.forEach(radio => {
-         radio.name = "__" + radio.name + "__";
-      });
-      // Inserts it before the hidden element
-      const insertedElement = el.parentNode.insertBefore(clone, el);
+      // Spawns the hidden element in stealth mode
+      el.style.position = 'fixed';
+      el.style.display = 'block';
+      el.style.top = '-999999px';
+      el.style.left = '-999999px';
+      el.style.height = 'auto';
+      el.style.opacity = '0';
+      el.style.zIndex = '-999999';
+      el.style.pointerEvents = 'none';
       // Gets it's height
-      const height = insertedElement.offsetHeight;
-      // Removes it
-      el.parentNode.removeChild(insertedElement);
-      // Returns the height (without 'px')
+      const height = el.offsetHeight;
+      // Removes the stealth mode and hides the element again
+      MStepper.removeMultipleProperties(el, 'position display top left height opacity z-index pointer-events');
       return height;
    }
 
