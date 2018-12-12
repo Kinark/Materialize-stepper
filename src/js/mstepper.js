@@ -508,22 +508,26 @@ class MStepper {
 
       // Calls an animation frame to avoid async weird stuff
       requestAnimationFrame(() => {
-         // Prepare the element for animation
-         element.style.overflow = 'hidden';
-         element.style.paddingBottom = '0';
-         element.style.height = '0';
-         element.style.visibility = 'unset';
-         element.style.display = 'block';
-         // Calls another animation frame to wait for the previous changes to take effect
+         element.style.display = 'none';
          requestAnimationFrame(() => {
-            // Binds the "conclusion" function to the event 'transitionend'
-            this._smartListenerBind(element, 'transitionend', endSlideDown);
-            // Sets the final height to the element to trigger the transition
-            element.style.height = height;
-            // Removes the 'padding-bottom: 0' setted previously to trigger it too
-            element.style.removeProperty('padding-bottom');
-            // If a className for the slided element is required, add it
-            if (className) classElement.classList.add(className);
+            // Prepare the element for animation
+            element.style.overflow = 'hidden';
+            element.style.height = '0';
+            element.style.paddingBottom = '0';
+            element.style.visibility = 'unset';
+            element.style.display = 'block';
+            // Calls another animation frame to wait for the previous changes to take effect
+            requestAnimationFrame(() => {
+               // Binds the "conclusion" function to the event 'transitionend'
+               this._smartListenerBind(element, 'transitionend', endSlideDown);
+               // Sets the final height to the element to trigger the transition
+               element.style.height = height;
+               // Removes the 'padding-bottom: 0' setted previously to trigger it too
+               element.style.removeProperty('padding-bottom');
+               // element.style.paddingBottom = '0';
+               // If a className for the slided element is required, add it
+               if (className) classElement.classList.add(className);
+            });
          });
       });
       // Returns the original element to enable chain functions
