@@ -134,7 +134,7 @@ class MStepper {
          // Calls the slideDown private method if the stepper is vertical
          _slideDown(stepContent, classes.ACTIVESTEP, step, cb);
 
-         // Beginning of disabled autoFocusInput function due to issues with scroll
+         // Beginning of autoFocusInput
          if (!skipAutoFocus) {
             _slideDown(stepContent, classes.ACTIVESTEP, step, () => {
                // Gets the inputs from the nextStep to focus on the first one (temporarily disabled)
@@ -144,7 +144,7 @@ class MStepper {
                if (cb && typeof cb === 'function') cb();
             });
          }
-         // Enf of disabled autoFocusInput function due to issues with scroll
+         // Enf of autoFocusInput
 
       } else {
          // The stepper is running in horizontal mode
