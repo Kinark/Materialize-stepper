@@ -14,7 +14,7 @@ class MStepper {
     */
    constructor(elem, options = {}) {
       this.stepper = elem;
-			var default_options = {
+      var default_options = {
          firstActive: 0,
          linearStepsNavigation: true,
          autoFocusInput: true,
@@ -23,7 +23,7 @@ class MStepper {
          validationFunction: null,
          feedbackPreloader: '<div class="preloader-wrapper active"> <div class="spinner-layer spinner-blue-only"> <div class="circle-clipper left"> <div class="circle"></div></div><div class="gap-patch"> <div class="circle"></div></div><div class="circle-clipper right"> <div class="circle"></div></div></div></div>'
       };
-			this.options = Object.assign(default_options, options);
+      this.options = Object.assign(default_options, options);
       this.classes = {
          HORIZONTALSTEPPER: 'horizontal',
          LINEAR: 'linear',
