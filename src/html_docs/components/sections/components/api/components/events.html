@@ -1,11 +1,23 @@
 <h6 id="api_custom_events">Custom Events</h6>
-<p>There's currently 6 custom events in MStepper. All of them fires at the primary ul.stepper div:</p>
+<p>There's currently 8 custom events in MStepper. All of them fires at the primary ul.stepper div:</p>
 <ul class="browser-default">
-   <li>stepchange: fires everytime a step is opened or closed.</li>
-   <li>nextstep: fires everytime the nextStep method is called.</li>
-   <li>prevstep: fires everytime the prevStep method is called.</li>
-   <li>steperror: fires everytime the wrongStep method is called.</li>
-   <li>feedbacking: fires everytime the activateFeedback method is called.</li>
-   <li>feedbackdestroyed: fires everytime the destroyFeedback method is called (and a feedback is actually destroyes).</li>
+   <li><strong>stepchange</strong>: fires everytime a step is opened and one is closed.</li>
+   <li><strong>stepopen</strong>: fires everytime a step is opened.</li>
+   <li><strong>stepclose</strong>: fires everytime a step is closed.</li>
+   <li><strong>nextstep</strong>: fires everytime the nextStep method is called.</li>
+   <li><strong>prevstep</strong>: fires everytime the prevStep method is called.</li>
+   <li><strong>steperror</strong>: fires everytime the wrongStep method is called.</li>
+   <li><strong>feedbacking</strong>: fires everytime the activateFeedback method is called.</li>
+   <li><strong>feedbackdestroyed</strong>: fires everytime the destroyFeedback method is called (and a feedback is actually destroyes).</li>
 </ul>
+<p><strong>Event Order</strong></p>
+<ol class="browser-default">
+   <li>Feedbacking</li>
+   <li>Step Close</li>
+   <li>Step Change</li>
+   <li>Step Open</li>
+   <li>Next / Previous Step</li>
+   <li>Feedback Destroyed</li>
+</ol>
+
 </code></pre>
