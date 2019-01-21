@@ -20,7 +20,7 @@ class MStepper {
          autoFocusInput: true,
          showFeedbackPreloader: true,
          autoFormCreation: true,
-         validationFunction: null,
+         validationFunction: MStepper.defaultValidationFunction,
          stepTitleNavigation: true,
          feedbackPreloader: '<div class="preloader-wrapper active"> <div class="spinner-layer spinner-blue-only"> <div class="circle-clipper left"> <div class="circle"></div></div><div class="gap-patch"> <div class="circle"></div></div><div class="circle-clipper right"> <div class="circle"></div></div></div></div>'
       }, options);
@@ -307,7 +307,7 @@ class MStepper {
     * @returns {void}
     */
    openStep = (index, cb) => {
-      const { getSteps, _openAction, stepper, events, destroyFeedback } = this;
+      const { getSteps, _openAction, destroyFeedback } = this;
       const stepToOpen = getSteps().steps[index];
 
       // Destroyes the feedback preloader, if any
@@ -757,6 +757,16 @@ class MStepper {
       // Removes the stealth mode and hides the element again
       MStepper.removeMultipleProperties(el, 'position display top left height opacity z-index pointer-events');
       return height;
+   }
+
+   /**
+    * Default validation function.
+    * @returns {boolean}
+    */
+   static defaultValidationFunction(stepperForm, activeStepContent) {
+      var inputs = activeStepContent.querySelectorAll('input, textarea, select');
+      for (let i = 0; i < inputs.length; i++) if (!inputs[i].checkValidity()) return false;
+      return true;
    }
 
    /**
