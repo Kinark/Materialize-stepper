@@ -1,6 +1,6 @@
 /**
  * Materialize Stepper - A little plugin that implements a stepper to Materializecss framework.
- * @version v3.0.0-beta.1.1.1
+ * @version v3.0
  * @author Igor Marcossi (Kinark) <igormarcossi@gmail.com>.
  * @link https://github.com/Kinark/Materialize-stepper
  * 
@@ -79,8 +79,9 @@ function () {
         var inputs = step.querySelectorAll('input, select, textarea, button');
         var submitButtons = step.querySelectorAll('button[type="submit"]');
         bindOrUnbind(nextBtns, 'click', _nextStepProxy, false);
-        bindOrUnbind(prevBtns, 'click', _prevStepProxy, false);
-        bindOrUnbind(stepsTitle, 'click', _stepTitleClickHandler); // Prevents the tabbing issue (https://github.com/Kinark/Materialize-stepper/issues/49)
+        bindOrUnbind(prevBtns, 'click', _prevStepProxy, false); // Adding suggested feature in #62
+
+        if (options.stepTitleNavigation) bindOrUnbind(stepsTitle, 'click', _stepTitleClickHandler); // Prevents the tabbing issue (https://github.com/Kinark/Materialize-stepper/issues/49)
 
         if (inputs.length) bindOrUnbind(inputs[inputs.length - 1], 'keydown', tabbingDisabler); // Binds to the submit button an internal handler to manage validation
 
@@ -114,6 +115,7 @@ function () {
           getSteps = _this.getSteps,
           _closeAction = _this._closeAction,
           stepper = _this.stepper,
+          events = _this.events,
           options = _this.options; // Gets the active step element
 
       var activeStep = getSteps().active.step; // If the active step is the same as the one that has been asked to be opened, returns the step
@@ -126,7 +128,7 @@ function () {
       if (window.innerWidth < 993 || !stepper.classList.contains(classes.HORIZONTALSTEPPER)) {
         // The stepper is running in vertical mode
         // Calls the slideDown private method if the stepper is vertical
-        _slideDown(stepContent, classes.ACTIVESTEP, step, cb); // Beginning of disabled autoFocusInput function due to issues with scroll
+        _slideDown(stepContent, classes.ACTIVESTEP, step, cb); // Beginning of autoFocusInput
 
 
         if (!skipAutoFocus) {
@@ -137,7 +139,7 @@ function () {
             if (options.autoFocusInput && nextStepInputs) nextStepInputs.focus();
             if (cb && typeof cb === 'function') cb();
           });
-        } // Enf of disabled autoFocusInput function due to issues with scroll
+        } // Enf of autoFocusInput
 
       } else {
         // The stepper is running in horizontal mode
@@ -146,7 +148,15 @@ function () {
       } // If it was requested to close the active step as well, does it (default=true)
 
 
-      if (activeStep && closeActiveStep) _closeAction(activeStep);
+      if (activeStep && closeActiveStep) {
+        _closeAction(activeStep); // We are changing steps, so dispatch the change event.
+
+
+        stepper.dispatchEvent(events.STEPCHANGE);
+      } // Dispatch OPEN Event
+
+
+      stepper.dispatchEvent(events.STEPOPEN);
       return step;
     });
 
@@ -154,6 +164,7 @@ function () {
       var _slideUp = _this._slideUp,
           classes = _this.classes,
           stepper = _this.stepper,
+          events = _this.events,
           _smartListenerUnbind = _this._smartListenerUnbind,
           _smartListenerBind = _this._smartListenerBind; // Gets the step content div inside the step
 
@@ -184,8 +195,10 @@ function () {
 
 
         step.classList.remove('active');
-      }
+      } // Dispatch Event
 
+
+      stepper.dispatchEvent(events.STEPCLOSE);
       return step;
     });
 
@@ -267,10 +280,9 @@ function () {
 
       active.step.classList.add(classes.DONESTEP); // Opens the next one
 
-      _openAction(nextStep, cb); // Dispatches the events
+      _openAction(nextStep, cb); // Dispatches the event
 
 
-      stepper.dispatchEvent(events.STEPCHANGE);
       stepper.dispatchEvent(events.NEXTSTEP);
     });
 
@@ -286,27 +298,21 @@ function () {
 
       destroyFeedback(); // Opens the previous step
 
-      _openAction(prevStep, cb); // Dispatches the events
+      _openAction(prevStep, cb); // Dispatches the event
 
 
-      stepper.dispatchEvent(events.STEPCHANGE);
       stepper.dispatchEvent(events.PREVSTEP);
     });
 
     _defineProperty(this, "openStep", function (index, cb) {
       var getSteps = _this.getSteps,
           _openAction = _this._openAction,
-          stepper = _this.stepper,
-          events = _this.events,
           destroyFeedback = _this.destroyFeedback;
       var stepToOpen = getSteps().steps[index]; // Destroyes the feedback preloader, if any
 
       destroyFeedback(); // Opens the requested step
 
-      _openAction(stepToOpen, cb); // Dispatches the events
-
-
-      stepper.dispatchEvent(events.STEPCHANGE);
+      _openAction(stepToOpen, cb);
     });
 
     _defineProperty(this, "wrongStep", function () {
@@ -391,17 +397,20 @@ function () {
           stepper = _this.stepper,
           _methodsBindingManager = _this._methodsBindingManager;
       var nodesIterator = MStepper.nodesIterator;
-      var currentSteps = getSteps();
-      var nextStep = currentSteps.steps[index]; // Stores a let variable to return the right element after the activation
+      var currentSteps = getSteps().steps; // Checks if the steps will be added at the end or in the middle of the stepper
+
+      var before = currentSteps.length > index; // Based on the previous check, sets the reference step
+
+      var referenceStep = before ? currentSteps[index] : currentSteps[currentSteps.length - 1]; // Stores a let variable to return the right element after the activation
 
       var returnableElement = null; // Starts the checking of the elements parameter
 
       if (typeof elements === 'string') {
         // The element is in string format
-        // Insert it with the insertAdjacentHTML function
-        nextStep.insertAdjacentHTML('beforeBegin', elements); // Defines the inserted element as the returnableElement
+        // Insert it with the insertAdjacentHTML function (and trim the string to avoid errors)
+        referenceStep.insertAdjacentHTML(before ? 'beforeBegin' : 'afterEnd', elements.trim()); // Defines the inserted element as the returnableElement
 
-        returnableElement = nextStep.previousSibling; // Activates (slideDown) the step
+        returnableElement = before ? referenceStep.previousSibling : referenceStep.nextSibling; // Activates (slideDown) the step
 
         _slideDown(returnableElement);
       } else if (Array.isArray(elements)) {
@@ -410,17 +419,21 @@ function () {
         returnableElement = []; // Loops through the array
 
         elements.forEach(function (element) {
-          // Inserts each element with the insertAdjacentHTML function
-          nextStep.insertAdjacentHTML('beforeBegin', element); // Adds each element to the returnableElement array
+          // Inserts each element with the insertAdjacentHTML function (and trim the string to avoid errors)
+          referenceStep.insertAdjacentHTML(before ? 'beforeBegin' : 'afterEnd', element.trim()); // Gets the new added element
 
-          returnableElement.push(nextStep.previousSibling); // Activates (slideDown) each element
+          var addedStep = before ? referenceStep.previousSibling : referenceStep.nextSibling; // Adds each element to the returnableElement array
 
-          _slideDown(nextStep.previousSibling);
+          returnableElement.push(addedStep); // Activates (slideDown) each element
+
+          _slideDown(addedStep);
         });
       } else if (elements instanceof Element || elements instanceof HTMLCollection || elements instanceof NodeList) {
         // The element is an HTMLElement or an HTMLCollection
-        // Insert it/them with the insertBefore function and sets the returnableElement
-        returnableElement = stepper.insertBefore(elements, nextStep); // If it's and HTMLElement, activates (slideDown) it, if it's an HTMLCollection, activates (slideDown) each of them
+        // Sets the rigth function to add the new steps
+        var rigthFunction = before ? stepper.insertBefore : stepper.appendChild; // Insert it/them with the rigthFunction and sets the returnableElement
+
+        returnableElement = rigthFunction(elements, referenceStep); // If it's and HTMLElement, activates (slideDown) it, if it's an HTMLCollection, activates (slideDown) each of them
 
         if (elements instanceof Element) _slideDown(returnableElement);else nodesIterator(returnableElement, function (appendedElement) {
           return _slideDown(appendedElement);
@@ -481,23 +494,27 @@ function () {
 
 
       requestAnimationFrame(function () {
-        // Prepare the element for animation
-        element.style.overflow = 'hidden';
-        element.style.paddingBottom = '0';
-        element.style.height = '0';
-        element.style.visibility = 'unset';
-        element.style.display = 'block'; // Calls another animation frame to wait for the previous changes to take effect
-
+        element.style.display = 'none';
         requestAnimationFrame(function () {
-          // Binds the "conclusion" function to the event 'transitionend'
-          _this._smartListenerBind(element, 'transitionend', endSlideDown); // Sets the final height to the element to trigger the transition
+          // Prepare the element for animation
+          element.style.overflow = 'hidden';
+          element.style.height = '0';
+          element.style.paddingBottom = '0';
+          element.style.visibility = 'unset';
+          element.style.display = 'block'; // Calls another animation frame to wait for the previous changes to take effect
+
+          requestAnimationFrame(function () {
+            // Binds the "conclusion" function to the event 'transitionend'
+            _this._smartListenerBind(element, 'transitionend', endSlideDown); // Sets the final height to the element to trigger the transition
 
 
-          element.style.height = height; // Removes the 'padding-bottom: 0' setted previously to trigger it too
+            element.style.height = height; // Removes the 'padding-bottom: 0' setted previously to trigger it too
 
-          element.style.removeProperty('padding-bottom'); // If a className for the slided element is required, add it
+            element.style.removeProperty('padding-bottom'); // element.style.paddingBottom = '0';
+            // If a className for the slided element is required, add it
 
-          if (className) classElement.classList.add(className);
+            if (className) classElement.classList.add(className);
+          });
         });
       }); // Returns the original element to enable chain functions
 
@@ -640,15 +657,16 @@ function () {
     });
 
     this.stepper = elem;
-    this.options = {
-      firstActive: _options.firstActive || 0,
-      linearStepsNavigation: _options.linearStepsNavigation || true,
-      autoFocusInput: _options.autoFocusInput || true,
-      showFeedbackPreloader: _options.showFeedbackPreloader || true,
-      autoFormCreation: _options.autoFormCreation || true,
-      validationFunction: _options.validationFunction || null,
-      feedbackPreloader: _options.feedbackPreloader || '<div class="preloader-wrapper active"> <div class="spinner-layer spinner-blue-only"> <div class="circle-clipper left"> <div class="circle"></div></div><div class="gap-patch"> <div class="circle"></div></div><div class="circle-clipper right"> <div class="circle"></div></div></div></div>'
-    };
+    this.options = Object.assign({
+      firstActive: 0,
+      linearStepsNavigation: true,
+      autoFocusInput: true,
+      showFeedbackPreloader: true,
+      autoFormCreation: true,
+      validationFunction: MStepper.defaultValidationFunction,
+      stepTitleNavigation: true,
+      feedbackPreloader: '<div class="preloader-wrapper active"> <div class="spinner-layer spinner-blue-only"> <div class="circle-clipper left"> <div class="circle"></div></div><div class="gap-patch"> <div class="circle"></div></div><div class="circle-clipper right"> <div class="circle"></div></div></div></div>'
+    }, _options);
     this.classes = {
       HORIZONTALSTEPPER: 'horizontal',
       LINEAR: 'linear',
@@ -665,6 +683,8 @@ function () {
     };
     this.events = {
       STEPCHANGE: new Event('stepchange'),
+      STEPOPEN: new Event('stepopen'),
+      STEPCLOSE: new Event('stepclose'),
       NEXTSTEP: new Event('nextstep'),
       PREVSTEP: new Event('prevstep'),
       STEPERROR: new Event('steperror'),
@@ -760,30 +780,36 @@ function () {
   }, {
     key: "getUnknownHeight",
     value: function getUnknownHeight(el) {
-      // Clones the element to insert it invisible
-      var clone = el.cloneNode(true); // Defines some styles for it to be 100% invisible and unnoticeable
+      // Spawns the hidden element in stealth mode
+      el.style.position = 'fixed';
+      el.style.display = 'block';
+      el.style.top = '-999999px';
+      el.style.left = '-999999px';
+      el.style.height = 'auto';
+      el.style.opacity = '0';
+      el.style.zIndex = '-999999';
+      el.style.pointerEvents = 'none'; // Gets it's height
 
-      clone.style.position = 'fixed';
-      clone.style.display = 'block';
-      clone.style.top = '-999999px';
-      clone.style.left = '-999999px';
-      clone.style.height = 'auto';
-      clone.style.opacity = '0';
-      clone.style.zIndex = '-999999';
-      clone.style.pointerEvents = 'none'; // Rename the radio buttons in the cloned node as only 1 radio button is allowed to be selected with the same name in the DOM.
+      var height = el.offsetHeight; // Removes the stealth mode and hides the element again
 
-      var radios = clone.querySelectorAll('[type="radio"]');
-      radios.forEach(function (radio) {
-        radio.name = "__" + radio.name + "__";
-      }); // Inserts it before the hidden element
-
-      var insertedElement = el.parentNode.insertBefore(clone, el); // Gets it's height
-
-      var height = insertedElement.offsetHeight; // Removes it
-
-      el.parentNode.removeChild(insertedElement); // Returns the height (without 'px')
-
+      MStepper.removeMultipleProperties(el, 'position display top left height opacity z-index pointer-events');
       return height;
+    }
+    /**
+     * Default validation function.
+     * @returns {boolean}
+     */
+
+  }, {
+    key: "defaultValidationFunction",
+    value: function defaultValidationFunction(stepperForm, activeStepContent) {
+      var inputs = activeStepContent.querySelectorAll('input, textarea, select');
+
+      for (var i = 0; i < inputs.length; i++) {
+        if (!inputs[i].checkValidity()) return false;
+      }
+
+      return true;
     }
     /**
      * Util bindable tabbing disabler.
@@ -816,4 +842,41 @@ if (window.Element && !Element.prototype.closest) {
 
     return el;
   };
+} // Polyfill by mozilla
+// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/assign
+
+
+if (typeof Object.assign != 'function') {
+  // Must be writable: true, enumerable: false, configurable: true
+  Object.defineProperty(Object, "assign", {
+    value: function assign(target, varArgs) {
+      // .length of function is 2
+      'use strict';
+
+      if (target == null) {
+        // TypeError if undefined or null
+        throw new TypeError('Cannot convert undefined or null to object');
+      }
+
+      var to = Object(target);
+
+      for (var index = 1; index < arguments.length; index++) {
+        var nextSource = arguments[index];
+
+        if (nextSource != null) {
+          // Skip over if undefined or null
+          for (var nextKey in nextSource) {
+            // Avoid bugs when hasOwnProperty is shadowed
+            if (Object.prototype.hasOwnProperty.call(nextSource, nextKey)) {
+              to[nextKey] = nextSource[nextKey];
+            }
+          }
+        }
+      }
+
+      return to;
+    },
+    writable: true,
+    configurable: true
+  });
 }
