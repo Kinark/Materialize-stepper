@@ -16,6 +16,8 @@ var stepperInstace = new MStepper(stepper, {
    autoFormCreation: true,
    // Function to be called everytime a nextstep occurs. It receives 2 arguments, in this sequece: stepperForm, activeStepContent.
    validationFunction: defaultValidationFunction, // more about this default functions below
+   // Enable or disable navigation by clicking on step-titles
+   stepTitleNavigation: true,
    // Preloader used when step is waiting for feedback function. If not defined, Materializecss spinner-blue-only will be used.
    feedbackPreloader: '&lt;div class="spinner-layer spinner-blue-only">...&lt;/div>'
 })
