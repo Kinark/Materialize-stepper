@@ -3,68 +3,23 @@
 <!-- <script src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js"></script> -->
 <script src="js/prism.js"></script>
 <script>
-  var stepEventDemo = document.querySelector( '#stepperEventsDemo' );
-  stepEventDemo.addEventListener( 'feedbacking', addEventOutput );
-  stepEventDemo.addEventListener( 'feedbackdestroyed', addEventOutput );
-  stepEventDemo.addEventListener( 'stepchange', addEventOutput );
-  stepEventDemo.addEventListener( 'stepopen', addEventOutput );
-  stepEventDemo.addEventListener( 'stepclose', addEventOutput );
-  stepEventDemo.addEventListener( 'nextstep', addEventOutput );
-  stepEventDemo.addEventListener( 'prevstep', addEventOutput );
-  stepEventDemo.addEventListener( 'steperror', addEventOutput );
+   document.addEventListener('DOMContentLoaded', function () {
+      var elems;
+      elems = document.querySelector('.toc-wrapper');
+      M.Pushpin.init(elems, { top: elems.offsetTop, offset: 77 });
+      elems = document.querySelectorAll('.scrollspy');
+      M.ScrollSpy.init(elems);
+   });
 
-  document.addEventListener( 'DOMContentLoaded', function () {
-    var elems;
-    elems = document.querySelector( '.toc-wrapper' );
-    M.Pushpin.init( elems, { top: elems.offsetTop, offset: 77 } );
-    elems = document.querySelectorAll( '.scrollspy' );
-    M.ScrollSpy.init( elems );
-  } );
+   var domSteppers = document.querySelectorAll('.stepper.demos');
+   for (var i = 0, len = domSteppers.length; i < len; i++) {
+      var domStepper = domSteppers[i];
+      new MStepper(domStepper);
+   }
 
-  var domSteppers = document.querySelectorAll( '.stepper.demos' );
-  for ( var i = 0, len = domSteppers.length; i < len; i++ ) {
-    var domStepper = domSteppers[ i ];
-    var tempStepper = new MStepper( domStepper );
-
-    if ( domSteppers[ i ].id === 'stepperEventsDemo' ) { // Stepper Event demo additions
-      eventStepper = tempStepper;
-      // Validation needed for 'steperror';
-      eventStepper.options.validationFunction = function ( stepperForm, activeStepContent ) {
-        console.log( stepperForm, activeStepContent );
-        var isValid = true;
-        activeStepContent.querySelectorAll( 'input, textarea, select' ).forEach( function ( el ) {
-          if ( !el.checkValidity() ) {
-            isValid = false;
-          }
-        } );
-        return isValid;
-      };
-    }
-  }
-
-  function someFunction( destroyFeedback ) {
-    setTimeout( function () {
-      destroyFeedback( true );
-    }, 1000 );
-  }
-
-
-  function addEventOutput( e ) {
-    var text = e.type;
-    var outputContainer = document.querySelector( '#stepperEventsDemoOutput' );
-    var time = Date.now();
-    outputContainer.innerHTML += '[' + getTime() + '] ' + text + '\n';
-  }
-
-  function checkTime( i ) {
-    return ( i < 10 ) ? "0" + i : i;
-  }
-
-  function getTime() {
-    var today = new Date(),
-        h = checkTime( today.getHours() ),
-        m = checkTime( today.getMinutes() ),
-        s = checkTime( today.getSeconds() );
-    return h + ":" + m + ":" + s;
-  }
+   function someFunction(destroyFeedback) {
+      setTimeout(function () {
+         destroyFeedback(true);
+      }, 1000);
+   }
 </script>
