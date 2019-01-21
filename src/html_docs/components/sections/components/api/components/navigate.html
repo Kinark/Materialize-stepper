@@ -1,11 +1,12 @@
-<h6 id="api_navigate">Navigate</h6>
-<div class="row">
-   <div class="col xl7 l6 m12 s12">
-      <p>There is three ways to navigate through steps.</p>
-      <ol class="browser-default">
-         <li>By clicking on them, if you are not using the ".linear" class. If you are, clicking on the next and the previous step will work just like the buttons (what you can disable with the JS initialization setting(s) listed above).</li>
-         <li>By the buttons inside the steps:
-            <pre><code class="language-html">
+<div class="scrollspy" id="api_navigate">
+   <h6 id="api_navigate">Navigate</h6>
+   <div class="row">
+      <div class="col xl7 l6 m12 s12">
+         <p>There is three ways to navigate through steps.</p>
+         <ol class="browser-default">
+            <li>By clicking on them, if you are not using the ".linear" class. If you are, clicking on the next and the previous step will work just like the buttons (what you can disable with the JS initialization setting(s) listed above).</li>
+            <li>By the buttons inside the steps:
+               <pre><code class="language-html">
 &lt;!-- If you want the button to proceed, give it a .next-step class -->
 &lt;button class="waves-effect waves-dark btn next-step">CONTINUE&lt;/button>
 &lt;!-- If you want the button to return, give it a .previous-step class -->
@@ -13,10 +14,10 @@
 &lt;!-- If you want the button to submit the form, give it no additional classes and define type="submit" -->
 &lt;button class="waves-effect waves-dark btn" type="submit">SUBMIT&lt;/button>
          </code></pre>
-         </li>
-         <li>
-            By navigating programatically and, for that, there is three methods:
-            <pre><code class="language-js">
+            </li>
+            <li>
+               By navigating programatically and, for that, there is three methods:
+               <pre><code class="language-js">
 // To proceed one step
 instace.nextStep(cb);
 // To go back one step
@@ -25,16 +26,17 @@ instace.prevStep(cb);
 // (the index is zero-based, so the first step is 0, not 1)
 instace.openStep(index, cb);
             </code></pre>
-         </li>
-      </ol>
-   </div>
-   <div class="col xl5 l6 m12 s12">
-      @@include('./commonlinear.html', {"id": "api_nav_demo"})
-      <button class="waves-effect waves-dark btn blue" id="controlled_prev">PREVIOUS STEP</button>
-      <button class="waves-effect waves-dark btn blue" id="controlled_next">NEXT STEP</button>
-      <br>
-      <button class="waves-effect waves-dark btn blue" id="controlled_goto">GO TO STEP</button>
-      <div class="input-field inline"><input id="controlled_goto_input" type="number" max="2" min="0" value="2" class="validate"></div>
+            </li>
+         </ol>
+      </div>
+      <div class="col xl5 l6 m12 s12">
+         @@include('./commonlinear.html', {"id": "api_nav_demo"})
+         <button class="waves-effect waves-dark btn blue" id="controlled_prev">PREVIOUS STEP</button>
+         <button class="waves-effect waves-dark btn blue" id="controlled_next">NEXT STEP</button>
+         <br>
+         <button class="waves-effect waves-dark btn blue" id="controlled_goto">GO TO STEP</button>
+         <div class="input-field inline"><input id="controlled_goto_input" type="number" max="2" min="0" value="2" class="validate"></div>
+      </div>
    </div>
 </div>
 

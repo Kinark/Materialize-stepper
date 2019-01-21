@@ -1,31 +1,33 @@
-<h6 id="api_custom_events">Custom Events</h6>
-<div class="row">
-   <div class="col xl7 l6 m12 s12">
-      <p>There's currently 8 custom events in MStepper. All of them fires at the primary ul.stepper div:</p>
-      <ul class="browser-default">
-         <li><strong>stepchange</strong>: fires everytime a step is opened and one is closed.</li>
-         <li><strong>stepopen</strong>: fires everytime a step is opened.</li>
-         <li><strong>stepclose</strong>: fires everytime a step is closed.</li>
-         <li><strong>nextstep</strong>: fires everytime the nextStep method is called.</li>
-         <li><strong>prevstep</strong>: fires everytime the prevStep method is called.</li>
-         <li><strong>steperror</strong>: fires everytime the wrongStep method is called.</li>
-         <li><strong>feedbacking</strong>: fires everytime the activateFeedback method is called.</li>
-         <li><strong>feedbackdestroyed</strong>: fires everytime the destroyFeedback method is called (and a feedback is actually destroyes).</li>
-      </ul>
-      <p><strong>Event Order</strong></p>
-      <ol class="browser-default">
-         <li>Feedbacking</li>
-         <li>Step Close</li>
-         <li>Step Change</li>
-         <li>Step Open</li>
-         <li>Next / Previous Step</li>
-         <li>Feedback Destroyed</li>
-      </ol>
-      <p><b>Event Output</b></p>
-      <pre><code id="stepperEventsDemoOutput" class="language-shell" style="max-height: 400px;"></code></pre>
-   </div>
-   <div class="col xl5 l6 m12 s12">
-      @@include('./commonlinear.html', {"id": "api_events_demo"})
+<div class="scrollspy" id="api_custom_events">
+   <h6>Custom Events</h6>
+   <div class="row">
+      <div class="col xl7 l6 m12 s12">
+         <p>There's currently 8 custom events in MStepper. All of them fires at the primary ul.stepper div:</p>
+         <ul class="browser-default">
+            <li><strong>stepchange</strong>: fires everytime a step is opened and one is closed.</li>
+            <li><strong>stepopen</strong>: fires everytime a step is opened.</li>
+            <li><strong>stepclose</strong>: fires everytime a step is closed.</li>
+            <li><strong>nextstep</strong>: fires everytime the nextStep method is called.</li>
+            <li><strong>prevstep</strong>: fires everytime the prevStep method is called.</li>
+            <li><strong>steperror</strong>: fires everytime the wrongStep method is called.</li>
+            <li><strong>feedbacking</strong>: fires everytime the activateFeedback method is called.</li>
+            <li><strong>feedbackdestroyed</strong>: fires everytime the destroyFeedback method is called (and a feedback is actually destroyes).</li>
+         </ul>
+         <p><strong>Event Order</strong></p>
+         <ol class="browser-default">
+            <li>Feedbacking</li>
+            <li>Step Close</li>
+            <li>Step Change</li>
+            <li>Step Open</li>
+            <li>Next / Previous Step</li>
+            <li>Feedback Destroyed</li>
+         </ol>
+         <p><b>Event Output</b></p>
+         <pre style="max-height: 100px;"><code id="stepperEventsDemoOutput" class="language-shell"></code></pre>
+      </div>
+      <div class="col xl5 l6 m12 s12">
+         @@include('./commonlinear.html', {"id": "api_events_demo"})
+      </div>
    </div>
 </div>
 
@@ -42,36 +44,25 @@
    domApiEventDemo.addEventListener('steperror', addEventOutput, true);
 
    window.addEventListener('load', function () {
-      new MStepper(domApiEventDemo, {
-         validationFunction: function (stepperForm, activeStepContent) {
-            var isValid = true;
-            activeStepContent.querySelectorAll('input, textarea, select').forEach(function (el) {
-               if (!el.checkValidity()) {
-                  isValid = false;
-               }
-            });
-            return isValid;
-         }
-      });
+      new MStepper(domApiEventDemo);
    });
 
    function addEventOutput(e) {
       console.log(e.type);
       var text = e.type;
       var outputContainer = document.getElementById('stepperEventsDemoOutput');
-      var time = Date.now();
-      outputContainer.innerHTML += '[' + getTime() + '] ' + text + '\n';
+      outputContainer.insertAdjacentHTML('afterbegin', '[' + currentTime() + '] ' + text + '\n');
    }
 
    function checkTime(i) {
       return (i < 10) ? "0" + i : i;
    }
 
-   function getTime() {
+   function currentTime() {
       var today = new Date(),
          h = checkTime(today.getHours()),
          m = checkTime(today.getMinutes()),
          s = checkTime(today.getSeconds());
-      return h + ":" + m + ":" + s;
+      return h + ':' + m + ':' + s;
    }
 </script>
