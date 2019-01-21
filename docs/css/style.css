@@ -1,3 +1,7 @@
+.table-of-contents a.child {
+   padding-left: 24px;
+}
+
 h6 {
    color: #2196f3;
    margin-top: 1.766667rem;
