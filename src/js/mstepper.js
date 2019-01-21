@@ -14,15 +14,15 @@ class MStepper {
     */
    constructor(elem, options = {}) {
       this.stepper = elem;
-      this.options = {
-         firstActive: options.firstActive || 0,
-         linearStepsNavigation: options.linearStepsNavigation || true,
-         autoFocusInput: options.autoFocusInput || true,
-         showFeedbackPreloader: options.showFeedbackPreloader || true,
-         autoFormCreation: options.autoFormCreation || true,
-         validationFunction: options.validationFunction || null,
-         feedbackPreloader: options.feedbackPreloader || '<div class="preloader-wrapper active"> <div class="spinner-layer spinner-blue-only"> <div class="circle-clipper left"> <div class="circle"></div></div><div class="gap-patch"> <div class="circle"></div></div><div class="circle-clipper right"> <div class="circle"></div></div></div></div>'
-      };
+      this.options = Object.assign({
+         firstActive: 0,
+         linearStepsNavigation: true,
+         autoFocusInput: true,
+         showFeedbackPreloader: true,
+         autoFormCreation: true,
+         validationFunction: null,
+         feedbackPreloader: '<div class="preloader-wrapper active"> <div class="spinner-layer spinner-blue-only"> <div class="circle-clipper left"> <div class="circle"></div></div><div class="gap-patch"> <div class="circle"></div></div><div class="circle-clipper right"> <div class="circle"></div></div></div></div>'
+      }, options);
       this.classes = {
          HORIZONTALSTEPPER: 'horizontal',
          LINEAR: 'linear',
