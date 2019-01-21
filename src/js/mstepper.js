@@ -39,6 +39,8 @@ class MStepper {
       };
       this.events = {
          STEPCHANGE: new Event('stepchange'),
+         STEPOPEN: new Event('stepopen'),
+         STEPCLOSE: new Event('stepclose'),
          NEXTSTEP: new Event('nextstep'),
          PREVSTEP: new Event('prevstep'),
          STEPERROR: new Event('steperror'),
@@ -119,7 +121,7 @@ class MStepper {
     * @returns {HTMLElement} - The original received step.
     */
    _openAction = (step, cb, closeActiveStep = true, skipAutoFocus) => {
-      const { _slideDown, classes, getSteps, _closeAction, stepper, options } = this;
+      const { _slideDown, classes, getSteps, _closeAction, stepper, events, options } = this;
       // Gets the active step element
       const activeStep = getSteps().active.step;
       // If the active step is the same as the one that has been asked to be opened, returns the step
@@ -152,7 +154,14 @@ class MStepper {
          step.classList.add('active');
       }
       // If it was requested to close the active step as well, does it (default=true)
-      if (activeStep && closeActiveStep) _closeAction(activeStep);
+      if (activeStep && closeActiveStep) {
+         _closeAction(activeStep);
+         // We are changing steps, so dispatch the change event.
+         stepper.dispatchEvent(events.STEPCHANGE);
+      }
+      // Dispatch OPEN Event
+      stepper.dispatchEvent(events.STEPOPEN);
+
       return step;
    }
 
@@ -163,7 +172,7 @@ class MStepper {
     * @returns {HTMLElement} - The original received step.
     */
    _closeAction = (step, cb) => {
-      const { _slideUp, classes, stepper, _smartListenerUnbind, _smartListenerBind } = this;
+      const { _slideUp, classes, stepper, events, _smartListenerUnbind, _smartListenerBind } = this;
       // Gets the step content div inside the step
       const stepContent = step.getElementsByClassName(classes.STEPCONTENT)[0];
 
@@ -191,6 +200,8 @@ class MStepper {
          // Removes the class 'active' from the step, since all the animation is made by the CSS
          step.classList.remove('active');
       }
+      // Dispatch Event
+      stepper.dispatchEvent(events.STEPCLOSE);
       return step;
    }
 
@@ -262,8 +273,7 @@ class MStepper {
       // Opens the next one
       _openAction(nextStep, cb);
 
-      // Dispatches the events
-      stepper.dispatchEvent(events.STEPCHANGE);
+      // Dispatches the event
       stepper.dispatchEvent(events.NEXTSTEP);
    }
 
@@ -284,8 +294,7 @@ class MStepper {
       // Opens the previous step
       _openAction(prevStep, cb);
 
-      // Dispatches the events
-      stepper.dispatchEvent(events.STEPCHANGE);
+      // Dispatches the event
       stepper.dispatchEvent(events.PREVSTEP);
    }
 
@@ -303,9 +312,6 @@ class MStepper {
       destroyFeedback();
       // Opens the requested step
       _openAction(stepToOpen, cb);
-
-      // Dispatches the events
-      stepper.dispatchEvent(events.STEPCHANGE);
    }
 
    /**
