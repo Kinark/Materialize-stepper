@@ -21,6 +21,7 @@ class MStepper {
          showFeedbackPreloader: true,
          autoFormCreation: true,
          validationFunction: null,
+         stepTitleNavigation: true,
          feedbackPreloader: '<div class="preloader-wrapper active"> <div class="spinner-layer spinner-blue-only"> <div class="circle-clipper left"> <div class="circle"></div></div><div class="gap-patch"> <div class="circle"></div></div><div class="circle-clipper right"> <div class="circle"></div></div></div></div>'
       }, options);
       this.classes = {
@@ -89,7 +90,8 @@ class MStepper {
          const submitButtons = step.querySelectorAll('button[type="submit"]');
          bindOrUnbind(nextBtns, 'click', _nextStepProxy, false);
          bindOrUnbind(prevBtns, 'click', _prevStepProxy, false);
-         bindOrUnbind(stepsTitle, 'click', _stepTitleClickHandler);
+         // Adding suggested feature in #62
+         if (options.stepTitleNavigation) bindOrUnbind(stepsTitle, 'click', _stepTitleClickHandler);
          // Prevents the tabbing issue (https://github.com/Kinark/Materialize-stepper/issues/49)
          if (inputs.length) bindOrUnbind(inputs[inputs.length - 1], 'keydown', tabbingDisabler);
          // Binds to the submit button an internal handler to manage validation
