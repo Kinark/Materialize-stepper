@@ -3,7 +3,6 @@
 <!-- <script src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js"></script> -->
 <script src="js/prism.js"></script>
 <script>
-
    document.addEventListener('DOMContentLoaded', function () {
       var elems;
       elems = document.querySelector('.toc-wrapper');
@@ -12,7 +11,7 @@
       M.ScrollSpy.init(elems);
    });
 
-   var domSteppers = document.querySelectorAll('.stepper');
+   var domSteppers = document.querySelectorAll('.stepper.demos');
    for (var i = 0, len = domSteppers.length; i < len; i++) {
       var domStepper = domSteppers[i];
       new MStepper(domStepper);
@@ -23,5 +22,4 @@
          destroyFeedback(true);
       }, 1000);
    }
-
 </script>

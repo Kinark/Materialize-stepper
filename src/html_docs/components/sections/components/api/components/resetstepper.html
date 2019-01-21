@@ -1,5 +1,23 @@
-<h6 id="api_wrongstep">wrongStep method</h6>
-<p>If you want to the stepper to it's original state (empty fields and options.firstActive), you can use resetStepper() method on the active instance. However, it can only be used on steppers wrapped in a form:</p>
-<pre><code class="language-js">
+<div class="scrollspy" id="api_resetstepper">
+   <h6>resetStep method</h6>
+   <div class="row">
+      <div class="col xl7 l6 m12 s12">
+         <p>If you want to the stepper to it's original state (empty fields and options.firstActive), you can use resetStepper() method on the active instance. However, it can only be used on steppers wrapped in a form:</p>
+         <pre><code class="language-js">
 instance.resetStepper();
 </code></pre>
+      </div>
+      <div class="col xl5 l6 m12 s12">
+         @@include('./commonlinear.html', {"id": "api_reset_demo"})
+         <button class="waves-effect waves-dark btn blue" id="controlled_reset">RESET STEPPER</button>
+      </div>
+   </div>
+</div>
+
+<script>
+   window.addEventListener('load', function () {
+      var apiResetDemo = new MStepper(document.getElementById('api_reset_demo'));
+      var cntrldReset = document.getElementById('controlled_reset')
+      cntrldReset.addEventListener('click', function () { apiResetDemo.resetStepper() })
+   });
+</script>

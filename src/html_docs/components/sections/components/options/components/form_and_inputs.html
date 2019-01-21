@@ -1,18 +1,20 @@
-<h6 id="options_form_and_inputs">Form and inputs</h6>
-<p>If there is no "form" tag wrapping the ul, JS spawns it for the validate.js to work with the inputs (can be disabled). Since the primary funcion of stepper is to split some kind of form, for now, the only way to make a step required is to add "required" attribute to an input inside the .step-content container:</p>
-<pre><code class="language-html">
+<div class="scrollspy" id="options_form_and_inputs">
+   <h6>Form and inputs</h6>
+   <p>If there is no "form" tag wrapping the ul, JS spawns it for the validate.js to work with the inputs (can be disabled). Since the primary funcion of stepper is to split some kind of form, for now, the only way to make a step required is to add "required" attribute to an input inside the .step-content container:</p>
+   <pre><code class="language-html">
 &lt;input id="email" name="email" type="email" class="validate" required />
    </code></pre>
 
-<p>If the input is not valid, the icon will turn red until all required inputs become valid.</p>
-<p>If you want to define your own attributes, just wrap the "ul" with a default "form", using any attributes you need:</p>
-<pre><code class="language-html">
+   <p>If the input is not valid, the icon will turn red until all required inputs become valid.</p>
+   <p>If you want to define your own attributes, just wrap the "ul" with a default "form", using any attributes you need:</p>
+   <pre><code class="language-html">
 &lt;form action="youraction" method="yourmethod">
    &lt;ul class="stepper linear">...&lt;/ul>
 &lt;/form>
    </code></pre>
 
-<p>If you want to submit your stepper, just create a submit button with "submit" type and no feedback or "next/previous-step" class and if there's a wrapping form && a validation function, it'll call it before the submit (just return false to prevent it):</p>
-<pre><code class="language-html">
+   <p>If you want to submit your stepper, just create a submit button with "submit" type and no feedback or "next/previous-step" class and if there's a wrapping form && a validation function, it'll call it before the submit (just return false to prevent it):</p>
+   <pre><code class="language-html">
 &lt;button class="waves-effect waves-dark btn" type="submit">SUBMIT&lt;/button>
 </code></pre>
+</div>

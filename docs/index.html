@@ -127,15 +127,15 @@
          <li>
             CSS:
             <ul class="browser-default">
-               <li><a href="https://unpkg.com/materialize-stepper@3.0.0-beta.1.1.1/dist/css/mstepper.min.css">mstepper.min.css</a> minified, or</li>
-               <li><a href="https://unpkg.com/materialize-stepper@3.0.0-beta.1.1.1/dist/css/mstepper.css">mstepper.css</a> un-minified</li>
+               <li><a href="https://unpkg.com/materialize-stepper@3.0/dist/css/mstepper.min.css">mstepper.min.css</a> minified, or</li>
+               <li><a href="https://unpkg.com/materialize-stepper@3.0/dist/css/mstepper.css">mstepper.css</a> un-minified</li>
             </ul>
          </li>
          <li>
             JavaScript:
             <ul class="browser-default">
-               <li><a href="https://unpkg.com/materialize-stepper@3.0.0-beta.1.1.1/dist/js/mstepper.min.js">mstepper.min.js</a> minified, or</li>
-               <li><a href="https://unpkg.com/materialize-stepper@3.0.0-beta.1.1.1/dist/js/mstepper.js">mstepper.js</a> un-minified</li>
+               <li><a href="https://unpkg.com/materialize-stepper@3.0/dist/js/mstepper.min.js">mstepper.min.js</a> minified, or</li>
+               <li><a href="https://unpkg.com/materialize-stepper@3.0/dist/js/mstepper.js">mstepper.js</a> un-minified</li>
             </ul>
          </li>
       </ul>
@@ -143,23 +143,23 @@
 
    <div class="section">
       <h6>NPM</h6>
-      <pre><code class="language-html">npm install --save materialize-stepper@beta</code></pre>
+      <pre><code class="language-html">npm install --save materialize-stepper</code></pre>
    </div>
 
    <div class="section">
       <h6>YARN</h6>
-      <pre><code class="language-html">yarn add materialize-stepper@beta</code></pre>
+      <pre><code class="language-html">yarn add materialize-stepper</code></pre>
    </div>
 
    <div class="section">
       <h6>CDN</h6>
       <pre><code class="language-html">
 &lt;!-- CSS -->
-&lt;link rel="stylesheet" href="https://unpkg.com/materialize-stepper@3.0.0-beta.1.1.1/dist/css/mstepper.min.css">
+&lt;link rel="stylesheet" href="https://unpkg.com/materialize-stepper@3.0/dist/css/mstepper.min.css">
       </code></pre>
       <pre><code class="language-html">
 &lt;!-- JS -->
-&lt;script src="https://unpkg.com/materialize-stepper@3.0.0-beta.1.1.1/dist/js/mstepper.min.js"></script>
+&lt;script src="https://unpkg.com/materialize-stepper@3.0/dist/js/mstepper.min.js"></script>
       </code></pre>
    </div>
    
@@ -185,7 +185,7 @@
       <div class="col xl5 l6 m12 s12">
          <div class="card">
             <div class="card-content">
-               <ul class="stepper linear">
+               <ul class="stepper linear demos">
                   <li class="step">
                      <div data-step-label="There's labels too!" class="step-title waves-effect waves-dark">Step 1</div>
                      <div class="step-content">
@@ -248,7 +248,7 @@
       <div class="col xl5 l6 m12 s12">
          <div class="card">
             <div class="card-content">
-               <ul class="stepper">
+               <ul class="stepper demos">
                   <li class="step">
                      <div data-step-label="Just add a data-step-label!" class="step-title waves-effect waves-dark">Step 1</div>
                      <div class="step-content">
@@ -325,7 +325,7 @@
       <div class="col xl5 l6 m12 s12">
          <div class="card">
             <div class="card-content">
-               <ul class="stepper" id="feedbacker">
+               <ul class="stepper demos" id="feedbacker">
                   <li class="step">
                      <div data-step-label="It's just a second..." class="step-title waves-effect waves-dark">Step 1</div>
                      <div class="step-content">
@@ -393,7 +393,7 @@
       <div class="col s12">
          <div class="card">
             <div class="card-content">
-               <ul class="stepper horizontal" id="horizontal" >
+               <ul class="stepper horizontal demos" id="horizontal" >
                   <li class="step">
                      <div data-step-label="To step-title!" class="step-title waves-effect waves-dark">Step 1</div>
                      <div class="step-content">
@@ -507,12 +507,13 @@
 
 </div>
 
-<div class="section scrollspy" id="options">
+<div class="section" id="options">
    <h5>OPTIONS</h5>
 
-   <h6 id="options_initialization">JS initialization setting(s)</h6>
-<p>If you are using linear stepper, clicking on the next and the previous step will work just like the buttons. Since 2.1 you can adjust some options. Here they are, with their respective defaults:</p>
-<pre><code class="language-js">
+   <div class="scrollspy" id="options_initialization">
+   <h6>JS initialization setting(s)</h6>
+   <p>If you are using linear stepper, clicking on the next and the previous step will work just like the buttons. Since 2.1 you can adjust some options. Here they are, with their respective defaults:</p>
+   <pre><code class="language-js">
 var stepper = document.querySelector('.stepper');
 var stepperInstace = new MStepper(stepper, {
    // Default active step.
@@ -526,16 +527,18 @@ var stepperInstace = new MStepper(stepper, {
    // Auto generation of a form around the stepper.
    autoFormCreation: true,
    // Function to be called everytime a nextstep occurs. It receives 2 arguments, in this sequece: stepperForm, activeStepContent.
-   validationFunction: null,
+   validationFunction: defaultValidationFunction, // more about this default functions below
    // Preloader used when step is waiting for feedback function. If not defined, Materializecss spinner-blue-only will be used.
    feedbackPreloader: '&lt;div class="spinner-layer spinner-blue-only">...&lt;/div>'
 })
 </code></pre>
+</div>
 
-   <h6 id="options_form_validation">Form validation</h6>
-<p>As described in the previous topic, you can define a validation function to be called on every nextStep() in the stepper init options.</p>
-<p>This function will be called with two parameters:</p>
-<pre><code class="language-js">
+   <div class="scrollspy" id="options_form_validation">
+   <h6>Form validation</h6>
+   <p>As described in the previous topic, you can define a validation function to be called on every nextStep() in the stepper init options.</p>
+   <p>This function will be called with two parameters:</p>
+   <pre><code class="language-js">
 function validationFunction(stepperForm, activeStepContent) {
    // You can use the 'stepperForm' to valide the whole form around the stepper:
    someValidationPlugin(stepperForm);
@@ -545,71 +548,91 @@ function validationFunction(stepperForm, activeStepContent) {
    return true;
 }
 </code></pre>
+   <p>If you don't define anything, a default validation function will be used. This default function is the defaultValidationFunction. It's a simple form validation that works like this:</p>
+   <pre><code class="language-js">
+defaultValidationFunction(stepperForm, activeStepContent) {
+   var inputs = activeStepContent.querySelectorAll('input, textarea, select');
+   for (let i = 0; i < inputs.length; i++) if (!inputs[i].checkValidity()) return false;]
+   return true;
+}
+</code></pre>
+</div>
 
-   <h6 id="options_horizontal_vertical">Horizontal and vertical</h6>
+   <div class="scrollspy" id="options_horizontal_vertical">
+   <h6>Horizontal and vertical</h6>
 
-<p>You can make your stepper horizontal just adding a ".horizontal" class to your primary "ul" tag. Since version 2.1 horizontal steppers are responsive and turns to vertical from 992px (width) down:</p>
-<pre><code class="language-html">
+   <p>You can make your stepper horizontal just adding a ".horizontal" class to your primary "ul" tag. Since version 2.1 horizontal steppers are responsive and turns to vertical from 992px (width) down:</p>
+   <pre><code class="language-html">
 &lt;ul class="stepper horizontal">...&lt;/ul>
 </code></pre>
 
-<p>For now, horizontal stepper contents doesn't have an automatic height. You can change the default size (458px) of your primary "ul" class with CSS:</p>
-<pre><code class="language-css">
+   <p>For now, horizontal stepper contents doesn't have an automatic height. You can change the default size (458px) of your primary "ul" class with CSS:</p>
+   <pre><code class="language-css">
 ul.stepper.horizontal {
    min-height: 458px;
 }
 </code></pre>
 
-<p>or inline:</p>
-<pre><code class="language-html">
+   <p>or inline:</p>
+   <pre><code class="language-html">
 &lt;ul class="stepper horizontal" style="min-height:458px">...&lt;/ul>
 </code></pre>
 
-<p class="bold red-text"><b>IMPORTANT: THE HEIGHT OF THE ".stepper-content" TAG IS SUBTRACTED BY 84PX. SO, FOR EXAMPLE, IF YOU WANT YOUR CONTENT TO HAVE 400PX HEIGHT, YOU'LL NEED TO SET THE "min-height" OF YOUR PRIMARY "ul" TAG TO 484PX!</b></p>
+   <p class="bold red-text"><b>IMPORTANT: THE HEIGHT OF THE ".stepper-content" TAG IS SUBTRACTED BY 84PX. SO, FOR EXAMPLE, IF YOU WANT YOUR CONTENT TO HAVE 400PX HEIGHT, YOU'LL NEED TO SET THE "min-height" OF YOUR PRIMARY "ul" TAG TO 484PX!</b></p>
+</div>
 
-   <h6 id="options_linear_or_non">Linear and non-linear</h6>
-<p>If you want users to change between steps freely (without validations or the obligation to advance a step at a time), just remove .linear class from the primary ul:</p>
-<pre><code class="language-html">
+   <div class="scrollspy" id="options_linear_or_non">
+   <h6>Linear and non-linear</h6>
+   <p>If you want users to change between steps freely (without validations or the obligation to advance a step at a time), just remove .linear class from the primary ul:</p>
+   <pre><code class="language-html">
 &lt;ul class="stepper">...&lt;/ul>
 </code></pre>
+</div>
 
-   <h6 id="options_form_and_inputs">Form and inputs</h6>
-<p>If there is no "form" tag wrapping the ul, JS spawns it for the validate.js to work with the inputs (can be disabled). Since the primary funcion of stepper is to split some kind of form, for now, the only way to make a step required is to add "required" attribute to an input inside the .step-content container:</p>
-<pre><code class="language-html">
+   <div class="scrollspy" id="options_form_and_inputs">
+   <h6>Form and inputs</h6>
+   <p>If there is no "form" tag wrapping the ul, JS spawns it for the validate.js to work with the inputs (can be disabled). Since the primary funcion of stepper is to split some kind of form, for now, the only way to make a step required is to add "required" attribute to an input inside the .step-content container:</p>
+   <pre><code class="language-html">
 &lt;input id="email" name="email" type="email" class="validate" required />
    </code></pre>
 
-<p>If the input is not valid, the icon will turn red until all required inputs become valid.</p>
-<p>If you want to define your own attributes, just wrap the "ul" with a default "form", using any attributes you need:</p>
-<pre><code class="language-html">
+   <p>If the input is not valid, the icon will turn red until all required inputs become valid.</p>
+   <p>If you want to define your own attributes, just wrap the "ul" with a default "form", using any attributes you need:</p>
+   <pre><code class="language-html">
 &lt;form action="youraction" method="yourmethod">
    &lt;ul class="stepper linear">...&lt;/ul>
 &lt;/form>
    </code></pre>
 
-<p>If you want to submit your stepper, just create a submit button with "submit" type and no feedback or "next/previous-step" class and if there's a wrapping form && a validation function, it'll call it before the submit (just return false to prevent it):</p>
-<pre><code class="language-html">
+   <p>If you want to submit your stepper, just create a submit button with "submit" type and no feedback or "next/previous-step" class and if there's a wrapping form && a validation function, it'll call it before the submit (just return false to prevent it):</p>
+   <pre><code class="language-html">
 &lt;button class="waves-effect waves-dark btn" type="submit">SUBMIT&lt;/button>
 </code></pre>
+</div>
 
-   <h6 id="options_step_labels">Step labels</h6>
-<p>You can add you own step labels by adding a "data-step-label" to your "step-titles" tags. Just like that:</p>
-<pre><code class="language-html">
+   <div class="scrollspy" id="options_step_labels">
+   <h6>Step labels</h6>
+   <p>You can add you own step labels by adding a "data-step-label" to your "step-titles" tags. Just like that:</p>
+   <pre><code class="language-html">
 &lt;div data-step-label="OMG, they're so small and cute!" class="step-title waves-effect">Step title&lt;/div>
 </code></pre>
+</div>
 
    
 </div>
 
-<div class="section scrollspy" id="api">
+<div class="section" id="api">
    <h5>API</h5>
 
+   <div class="scrollspy" id="api_navigate">
    <h6 id="api_navigate">Navigate</h6>
-<p>There is three ways to navigate through steps.</p>
-<ol class="browser-default">
-   <li>By clicking on them, if you are not using the ".linear" class. If you are, clicking on the next and the previous step will work just like the buttons (what you can disable with the JS initialization setting(s) listed above).</li>
-   <li>By the buttons inside the steps:
-      <pre><code class="language-html">
+   <div class="row">
+      <div class="col xl7 l6 m12 s12">
+         <p>There is three ways to navigate through steps.</p>
+         <ol class="browser-default">
+            <li>By clicking on them, if you are not using the ".linear" class. If you are, clicking on the next and the previous step will work just like the buttons (what you can disable with the JS initialization setting(s) listed above).</li>
+            <li>By the buttons inside the steps:
+               <pre><code class="language-html">
 &lt;!-- If you want the button to proceed, give it a .next-step class -->
 &lt;button class="waves-effect waves-dark btn next-step">CONTINUE&lt;/button>
 &lt;!-- If you want the button to return, give it a .previous-step class -->
@@ -617,34 +640,91 @@ ul.stepper.horizontal {
 &lt;!-- If you want the button to submit the form, give it no additional classes and define type="submit" -->
 &lt;button class="waves-effect waves-dark btn" type="submit">SUBMIT&lt;/button>
          </code></pre>
-   </li>
-   <li>
-      By navigating programatically and, for that, there is three methods:
-      <ul>
-         <li>
-            To proceed one step:
-            <pre><code class="language-js">
+            </li>
+            <li>
+               By navigating programatically and, for that, there is three methods:
+               <pre><code class="language-js">
+// To proceed one step
 instace.nextStep(cb);
-            </code></pre>
-         </li>
-         <li>
-            To go back one step:
-            <pre><code class="language-js">
+// To go back one step
 instace.prevStep(cb);
-            </code></pre>
-         </li>
-         <li>
-            To open arbitrarily a step:
-            <pre><code class="language-js">
-// The index is zero-based, so the first step is 0, not 1
+// To open arbitrarily a step
+// (the index is zero-based, so the first step is 0, not 1)
 instace.openStep(index, cb);
             </code></pre>
+            </li>
+         </ol>
+      </div>
+      <div class="col xl5 l6 m12 s12">
+         <div class="card">
+   <div class="card-content">
+      <ul class="stepper linear" id="api_nav_demo">
+         <li class="step">
+            <div data-step-label="There's labels too!" class="step-title waves-effect waves-dark">Step 1</div>
+            <div class="step-content">
+               <div class="row">
+                  <div class="input-field col s12">
+                     <input id="api_nav_demo_email" name="api_nav_demo_email" type="email" class="validate" required>
+                     <label for="api_nav_demo_email">Your e-mail</label>
+                  </div>
+               </div>
+               <div class="step-actions">
+                  <button class="waves-effect waves-dark btn blue next-step">CONTINUE</button>
+               </div>
+            </div>
+         </li>
+         <li class="step">
+            <div class="step-title waves-effect waves-dark">Step 2</div>
+            <div class="step-content">
+               <div class="row">
+                  <div class="input-field col s12">
+                     <input id="api_nav_demo_password" name="api_nav_demo_password" type="password" class="validate" required>
+                     <label for="api_nav_demo_password">Your password</label>
+                  </div>
+               </div>
+               <div class="step-actions">
+                  <button class="waves-effect waves-dark btn blue next-step">CONTINUE</button>
+                  <button class="waves-effect waves-dark btn-flat previous-step">BACK</button>
+               </div>
+            </div>
+         </li>
+         <li class="step">
+            <div class="step-title waves-effect waves-dark">Step 3</div>
+            <div class="step-content">
+               Finish!
+               <div class="step-actions">
+                  <button class="waves-effect waves-dark btn blue" type="submit">SUBMIT</button>
+               </div>
+            </div>
          </li>
       </ul>
-   </li>
-</ol>
+   </div>
+</div>
 
-   <h6 id="api_feedback">Feedback function</h6>
+         <button class="waves-effect waves-dark btn blue" id="controlled_prev">PREVIOUS STEP</button>
+         <button class="waves-effect waves-dark btn blue" id="controlled_next">NEXT STEP</button>
+         <br>
+         <button class="waves-effect waves-dark btn blue" id="controlled_goto">GO TO STEP</button>
+         <div class="input-field inline"><input id="controlled_goto_input" type="number" max="2" min="0" value="2" class="validate"></div>
+      </div>
+   </div>
+</div>
+
+<script>
+   window.addEventListener('load', function () {
+      var apiNavDemo = new MStepper(document.getElementById('api_nav_demo'));
+      var cntrldPrev = document.getElementById('controlled_prev')
+      var cntrldNext = document.getElementById('controlled_next')
+      var cntrldGoto = document.getElementById('controlled_goto')
+      var cntrldGotoInput = document.getElementById('controlled_goto_input')
+      cntrldPrev.addEventListener('click', function () { apiNavDemo.prevStep() })
+      cntrldNext.addEventListener('click', function () { apiNavDemo.nextStep() })
+      cntrldGoto.addEventListener('click', function () { apiNavDemo.openStep(cntrldGotoInput.value) })
+   });
+</script>
+
+   <div class="scrollspy" id="api_feedback">
+<h6>Feedback function</h6>
 <p>There's a way to make the buttons run a function instead of proceeding, just add a data-feedback attribute with the function name to a ".next-step" classified button. Just like that:</p>
 <pre><code class="language-html">
 &lt;button class="waves-effect waves-dark btn next-step" data-feedback="checkEmailDB">CONTINUE&lt;/button>
@@ -657,20 +737,84 @@ instace.openStep(index, cb);
    }
 &lt;/script>
 </code></pre>
+</div>
 
-   <h6 id="api_wrongstep">wrongStep method</h6>
-<p>If you want to the stepper to it's original state (empty fields and options.firstActive), you can use resetStepper() method on the active instance. However, it can only be used on steppers wrapped in a form:</p>
-<pre><code class="language-js">
+   <div class="scrollspy" id="api_resetstepper">
+   <h6>resetStep method</h6>
+   <div class="row">
+      <div class="col xl7 l6 m12 s12">
+         <p>If you want to the stepper to it's original state (empty fields and options.firstActive), you can use resetStepper() method on the active instance. However, it can only be used on steppers wrapped in a form:</p>
+         <pre><code class="language-js">
 instance.resetStepper();
 </code></pre>
+      </div>
+      <div class="col xl5 l6 m12 s12">
+         <div class="card">
+   <div class="card-content">
+      <ul class="stepper linear" id="api_reset_demo">
+         <li class="step">
+            <div data-step-label="There's labels too!" class="step-title waves-effect waves-dark">Step 1</div>
+            <div class="step-content">
+               <div class="row">
+                  <div class="input-field col s12">
+                     <input id="api_reset_demo_email" name="api_reset_demo_email" type="email" class="validate" required>
+                     <label for="api_reset_demo_email">Your e-mail</label>
+                  </div>
+               </div>
+               <div class="step-actions">
+                  <button class="waves-effect waves-dark btn blue next-step">CONTINUE</button>
+               </div>
+            </div>
+         </li>
+         <li class="step">
+            <div class="step-title waves-effect waves-dark">Step 2</div>
+            <div class="step-content">
+               <div class="row">
+                  <div class="input-field col s12">
+                     <input id="api_reset_demo_password" name="api_reset_demo_password" type="password" class="validate" required>
+                     <label for="api_reset_demo_password">Your password</label>
+                  </div>
+               </div>
+               <div class="step-actions">
+                  <button class="waves-effect waves-dark btn blue next-step">CONTINUE</button>
+                  <button class="waves-effect waves-dark btn-flat previous-step">BACK</button>
+               </div>
+            </div>
+         </li>
+         <li class="step">
+            <div class="step-title waves-effect waves-dark">Step 3</div>
+            <div class="step-content">
+               Finish!
+               <div class="step-actions">
+                  <button class="waves-effect waves-dark btn blue" type="submit">SUBMIT</button>
+               </div>
+            </div>
+         </li>
+      </ul>
+   </div>
+</div>
 
-   <h6 id="api_get_steps">Get Steps</h6>
-<p>You can get information about the steps by running:</p>
-<pre><code class="language-js">
+         <button class="waves-effect waves-dark btn blue" id="controlled_reset">RESET STEPPER</button>
+      </div>
+   </div>
+</div>
+
+<script>
+   window.addEventListener('load', function () {
+      var apiResetDemo = new MStepper(document.getElementById('api_reset_demo'));
+      var cntrldReset = document.getElementById('controlled_reset')
+      cntrldReset.addEventListener('click', function () { apiResetDemo.resetStepper() })
+   });
+</script>
+
+   <div class="scrollspy" id="api_get_steps">
+   <h6>Get Steps</h6>
+   <p>You can get information about the steps by running:</p>
+   <pre><code class="language-js">
 var currentSteps = instace.getSteps()
    </code></pre>
-<p>And you'll get an object like this on var currentSteps:</p>
-<pre><code class="language-js">
+   <p>And you'll get an object like this on var currentSteps:</p>
+   <pre><code class="language-js">
 {
    steps: HTMLCollection, // The current steps in the DOM
    active: {
@@ -679,16 +823,83 @@ var currentSteps = instace.getSteps()
    }
 }
 </code></pre>
+</div>
 
-   <h6 id="api_wrongstep">wrongStep method</h6>
-<p>If you want to show an error on the active step, just call this method. This is also the method called by the stepper when a validationFunction returns 'false':</p>
-<pre><code class="language-js">
+   <div class="scrollspy" id="api_wrongstep">
+   <h6>wrongStep method</h6>
+   <div class="row">
+      <div class="col xl7 l6 m12 s12">
+         <p>If you want to show an error on the active step, just call this method. This is also the method called by the stepper when a validationFunction returns 'false':</p>
+         <pre><code class="language-js">
 instance.wrongStep();
 </code></pre>
+         <p>The error will only be dismissed when there's some change in the inputs.</p>
+      </div>
+      <div class="col xl5 l6 m12 s12">
+         <div class="card">
+   <div class="card-content">
+      <ul class="stepper linear" id="api_error_demo">
+         <li class="step">
+            <div data-step-label="There's labels too!" class="step-title waves-effect waves-dark">Step 1</div>
+            <div class="step-content">
+               <div class="row">
+                  <div class="input-field col s12">
+                     <input id="api_error_demo_email" name="api_error_demo_email" type="email" class="validate" required>
+                     <label for="api_error_demo_email">Your e-mail</label>
+                  </div>
+               </div>
+               <div class="step-actions">
+                  <button class="waves-effect waves-dark btn blue next-step">CONTINUE</button>
+               </div>
+            </div>
+         </li>
+         <li class="step">
+            <div class="step-title waves-effect waves-dark">Step 2</div>
+            <div class="step-content">
+               <div class="row">
+                  <div class="input-field col s12">
+                     <input id="api_error_demo_password" name="api_error_demo_password" type="password" class="validate" required>
+                     <label for="api_error_demo_password">Your password</label>
+                  </div>
+               </div>
+               <div class="step-actions">
+                  <button class="waves-effect waves-dark btn blue next-step">CONTINUE</button>
+                  <button class="waves-effect waves-dark btn-flat previous-step">BACK</button>
+               </div>
+            </div>
+         </li>
+         <li class="step">
+            <div class="step-title waves-effect waves-dark">Step 3</div>
+            <div class="step-content">
+               Finish!
+               <div class="step-actions">
+                  <button class="waves-effect waves-dark btn blue" type="submit">SUBMIT</button>
+               </div>
+            </div>
+         </li>
+      </ul>
+   </div>
+</div>
 
-   <h6 id="api_dyn_add_rem_steps">Dynamically adding/removing steps</h6>
-<p>If you want to dinamically add and activate/remove steps, you can do this:</p>
-<pre><code class="language-html">
+         <button class="waves-effect waves-dark btn blue" id="controlled_wrong">SHOW ERROR</button>
+      </div>
+   </div>
+</div>
+
+<script>
+   window.addEventListener('load', function () {
+      var apiErrorDemo = new MStepper(document.getElementById('api_error_demo'));
+      var cntrldErr = document.getElementById('controlled_wrong')
+      cntrldErr.addEventListener('click', function () { apiErrorDemo.wrongStep() })
+   });
+</script>
+
+   <div class="scrollspy" id="api_dyn_add_rem_steps">
+   <h6>Dynamically adding/removing steps</h6>
+   <div class="row">
+      <div class="col xl7 l6 m12 s12">
+         <p>If you want to dinamically add and activate/remove steps, you can do this:</p>
+         <pre><code class="language-html">
 &lt;script>
    var elements;
    // The element can be a string:
@@ -708,18 +919,189 @@ instance.wrongStep();
    var readdedSteps = instance.activateStep(removedSteps);
 &lt;/script>
 </code></pre>
+      </div>
+      <div class="col xl5 l6 m12 s12">
+         <div class="card">
+   <div class="card-content">
+      <ul class="stepper linear" id="api_addrem_demo">
+         <li class="step">
+            <div data-step-label="There's labels too!" class="step-title waves-effect waves-dark">Step 1</div>
+            <div class="step-content">
+               <div class="row">
+                  <div class="input-field col s12">
+                     <input id="api_addrem_demo_email" name="api_addrem_demo_email" type="email" class="validate" required>
+                     <label for="api_addrem_demo_email">Your e-mail</label>
+                  </div>
+               </div>
+               <div class="step-actions">
+                  <button class="waves-effect waves-dark btn blue next-step">CONTINUE</button>
+               </div>
+            </div>
+         </li>
+         <li class="step">
+            <div class="step-title waves-effect waves-dark">Step 2</div>
+            <div class="step-content">
+               <div class="row">
+                  <div class="input-field col s12">
+                     <input id="api_addrem_demo_password" name="api_addrem_demo_password" type="password" class="validate" required>
+                     <label for="api_addrem_demo_password">Your password</label>
+                  </div>
+               </div>
+               <div class="step-actions">
+                  <button class="waves-effect waves-dark btn blue next-step">CONTINUE</button>
+                  <button class="waves-effect waves-dark btn-flat previous-step">BACK</button>
+               </div>
+            </div>
+         </li>
+         <li class="step">
+            <div class="step-title waves-effect waves-dark">Step 3</div>
+            <div class="step-content">
+               Finish!
+               <div class="step-actions">
+                  <button class="waves-effect waves-dark btn blue" type="submit">SUBMIT</button>
+               </div>
+            </div>
+         </li>
+      </ul>
+   </div>
+</div>
 
-   <h6 id="api_custom_events">Custom Events</h6>
-<p>There's currently 6 custom events in MStepper. All of them fires at the primary ul.stepper div:</p>
-<ul class="browser-default">
-   <li>stepchange: fires everytime a step is opened or closed.</li>
-   <li>nextstep: fires everytime the nextStep method is called.</li>
-   <li>prevstep: fires everytime the prevStep method is called.</li>
-   <li>steperror: fires everytime the wrongStep method is called.</li>
-   <li>feedbacking: fires everytime the activateFeedback method is called.</li>
-   <li>feedbackdestroyed: fires everytime the destroyFeedback method is called (and a feedback is actually destroyes).</li>
-</ul>
-</code></pre>
+         <button class="waves-effect waves-dark btn blue" id="controlled_add">ADD STEPS IN INDEX:</button>
+         <div class="input-field inline"><input id="controlled_add_input" type="number" max="2" min="0" value="1" class="validate"></div>
+         <br>
+         <button class="waves-effect waves-dark btn blue" id="controlled_rem">REMOVE LAST ADDED STEP</button>
+      </div>
+   </div>
+</div>
+
+<script>
+   window.addEventListener('load', function () {
+      var apiAddremDemo = new MStepper(document.getElementById('api_addrem_demo'));
+
+      var cntrldAdd = document.getElementById('controlled_add')
+      var cntrldAddInput = document.getElementById('controlled_add_input')
+      var cntrldRem = document.getElementById('controlled_rem')
+
+      var stepToAdd = ' <li class="step"> <div class="step-title waves-effect waves-dark">I\'m a happy added step!</div><div class="step-content"> Nope, nothing in here... <div class="step-actions"> <button class="waves-effect waves-dark btn blue next-step">CONTINUE</button> </div></div></li>'
+      var addedSteps;
+
+      cntrldAdd.addEventListener('click', function () { addedSteps = apiAddremDemo.activateStep(stepToAdd, cntrldAddInput.value) })
+      cntrldRem.addEventListener('click', function () { apiAddremDemo.deactivateStep(addedSteps) })
+   });
+</script>
+
+   <div class="scrollspy" id="api_custom_events">
+   <h6>Custom Events</h6>
+   <div class="row">
+      <div class="col xl7 l6 m12 s12">
+         <p>There's currently 8 custom events in MStepper. All of them fires at the primary ul.stepper div:</p>
+         <ul class="browser-default">
+            <li><strong>stepchange</strong>: fires everytime a step is opened and one is closed.</li>
+            <li><strong>stepopen</strong>: fires everytime a step is opened.</li>
+            <li><strong>stepclose</strong>: fires everytime a step is closed.</li>
+            <li><strong>nextstep</strong>: fires everytime the nextStep method is called.</li>
+            <li><strong>prevstep</strong>: fires everytime the prevStep method is called.</li>
+            <li><strong>steperror</strong>: fires everytime the wrongStep method is called.</li>
+            <li><strong>feedbacking</strong>: fires everytime the activateFeedback method is called.</li>
+            <li><strong>feedbackdestroyed</strong>: fires everytime the destroyFeedback method is called (and a feedback is actually destroyes).</li>
+         </ul>
+         <p><strong>Event Order</strong></p>
+         <ol class="browser-default">
+            <li>Feedbacking</li>
+            <li>Step Close</li>
+            <li>Step Change</li>
+            <li>Step Open</li>
+            <li>Next / Previous Step</li>
+            <li>Feedback Destroyed</li>
+         </ol>
+         <p><b>Event Output</b></p>
+         <pre style="max-height: 100px;"><code id="stepperEventsDemoOutput" class="language-shell"></code></pre>
+      </div>
+      <div class="col xl5 l6 m12 s12">
+         <div class="card">
+   <div class="card-content">
+      <ul class="stepper linear" id="api_events_demo">
+         <li class="step">
+            <div data-step-label="There's labels too!" class="step-title waves-effect waves-dark">Step 1</div>
+            <div class="step-content">
+               <div class="row">
+                  <div class="input-field col s12">
+                     <input id="api_events_demo_email" name="api_events_demo_email" type="email" class="validate" required>
+                     <label for="api_events_demo_email">Your e-mail</label>
+                  </div>
+               </div>
+               <div class="step-actions">
+                  <button class="waves-effect waves-dark btn blue next-step">CONTINUE</button>
+               </div>
+            </div>
+         </li>
+         <li class="step">
+            <div class="step-title waves-effect waves-dark">Step 2</div>
+            <div class="step-content">
+               <div class="row">
+                  <div class="input-field col s12">
+                     <input id="api_events_demo_password" name="api_events_demo_password" type="password" class="validate" required>
+                     <label for="api_events_demo_password">Your password</label>
+                  </div>
+               </div>
+               <div class="step-actions">
+                  <button class="waves-effect waves-dark btn blue next-step">CONTINUE</button>
+                  <button class="waves-effect waves-dark btn-flat previous-step">BACK</button>
+               </div>
+            </div>
+         </li>
+         <li class="step">
+            <div class="step-title waves-effect waves-dark">Step 3</div>
+            <div class="step-content">
+               Finish!
+               <div class="step-actions">
+                  <button class="waves-effect waves-dark btn blue" type="submit">SUBMIT</button>
+               </div>
+            </div>
+         </li>
+      </ul>
+   </div>
+</div>
+
+      </div>
+   </div>
+</div>
+
+<script>
+
+   var domApiEventDemo = document.getElementById('api_events_demo');
+   domApiEventDemo.addEventListener('feedbacking', addEventOutput, true);
+   domApiEventDemo.addEventListener('feedbackdestroyed', addEventOutput, true);
+   domApiEventDemo.addEventListener('stepchange', addEventOutput, true);
+   domApiEventDemo.addEventListener('stepopen', addEventOutput, true);
+   domApiEventDemo.addEventListener('stepclose', addEventOutput, true);
+   domApiEventDemo.addEventListener('nextstep', addEventOutput, true);
+   domApiEventDemo.addEventListener('prevstep', addEventOutput, true);
+   domApiEventDemo.addEventListener('steperror', addEventOutput, true);
+
+   window.addEventListener('load', function () {
+      new MStepper(domApiEventDemo);
+   });
+
+   function addEventOutput(e) {
+      console.log(e.type);
+      var text = e.type;
+      var outputContainer = document.getElementById('stepperEventsDemoOutput');
+      outputContainer.insertAdjacentHTML('afterbegin', '[' + currentTime() + '] ' + text + '\n');
+   }
+
+   function checkTime(i) {
+      return (i < 10) ? "0" + i : i;
+   }
+
+   function currentTime() {
+      var today = new Date(),
+         h = checkTime(today.getHours()),
+         m = checkTime(today.getMinutes()),
+         s = checkTime(today.getSeconds());
+      return h + ':' + m + ':' + s;
+   }
+</script>
 
 
 </div>
@@ -776,13 +1158,28 @@ instance.wrongStep();
          <li><a href="#demos">Demos</a></li>
          <li><a href="#usage">Usage</a></li>
          <li><a href="#explanation">Explanation</a></li>
-         <li><a href="#options">Options</a></li>
-         <li><a href="#api">API</a></li>
+
+         <li><a href="#api" style="pointer-events: none;"><strong>Options</strong></a></li>
+         <li><a class="child" href="#options_initialization">JS initialization setting(s)</a></li>
+         <li><a class="child" href="#options_form_validation">Form validation</a></li>
+         <li><a class="child" href="#options_horizontal_vertical">Horizontal and vertical</a></li>
+         <li><a class="child" href="#options_linear_or_non">Linear and non-linear</a></li>
+         <li><a class="child" href="#options_form_and_inputs">Form and inputs</a></li>
+         <li><a class="child" href="#options_step_labels">Step labels</a></li>
+
+         <li><a href="#api" style="pointer-events: none;"><strong>API</strong></a></li>
+         <li><a class="child" href="#api_navigate">Navigate</a></li>
+         <li><a class="child" href="#api_feedback">Feedback function</a></li>
+         <li><a class="child" href="#api_resetstepper">resetStep method</a></li>
+         <li><a class="child" href="#api_get_steps">Get Steps</a></li>
+         <li><a class="child" href="#api_wrongstep">wrongStep method</a></li>
+         <li><a class="child" href="#api_dyn_add_rem_steps">Dynamically add/del steps</a></li>
+         <li><a class="child" href="#api_custom_events">Custom Events</a></li>
+
          <li><a href="#changelog">Changelog</a></li>
          <li><a href="#credits">Credits</a></li>
          <li><a href="#donations">Donations</a></li>
       </ul>
-      <a href="https://github.com/Kinark/Materialize-stepper/archive/master.zip" class="waves-effect waves-dark btn blue">DOWNLOAD</a><br />
    </div>
 </div>
 
@@ -824,7 +1221,6 @@ instance.wrongStep();
 <!-- <script src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js"></script> -->
 <script src="js/prism.js"></script>
 <script>
-
    document.addEventListener('DOMContentLoaded', function () {
       var elems;
       elems = document.querySelector('.toc-wrapper');
@@ -833,7 +1229,7 @@ instance.wrongStep();
       M.ScrollSpy.init(elems);
    });
 
-   var domSteppers = document.querySelectorAll('.stepper');
+   var domSteppers = document.querySelectorAll('.stepper.demos');
    for (var i = 0, len = domSteppers.length; i < len; i++) {
       var domStepper = domSteppers[i];
       new MStepper(domStepper);
@@ -844,7 +1240,6 @@ instance.wrongStep();
          destroyFeedback(true);
       }, 1000);
    }
-
 </script>
 
 

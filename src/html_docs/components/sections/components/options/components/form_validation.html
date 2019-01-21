@@ -1,7 +1,8 @@
-<h6 id="options_form_validation">Form validation</h6>
-<p>As described in the previous topic, you can define a validation function to be called on every nextStep() in the stepper init options.</p>
-<p>This function will be called with two parameters:</p>
-<pre><code class="language-js">
+<div class="scrollspy" id="options_form_validation">
+   <h6>Form validation</h6>
+   <p>As described in the previous topic, you can define a validation function to be called on every nextStep() in the stepper init options.</p>
+   <p>This function will be called with two parameters:</p>
+   <pre><code class="language-js">
 function validationFunction(stepperForm, activeStepContent) {
    // You can use the 'stepperForm' to valide the whole form around the stepper:
    someValidationPlugin(stepperForm);
@@ -11,3 +12,12 @@ function validationFunction(stepperForm, activeStepContent) {
    return true;
 }
 </code></pre>
+   <p>If you don't define anything, a default validation function will be used. This default function is the defaultValidationFunction. It's a simple form validation that works like this:</p>
+   <pre><code class="language-js">
+defaultValidationFunction(stepperForm, activeStepContent) {
+   var inputs = activeStepContent.querySelectorAll('input, textarea, select');
+   for (let i = 0; i < inputs.length; i++) if (!inputs[i].checkValidity()) return false;]
+   return true;
+}
+</code></pre>
+</div>
