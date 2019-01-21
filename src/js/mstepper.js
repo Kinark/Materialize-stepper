@@ -157,12 +157,12 @@ class MStepper {
       if (activeStep && closeActiveStep) {
          _closeAction(activeStep);
          // We are changing steps, so dispatch the change event.
-	     stepper.dispatchEvent(events.STEPCHANGE);
+         stepper.dispatchEvent(events.STEPCHANGE);
       }
       // Dispatch OPEN Event
-	  stepper.dispatchEvent(events.STEPOPEN);
+      stepper.dispatchEvent(events.STEPOPEN);
 
-	  return step;
+      return step;
    }
 
    /**
@@ -200,8 +200,8 @@ class MStepper {
          // Removes the class 'active' from the step, since all the animation is made by the CSS
          step.classList.remove('active');
       }
-	   // Dispatch Event
-	   stepper.dispatchEvent(events.STEPCLOSE);
+      // Dispatch Event
+      stepper.dispatchEvent(events.STEPCLOSE);
       return step;
    }
 
