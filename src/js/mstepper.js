@@ -5,7 +5,6 @@ class MStepper {
     * @param {HTMLElement} elem - Element in which stepper will be initialized.
     * @param {object} [options] - Stepper options.
     * @param {number} [options.firstActive=0] - Default active step.
-    * @param {boolean} [options.linearStepsNavigation=true] - Allow navigation by clicking on the next and previous steps on linear steppers.
     * @param {boolean} [options.autoFocusInput=false] - Auto focus on first input of each step.
     * @param {boolean} [options.showFeedbackPreloader=true] - Set if a loading screen will appear while feedbacks functions are running.
     * @param {boolean} [options.autoFormCreation=true] - Auto generation of a form around the stepper.
@@ -16,7 +15,6 @@ class MStepper {
       this.stepper = elem;
       this.options = Object.assign({
          firstActive: 0,
-         linearStepsNavigation: true,
          autoFocusInput: true,
          showFeedbackPreloader: true,
          autoFormCreation: true,
