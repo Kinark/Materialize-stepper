@@ -59,13 +59,14 @@ class MStepper {
     * @returns {void}
     */
    _init = () => {
-      const { _formWrapperManager, getSteps, options, stepper, classes, _methodsBindingManager, _openAction } = this;
+      const { _formWrapperManager, getSteps, options, _methodsBindingManager, _openAction } = this;
+      const { steps } = getSteps();
       // Calls the _formWrapperManager
       this.form = _formWrapperManager();
       // Opens the first step (or other specified in the constructor)
-      _openAction(getSteps().steps[options.firstActive], undefined, undefined, true);
+      _openAction(steps[options.firstActive], undefined, undefined, true);
       // Gathers the steps and send them to the methodsBinder
-      _methodsBindingManager(stepper.querySelectorAll(`.${classes.STEP}`));
+      _methodsBindingManager(steps);
    }
 
    /**
