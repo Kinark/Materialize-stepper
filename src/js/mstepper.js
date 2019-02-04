@@ -153,7 +153,7 @@ class MStepper {
       } else {
          // The stepper is running in horizontal mode
          // Adds the class 'active' from the step, since all the animation is made by the CSS
-         step.classList.add('active');
+         step.classList.add(classes.ACTIVESTEP);
       }
       // If it was requested to close the active step as well, does it (default=true)
       if (activeStep && closeActiveStep) {
@@ -200,7 +200,7 @@ class MStepper {
             _smartListenerBind(stepContent, 'transitionend', waitForTransitionToCb);
          }
          // Removes the class 'active' from the step, since all the animation is made by the CSS
-         step.classList.remove('active');
+         step.classList.remove(classes.ACTIVESTEP);
       }
       // Dispatch Event
       stepper.dispatchEvent(events.STEPCLOSE);
