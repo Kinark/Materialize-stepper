@@ -396,8 +396,8 @@ class MStepper {
     */
    getSteps = () => {
       const { stepper, classes } = this;
-      const steps = stepper.querySelectorAll(`li.${classes.STEP}`);
-      const activeStep = stepper.querySelector(`li.${classes.ACTIVESTEP}`);
+      const steps = stepper.children;
+      const activeStep = stepper.querySelector(`li.${classes.STEP}.${classes.ACTIVESTEP}`);
       const activeStepIndex = Array.prototype.indexOf.call(steps, activeStep);
       return { steps, active: { step: activeStep, index: activeStepIndex } };
    }
