@@ -153,7 +153,7 @@ class MStepper {
       } else {
          // The stepper is running in horizontal mode
          // Adds the class 'active' from the step, since all the animation is made by the CSS
-         step.classList.add('active');
+         step.classList.add(ACTIVESTEP);
       }
       // If it was requested to close the active step as well, does it (default=true)
       if (activeStep && closeActiveStep) {
@@ -200,7 +200,7 @@ class MStepper {
             _smartListenerBind(stepContent, 'transitionend', waitForTransitionToCb);
          }
          // Removes the class 'active' from the step, since all the animation is made by the CSS
-         step.classList.remove('active');
+         step.classList.remove(ACTIVESTEP);
       }
       // Dispatch Event
       stepper.dispatchEvent(events.STEPCLOSE);
@@ -399,7 +399,7 @@ class MStepper {
    getSteps = () => {
       const { stepper, classes } = this;
       const steps = stepper.querySelectorAll(`li.${classes.STEP}`);
-      const activeStep = stepper.querySelector(`li.${classes.ACTIVESTEP}`);
+      const activeStep = stepper.querySelector(`li.${classes.STEP}.${classes.ACTIVESTEP}`);
       const activeStepIndex = Array.prototype.indexOf.call(steps, activeStep);
       return { steps, active: { step: activeStep, index: activeStepIndex } };
    }
