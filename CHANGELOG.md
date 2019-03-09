@@ -1,5 +1,12 @@
 Date format: d/m/y
 
+### 3.0.1 (09/03/19)
+#### Fixes
+* Replaced literal classes by the global constant references (fixes #67);
+* Fixed conflict with `.active` classes (fixes #65);
+* Removed useless and unused `linearStepsNavigation` option;
+* Code optimizations.
+
 ### 3.0 (12/12/18)
 #### Features
 * Added `stepopen` and `stepclose` custom events;
