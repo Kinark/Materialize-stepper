@@ -27,8 +27,7 @@
          &:last-of-type {
             width: auto !important;
          }
-         &:not(:last-of-type)::after,
-         &.active:not(:last-of-type)::after {
+         &:not(:last-of-type)::after, &.active:not(:last-of-type)::after {
             content: '';
             position: static;
             display: inline-block;
@@ -61,8 +60,7 @@
          &.active .step-content {
             left: 0 !important;
          }
-         &.active,
-         &.done {
+         &.active, &.done {
             .step-title {
                &::before {
                   @include step-counter-active-done;
@@ -99,9 +97,7 @@
                padding: 20px;
                background-color: $horizontal-stepper-actions-bgcolor;
                flex-direction: row-reverse;
-               .btn,
-               .btn-flat,
-               .btn-large {
+               .btn, .btn-flat, .btn-large {
                   &:not(:last-child) {
                      margin-left: 5px;
                      margin-right: 0;

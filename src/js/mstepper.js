@@ -5,7 +5,6 @@ class MStepper {
     * @param {HTMLElement} elem - Element in which stepper will be initialized.
     * @param {object} [options] - Stepper options.
     * @param {number} [options.firstActive=0] - Default active step.
-    * @param {boolean} [options.linearStepsNavigation=true] - Allow navigation by clicking on the next and previous steps on linear steppers.
     * @param {boolean} [options.autoFocusInput=false] - Auto focus on first input of each step.
     * @param {boolean} [options.showFeedbackPreloader=true] - Set if a loading screen will appear while feedbacks functions are running.
     * @param {boolean} [options.autoFormCreation=true] - Auto generation of a form around the stepper.
@@ -16,7 +15,6 @@ class MStepper {
       this.stepper = elem;
       this.options = Object.assign({
          firstActive: 0,
-         linearStepsNavigation: true,
          autoFocusInput: true,
          showFeedbackPreloader: true,
          autoFormCreation: true,
@@ -61,13 +59,14 @@ class MStepper {
     * @returns {void}
     */
    _init = () => {
-      const { _formWrapperManager, getSteps, options, stepper, classes, _methodsBindingManager, _openAction } = this;
+      const { _formWrapperManager, getSteps, options, _methodsBindingManager, _openAction } = this;
+      const { steps } = getSteps();
       // Calls the _formWrapperManager
       this.form = _formWrapperManager();
       // Opens the first step (or other specified in the constructor)
-      _openAction(getSteps().steps[options.firstActive], undefined, undefined, true);
+      _openAction(steps[options.firstActive], undefined, undefined, true);
       // Gathers the steps and send them to the methodsBinder
-      _methodsBindingManager(stepper.querySelectorAll(`.${classes.STEP}`));
+      _methodsBindingManager(steps);
    }
 
    /**
@@ -153,7 +152,7 @@ class MStepper {
       } else {
          // The stepper is running in horizontal mode
          // Adds the class 'active' from the step, since all the animation is made by the CSS
-         step.classList.add('active');
+         step.classList.add(classes.ACTIVESTEP);
       }
       // If it was requested to close the active step as well, does it (default=true)
       if (activeStep && closeActiveStep) {
@@ -200,7 +199,7 @@ class MStepper {
             _smartListenerBind(stepContent, 'transitionend', waitForTransitionToCb);
          }
          // Removes the class 'active' from the step, since all the animation is made by the CSS
-         step.classList.remove('active');
+         step.classList.remove(classes.ACTIVESTEP);
       }
       // Dispatch Event
       stepper.dispatchEvent(events.STEPCLOSE);
@@ -398,8 +397,8 @@ class MStepper {
     */
    getSteps = () => {
       const { stepper, classes } = this;
-      const steps = stepper.querySelectorAll(`li.${classes.STEP}`);
-      const activeStep = stepper.querySelector(`li.${classes.ACTIVESTEP}`);
+      const steps = stepper.children;
+      const activeStep = stepper.querySelector(`li.${classes.STEP}.${classes.ACTIVESTEP}`);
       const activeStepIndex = Array.prototype.indexOf.call(steps, activeStep);
       return { steps, active: { step: activeStep, index: activeStepIndex } };
    }

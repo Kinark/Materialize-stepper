@@ -33,9 +33,7 @@
          padding-bottom: 4px;
          display: flex;
          justify-content: flex-start;
-         .btn,
-         .btn-flat,
-         .btn-large {
+         .btn, .btn-flat, .btn-large {
             &:not(:last-child) {
                margin-right: 5px;
             }
@@ -58,8 +56,7 @@
          display: block;
       }
    }
-   &.active,
-   &.done {
+   &.active, &.done {
       &::before {
          @include step-counter-active-done;
       }

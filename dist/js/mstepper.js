@@ -1,6 +1,6 @@
 /**
  * Materialize Stepper - A little plugin that implements a stepper to Materializecss framework.
- * @version v3.0.0
+ * @version v3.0.1
  * @author Igor Marcossi (Kinark) <igormarcossi@gmail.com>.
  * @link https://github.com/Kinark/Materialize-stepper
  * 
@@ -26,7 +26,6 @@ function () {
    * @param {HTMLElement} elem - Element in which stepper will be initialized.
    * @param {object} [options] - Stepper options.
    * @param {number} [options.firstActive=0] - Default active step.
-   * @param {boolean} [options.linearStepsNavigation=true] - Allow navigation by clicking on the next and previous steps on linear steppers.
    * @param {boolean} [options.autoFocusInput=false] - Auto focus on first input of each step.
    * @param {boolean} [options.showFeedbackPreloader=true] - Set if a loading screen will appear while feedbacks functions are running.
    * @param {boolean} [options.autoFormCreation=true] - Auto generation of a form around the stepper.
@@ -44,17 +43,19 @@ function () {
       var _formWrapperManager = _this._formWrapperManager,
           getSteps = _this.getSteps,
           options = _this.options,
-          stepper = _this.stepper,
-          classes = _this.classes,
           _methodsBindingManager = _this._methodsBindingManager,
-          _openAction = _this._openAction; // Calls the _formWrapperManager
+          _openAction = _this._openAction;
+
+      var _getSteps = getSteps(),
+          steps = _getSteps.steps; // Calls the _formWrapperManager
+
 
       _this.form = _formWrapperManager(); // Opens the first step (or other specified in the constructor)
 
-      _openAction(getSteps().steps[options.firstActive], undefined, undefined, true); // Gathers the steps and send them to the methodsBinder
+      _openAction(steps[options.firstActive], undefined, undefined, true); // Gathers the steps and send them to the methodsBinder
 
 
-      _methodsBindingManager(stepper.querySelectorAll(".".concat(classes.STEP)));
+      _methodsBindingManager(steps);
     });
 
     _defineProperty(this, "_methodsBindingManager", function (steps) {
@@ -144,7 +145,7 @@ function () {
       } else {
         // The stepper is running in horizontal mode
         // Adds the class 'active' from the step, since all the animation is made by the CSS
-        step.classList.add('active');
+        step.classList.add(classes.ACTIVESTEP);
       } // If it was requested to close the active step as well, does it (default=true)
 
 
@@ -194,7 +195,7 @@ function () {
         } // Removes the class 'active' from the step, since all the animation is made by the CSS
 
 
-        step.classList.remove('active');
+        step.classList.remove(classes.ACTIVESTEP);
       } // Dispatch Event
 
 
@@ -218,9 +219,9 @@ function () {
           stepper = _this.stepper,
           _openAction = _this._openAction;
 
-      var _getSteps = getSteps(),
-          steps = _getSteps.steps,
-          active = _getSteps.active;
+      var _getSteps2 = getSteps(),
+          steps = _getSteps2.steps,
+          active = _getSteps2.active;
 
       var clickedStep = e.target.closest(".".concat(classes.STEP)); // Checks if the stepper is linear or not
 
@@ -253,8 +254,8 @@ function () {
       var showFeedbackPreloader = options.showFeedbackPreloader,
           validationFunction = options.validationFunction;
 
-      var _getSteps2 = getSteps(),
-          active = _getSteps2.active;
+      var _getSteps3 = getSteps(),
+          active = _getSteps3.active;
 
       var nextStep = getSteps().steps[active.index + 1]; // Gets the feedback function (if any) from the button
 
@@ -379,8 +380,8 @@ function () {
     _defineProperty(this, "getSteps", function () {
       var stepper = _this.stepper,
           classes = _this.classes;
-      var steps = stepper.querySelectorAll("li.".concat(classes.STEP));
-      var activeStep = stepper.querySelector("li.".concat(classes.ACTIVESTEP));
+      var steps = stepper.children;
+      var activeStep = stepper.querySelector("li.".concat(classes.STEP, ".").concat(classes.ACTIVESTEP));
       var activeStepIndex = Array.prototype.indexOf.call(steps, activeStep);
       return {
         steps: steps,
@@ -659,7 +660,6 @@ function () {
     this.stepper = elem;
     this.options = Object.assign({
       firstActive: 0,
-      linearStepsNavigation: true,
       autoFocusInput: true,
       showFeedbackPreloader: true,
       autoFormCreation: true,
