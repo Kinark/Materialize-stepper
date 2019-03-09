@@ -1,6 +1,6 @@
 /**
  * Materialize Stepper - A little plugin that implements a stepper to Materializecss framework.
- * @version v3.0.0
+ * @version v3.0.1
  * @author Igor Marcossi (Kinark) <igormarcossi@gmail.com>.
  * @link https://github.com/Kinark/Materialize-stepper
  * 
@@ -73,9 +73,7 @@ ul.stepper {
         padding-bottom: 4px;
         display: flex;
         justify-content: flex-start; }
-        ul.stepper .step .step-content .step-actions .btn:not(:last-child),
-        ul.stepper .step .step-content .step-actions .btn-flat:not(:last-child),
-        ul.stepper .step .step-content .step-actions .btn-large:not(:last-child) {
+        ul.stepper .step .step-content .step-actions .btn:not(:last-child), ul.stepper .step .step-content .step-actions .btn-flat:not(:last-child), ul.stepper .step .step-content .step-actions .btn-large:not(:last-child) {
           margin-right: 5px; }
       ul.stepper .step .step-content .row {
         margin-bottom: 7px; }
@@ -224,8 +222,6 @@ ul.stepper {
             padding: 20px;
             background-color: transparent;
             flex-direction: row-reverse; }
-            ul.stepper.horizontal .step .step-content .step-actions .btn:not(:last-child),
-            ul.stepper.horizontal .step .step-content .step-actions .btn-flat:not(:last-child),
-            ul.stepper.horizontal .step .step-content .step-actions .btn-large:not(:last-child) {
+            ul.stepper.horizontal .step .step-content .step-actions .btn:not(:last-child), ul.stepper.horizontal .step .step-content .step-actions .btn-flat:not(:last-child), ul.stepper.horizontal .step .step-content .step-actions .btn-large:not(:last-child) {
               margin-left: 5px;
               margin-right: 0; } }
