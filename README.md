@@ -3,6 +3,11 @@
 
 ###### This is a total refactoring of materialize-stepper. For a year this project has been abandoned, but since a lot of people uses it, I decided to make everything from scratch. Since the latest stable version don't work anymore, this is the beta and the official working version right now. When it gets stable enough, I'll release it as a stable version.
 
+### NOT SO IMPORTANT!
+#### PATIENCE YOU MUST HAVE my young padawan
+
+###### The author of this project is looking for a job in Canada or USA. If you need a good worker, maybe he's the guy ;D
+
 # Materialize-stepper
 [![GitHub version](https://badge.fury.io/gh/Kinark%2FMaterialize-stepper.svg)](https://badge.fury.io/gh/Kinark%2FMaterialize-stepper)
 [![npm version](https://badge.fury.io/js/materialize-stepper.svg)](https://badge.fury.io/js/materialize-stepper)
