@@ -629,7 +629,7 @@ class MStepper {
          wrapper.appendChild(stepper);
          // Returns the wrapper (the form)
          return wrapper;
-      } else if (form.length) {
+      } else if (form && form.length) {
          // The form exists
          // Returns the form
          return form;
