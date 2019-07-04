@@ -634,7 +634,7 @@ class MStepper {
          // Returns the form
          return form;
       } else {
-         // The form doesn't exist autoFormCreation is false
+         // The form doesn't exist and autoFormCreation is false
          // Returns null
          return null;
       }
