@@ -1,8 +1,3 @@
-## IMPORTANT!
-#### Do. Or do not. There is no try.
-
-###### This is a total refactoring of materialize-stepper. For a year this project has been abandoned, but since a lot of people uses it, I decided to make everything from scratch. Since the latest stable version don't work anymore, this is the beta and the official working version right now. When it gets stable enough, I'll release it as a stable version.
-
 ### NOT SO IMPORTANT!
 #### PATIENCE YOU MUST HAVE my young padawan
 
