@@ -136,15 +136,15 @@
          <li>
             CSS:
             <ul class="browser-default">
-               <li><a href="https://unpkg.com/materialize-stepper@3.0.1/dist/css/mstepper.min.css">mstepper.min.css</a> minified, or</li>
-               <li><a href="https://unpkg.com/materialize-stepper@3.0.1/dist/css/mstepper.css">mstepper.css</a> un-minified</li>
+               <li><a href="https://unpkg.com/materialize-stepper@3.1.0/dist/css/mstepper.min.css">mstepper.min.css</a> minified, or</li>
+               <li><a href="https://unpkg.com/materialize-stepper@3.1.0/dist/css/mstepper.css">mstepper.css</a> un-minified</li>
             </ul>
          </li>
          <li>
             JavaScript:
             <ul class="browser-default">
-               <li><a href="https://unpkg.com/materialize-stepper@3.0.1/dist/js/mstepper.min.js">mstepper.min.js</a> minified, or</li>
-               <li><a href="https://unpkg.com/materialize-stepper@3.0.1/dist/js/mstepper.js">mstepper.js</a> un-minified</li>
+               <li><a href="https://unpkg.com/materialize-stepper@3.1.0/dist/js/mstepper.min.js">mstepper.min.js</a> minified, or</li>
+               <li><a href="https://unpkg.com/materialize-stepper@3.1.0/dist/js/mstepper.js">mstepper.js</a> un-minified</li>
             </ul>
          </li>
       </ul>
@@ -164,11 +164,11 @@
       <h6>CDN</h6>
       <pre><code class="language-html">
 &lt;!-- CSS -->
-&lt;link rel="stylesheet" href="https://unpkg.com/materialize-stepper@3.0.1/dist/css/mstepper.min.css">
+&lt;link rel="stylesheet" href="https://unpkg.com/materialize-stepper@3.1.0/dist/css/mstepper.min.css">
       </code></pre>
       <pre><code class="language-html">
 &lt;!-- JS -->
-&lt;script src="https://unpkg.com/materialize-stepper@3.0.1/dist/js/mstepper.min.js"></script>
+&lt;script src="https://unpkg.com/materialize-stepper@3.1.0/dist/js/mstepper.min.js"></script>
       </code></pre>
    </div>
    
@@ -750,8 +750,20 @@ instace.openStep(index, cb);
 </code></pre>
 </div>
 
+   <div class="scrollspy" id="api_updatestepper">
+   <h6>updateStepper method</h6>
+   <div class="row">
+      <div class="col s12">
+         <p>If you want to the stepper to update the bindins (in case, for example, of AJAX loaded buttons), you can use updateStepper() method on the active instance.</p>
+         <pre><code class="language-js">
+instance.updateStepper();
+</code></pre>
+      </div>
+   </div>
+</div>
+
    <div class="scrollspy" id="api_resetstepper">
-   <h6>resetStep method</h6>
+   <h6>resetStepper method</h6>
    <div class="row">
       <div class="col xl7 l6 m12 s12">
          <p>If you want to the stepper to it's original state (empty fields and options.firstActive), you can use resetStepper() method on the active instance. However, it can only be used on steppers wrapped in a form:</p>
@@ -1181,7 +1193,8 @@ instance.wrongStep();
          <li><a href="#api" style="pointer-events: none;"><strong>API</strong></a></li>
          <li><a class="child" href="#api_navigate">Navigate</a></li>
          <li><a class="child" href="#api_feedback">Feedback function</a></li>
-         <li><a class="child" href="#api_resetstepper">resetStep method</a></li>
+         <li><a class="child" href="#api_resetstepper">updateStepper method</a></li>
+         <li><a class="child" href="#api_resetstepper">resetStepper method</a></li>
          <li><a class="child" href="#api_get_steps">Get Steps</a></li>
          <li><a class="child" href="#api_wrongstep">wrongStep method</a></li>
          <li><a class="child" href="#api_dyn_add_rem_steps">Dynamically add/del steps</a></li>
@@ -1201,7 +1214,7 @@ instance.wrongStep();
       </div>
    </main>
 
-   <footer class="page-footer blue">
+   <footer class="page-footer blue" id="footer">
    <div class="container">
       <div class="row">
          <div class="col l6 s12">
@@ -1233,11 +1246,12 @@ instance.wrongStep();
 <script src="js/prism.js"></script>
 <script>
    document.addEventListener('DOMContentLoaded', function () {
-      var elems;
-      elems = document.querySelector('.toc-wrapper');
-      M.Pushpin.init(elems, { top: elems.offsetTop, offset: 77 });
-      elems = document.querySelectorAll('.scrollspy');
-      M.ScrollSpy.init(elems);
+      var sideNav = document.querySelector('.toc-wrapper');
+      var footer = document.querySelector('#footer');
+      console.log(sideNav.offsetHeight)
+      M.Pushpin.init(sideNav, { top: sideNav.offsetTop, offset: 77, bottom: footer.offsetTop + footer.offsetHeight - 350 });
+      var scrollSpy = document.querySelectorAll('.scrollspy');
+      M.ScrollSpy.init(scrollSpy);
    });
 
    var domSteppers = document.querySelectorAll('.stepper.demos');
