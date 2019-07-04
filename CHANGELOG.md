@@ -1,8 +1,15 @@
 Date format: d/m/y
 
+### 3.1.0 (04/07/19)
+#### Features
+* Added updateStepper method (as suggested at [#78](https://github.com/Kinark/Materialize-stepper/issues/78));
+
+#### Fixes
+* Fixed autoFormCreation: false not working (fixes [#73](https://github.com/Kinark/Materialize-stepper/issues/73));
+
 ### 3.0.1 (09/03/19)
 #### Fixes
-* Replaced literal classes by the global constant references (fixes #67);
+* Replaced literal classes by the global constant references (fixes [#67](https://github.com/Kinark/Materialize-stepper/issues/67));
 * Fixed conflict with `.active` classes (fixes #65);
 * Removed useless and unused `linearStepsNavigation` option;
 * Code optimizations.
