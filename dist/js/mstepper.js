@@ -1,6 +1,6 @@
 /**
  * Materialize Stepper - A little plugin that implements a stepper to Materializecss framework.
- * @version v3.0.1
+ * @version v3.1.0
  * @author Igor Marcossi (Kinark) <igormarcossi@gmail.com>.
  * @link https://github.com/Kinark/Materialize-stepper
  * 
@@ -106,6 +106,20 @@ function () {
 
         _this.openStep(_this.options.firstActive);
       }
+    });
+
+    _defineProperty(this, "updateStepper", function () {
+      var getSteps = _this.getSteps,
+          _methodsBindingManager = _this._methodsBindingManager; // Gathers the current steps from the stepper
+
+      var _getSteps2 = getSteps(),
+          steps = _getSteps2.steps; // Removes any bound methods
+
+
+      _methodsBindingManager(steps, true); // Send the steps again to the methodsBindingManager
+
+
+      _methodsBindingManager(steps);
     });
 
     _defineProperty(this, "_openAction", function (step, cb) {
@@ -219,9 +233,9 @@ function () {
           stepper = _this.stepper,
           _openAction = _this._openAction;
 
-      var _getSteps2 = getSteps(),
-          steps = _getSteps2.steps,
-          active = _getSteps2.active;
+      var _getSteps3 = getSteps(),
+          steps = _getSteps3.steps,
+          active = _getSteps3.active;
 
       var clickedStep = e.target.closest(".".concat(classes.STEP)); // Checks if the stepper is linear or not
 
@@ -254,8 +268,8 @@ function () {
       var showFeedbackPreloader = options.showFeedbackPreloader,
           validationFunction = options.validationFunction;
 
-      var _getSteps3 = getSteps(),
-          active = _getSteps3.active;
+      var _getSteps4 = getSteps(),
+          active = _getSteps4.active;
 
       var nextStep = getSteps().steps[active.index + 1]; // Gets the feedback function (if any) from the button
 
@@ -588,12 +602,12 @@ function () {
         wrapper.appendChild(stepper); // Returns the wrapper (the form)
 
         return wrapper;
-      } else if (form.length) {
+      } else if (form && form.length) {
         // The form exists
         // Returns the form
         return form;
       } else {
-        // The form doesn't exist autoFormCreation is false
+        // The form doesn't exist and autoFormCreation is false
         // Returns null
         return null;
       }

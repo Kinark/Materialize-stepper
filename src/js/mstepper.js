@@ -112,6 +112,20 @@ class MStepper {
     * @returns {void}
     */
    resetStepper = () => { if (this.form) { this.form.reset(); this.openStep(this.options.firstActive); } }
+   
+   /**
+    * An util method to update the stepper event listeners.
+    * @returns {void}
+    */
+   updateStepper = () => { 
+      const { getSteps, _methodsBindingManager } = this;
+      // Gathers the current steps from the stepper
+      const { steps } = getSteps();
+      // Removes any bound methods
+      _methodsBindingManager(steps, true);
+      // Send the steps again to the methodsBindingManager
+      _methodsBindingManager(steps);
+    }
 
    /**
     * A private method to handle the opening of the steps.
@@ -615,12 +629,12 @@ class MStepper {
          wrapper.appendChild(stepper);
          // Returns the wrapper (the form)
          return wrapper;
-      } else if (form.length) {
+      } else if (form && form.length) {
          // The form exists
          // Returns the form
          return form;
       } else {
-         // The form doesn't exist autoFormCreation is false
+         // The form doesn't exist and autoFormCreation is false
          // Returns null
          return null;
       }

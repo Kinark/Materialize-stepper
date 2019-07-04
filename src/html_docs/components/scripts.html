@@ -4,11 +4,12 @@
 <script src="js/prism.js"></script>
 <script>
    document.addEventListener('DOMContentLoaded', function () {
-      var elems;
-      elems = document.querySelector('.toc-wrapper');
-      M.Pushpin.init(elems, { top: elems.offsetTop, offset: 77 });
-      elems = document.querySelectorAll('.scrollspy');
-      M.ScrollSpy.init(elems);
+      var sideNav = document.querySelector('.toc-wrapper');
+      var footer = document.querySelector('#footer');
+      console.log(sideNav.offsetHeight)
+      M.Pushpin.init(sideNav, { top: sideNav.offsetTop, offset: 77, bottom: footer.offsetTop + footer.offsetHeight - 350 });
+      var scrollSpy = document.querySelectorAll('.scrollspy');
+      M.ScrollSpy.init(scrollSpy);
    });
 
    var domSteppers = document.querySelectorAll('.stepper.demos');
