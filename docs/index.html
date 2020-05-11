@@ -563,7 +563,7 @@ function validationFunction(stepperForm, activeStepContent) {
    <pre><code class="language-js">
 defaultValidationFunction(stepperForm, activeStepContent) {
    var inputs = activeStepContent.querySelectorAll('input, textarea, select');
-   for (let i = 0; i < inputs.length; i++) if (!inputs[i].checkValidity()) return false;]
+   for (let i = 0; i < inputs.length; i++) if (!inputs[i].checkValidity()) return false;
    return true;
 }
 </code></pre>
