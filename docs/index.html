@@ -473,7 +473,7 @@
       <pre><code class="language-html">
 &lt;script>
    var stepper = document.querySelector('.stepper');
-   var stepperInstace = new MStepper(stepper, {
+   var stepperInstance = new MStepper(stepper, {
       // options
       firstActive: 0 // this is the default
    })
@@ -524,7 +524,7 @@
    <p>If you are using linear stepper, clicking on the next and the previous step will work just like the buttons. Since 2.1 you can adjust some options. Here they are, with their respective defaults:</p>
    <pre><code class="language-js">
 var stepper = document.querySelector('.stepper');
-var stepperInstace = new MStepper(stepper, {
+var stepperInstance = new MStepper(stepper, {
    // Default active step.
    firstActive: 0,
    // Allow navigation by clicking on the next and previous steps on linear steppers.
@@ -656,12 +656,12 @@ ul.stepper.horizontal {
                By navigating programatically and, for that, there is three methods:
                <pre><code class="language-js">
 // To proceed one step
-instace.nextStep(cb);
+instance.nextStep(cb);
 // To go back one step
-instace.prevStep(cb);
+instance.prevStep(cb);
 // To open arbitrarily a step
 // (the index is zero-based, so the first step is 0, not 1)
-instace.openStep(index, cb);
+instance.openStep(index, cb);
             </code></pre>
             </li>
          </ol>
@@ -834,7 +834,7 @@ instance.resetStepper();
    <h6>Get Steps</h6>
    <p>You can get information about the steps by running:</p>
    <pre><code class="language-js">
-var currentSteps = instace.getSteps()
+var currentSteps = instance.getSteps()
    </code></pre>
    <p>And you'll get an object like this on var currentSteps:</p>
    <pre><code class="language-js">
