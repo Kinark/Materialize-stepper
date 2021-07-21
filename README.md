@@ -1,8 +1,3 @@
-### NOT SO IMPORTANT!
-#### PATIENCE YOU MUST HAVE my young padawan
-
-###### The author of this project is looking for a job in Canada or USA. If you need a good worker, maybe he's the guy ;D
-
 # Materialize-stepper
 [![GitHub version](https://badge.fury.io/gh/Kinark%2FMaterialize-stepper.svg)](https://badge.fury.io/gh/Kinark%2FMaterialize-stepper)
 [![npm version](https://badge.fury.io/js/materialize-stepper.svg)](https://badge.fury.io/js/materialize-stepper)
